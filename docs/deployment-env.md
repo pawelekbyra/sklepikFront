@@ -18,6 +18,20 @@ sklepikFront
 
 Frontend nie ma własnej logiki produktów, zamówień ani płatności. Pyta o nie backend przez Spree API.
 
+## Ważna decyzja tymczasowa
+
+Możemy wdrożyć `sklepikFront` na Vercel wcześniej, zanim backend `sklepik` ma finalny publiczny hosting.
+
+To jest świadomy skrót, a nie finalna architektura.
+
+Szczegóły są zapisane w:
+
+```text
+docs/technical-debt.md
+```
+
+Dopóki `SPREE_API_URL` nie wskazuje na publiczny backend Spree, deploy Vercel służy głównie do testowania frontu, builda, routingu i brandingu, a nie do pełnego działania sklepu.
+
 ## Obowiązkowe zmienne na start
 
 W repo istnieje `.env.local.example` z minimalnymi zmiennymi:
@@ -107,6 +121,8 @@ NEXT_PUBLIC_DEFAULT_LOCALE=pl
 
 Uwaga: `SPREE_API_URL` musi wskazywać backend dostępny publicznie z internetu. Vercel nie połączy się z backendem działającym tylko lokalnie.
 
+Jeśli robimy deploy Vercel przed finalnym backendem, ten fakt musi pozostać oznaczony jako otwarty skrót w `docs/technical-debt.md`.
+
 ## Koszty
 
 Samo Spree API nie kosztuje. Jest częścią open-source'owego Spree.
@@ -147,3 +163,4 @@ Prawdziwe wartości ustawiamy w:
 3. Wygenerować albo odczytać `SPREE_PUBLISHABLE_KEY` w Spree.
 4. Ustawić zmienne w Vercel dla `sklepikFront`.
 5. Uruchomić testowy deploy frontu.
+6. Po uruchomieniu publicznego backendu zamknąć odpowiedni wpis w `docs/technical-debt.md`.
