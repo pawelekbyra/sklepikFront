@@ -52,3 +52,23 @@ Zasada projektu: jeśli idziemy na skróty, zapisujemy to tutaj, żeby później
 4. Usunąć albo oznaczyć wszystkie treści demo.
 
 **Warunek zamknięcia:** Front ma podstawowy branding Kakao Sklepik i działa z docelowymi produktami/testowym backendem Spree.
+
+### 2026-07-05 — Vercel Commerce wymaga adaptera Spree
+
+**Status:** otwarte
+
+**Skrót/decyzja:** Chcemy użyć Vercel Commerce jako lepszego fundamentu frontendowego, mimo że oficjalny `vercel/commerce` jest aktywnie utrzymywany głównie pod Shopify.
+
+**Dlaczego to robimy:** Vercel Commerce może dać lepszy UX, lepszy kod frontu, lepszy fit pod Vercel i bardziej premium punkt startu niż standardowy Spree Storefront.
+
+**Ryzyko:** Vercel Commerce nie działa ze Spree API od razu. Trzeba przygotować custom adapter Spree, który zastąpi warstwę Shopify/provider.
+
+**Co trzeba zrobić później:**
+
+1. Pozyskać kod Vercel Commerce.
+2. Zmapować aktualną warstwę `lib/shopify`.
+3. Zaprojektować `lib/spree` jako adapter do Spree API.
+4. Obsłużyć minimum: produkty, produkt, warianty, koszyk, checkout.
+5. Dopiero po działającym adapterze uznać Vercel Commerce za realny storefront sklepu.
+
+**Warunek zamknięcia:** Vercel Commerce-style frontend działa z backendem `sklepik` przez Spree API co najmniej dla flow: produkt → koszyk → checkout testowy.
