@@ -1,4 +1,4 @@
-import type { Category } from '@spree/sdk'
+import type { Category, StoreProduct } from '@spree/sdk'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
@@ -39,7 +39,7 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   const { category_id } = await searchParams
   const basePath = `/${country}/${locale}`
 
-  let product
+  let product: StoreProduct
   try {
     product = await getCachedProduct(slug, PRODUCT_PAGE_EXPAND)
   } catch {
@@ -47,10 +47,9 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   }
 
   const storeUrl = getStoreUrl()
-  const canonicalUrl =
-    product && storeUrl
-      ? buildCanonicalUrl(storeUrl, `/${country}/${locale}/products/${product.slug}`)
-      : undefined
+  const canonicalUrl = storeUrl
+    ? buildCanonicalUrl(storeUrl, `/${country}/${locale}/products/${product.slug}`)
+    : undefined
 
   const breadcrumbCategory = findBreadcrumbCategory(product.categories || [], category_id)
 
