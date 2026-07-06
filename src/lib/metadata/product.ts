@@ -21,6 +21,10 @@ export async function generateProductMetadata({
     return { title: "Product Not Found" };
   }
 
+  if (!product) {
+    return { title: "Product Not Found" };
+  }
+
   const title = product.meta_title || product.name;
   const description = product.meta_description
     ? product.meta_description
