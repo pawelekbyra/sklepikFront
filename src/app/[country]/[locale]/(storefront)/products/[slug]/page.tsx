@@ -1,4 +1,4 @@
-import type { Category, StoreProduct } from '@spree/sdk'
+import type { Category } from '@spree/sdk'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
@@ -39,7 +39,7 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   const { category_id } = await searchParams
   const basePath = `/${country}/${locale}`
 
-  let product: StoreProduct
+  let product: Awaited<ReturnType<typeof getCachedProduct>>
   try {
     product = await getCachedProduct(slug, PRODUCT_PAGE_EXPAND)
   } catch {
