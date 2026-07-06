@@ -3,6 +3,15 @@
 import type { ProductListParams } from "@spree/sdk";
 import { cacheLife, cacheTag } from "next/cache";
 import { getAccessToken, getClient, getLocaleOptions } from "@/lib/spree";
+import { isSpreeConfigured } from "@/lib/spree/config";
+
+function emptyProductListResponse() {
+  return { data: [], meta: { count: 0, pages: 0 } };
+}
+
+function emptyProductFiltersResponse() {
+  return { data: [] };
+}
 
 /**
  * Cached product list fetch. Cache key is derived from all function
@@ -26,6 +35,8 @@ export async function cachedListProducts(
 }
 
 export async function getProducts(params?: ProductListParams) {
+  if (!isSpreeConfigured()) return emptyProductListResponse();
+
   const options = await getLocaleOptions();
   const userToken = await getAccessToken();
   return cachedListProducts(params, options, userToken);
@@ -56,6 +67,8 @@ export async function getProduct(
   slugOrId: string,
   params?: { expand?: string[] },
 ) {
+  if (!isSpreeConfigured()) return undefined;
+
   const options = await getLocaleOptions();
   const userToken = await getAccessToken();
   return cachedGetProduct(slugOrId, params?.expand ?? [], options, userToken);
@@ -73,6 +86,8 @@ async function cachedGetProductFilters(
 }
 
 export async function getProductFilters(params?: Record<string, unknown>) {
+  if (!isSpreeConfigured()) return emptyProductFiltersResponse();
+
   const options = await getLocaleOptions();
   const userToken = await getAccessToken();
   return cachedGetProductFilters(params, options, userToken);
