@@ -51,8 +51,11 @@ function emptyCategoryProductsResponse(): PaginatedResponse<Product> {
       from: 0,
       to: 0,
       total_count: 0,
+      in: 0,
+      previous: null,
+      next: null,
     },
-  } as PaginatedResponse<Product>
+  } as unknown as PaginatedResponse<Product>
 }
 
 /**
