@@ -29,7 +29,13 @@ function emptyProductListResponse(): PaginatedResponse<Product> {
 }
 
 function emptyProductFiltersResponse(): ProductFiltersResponse {
-  return { data: [] } as ProductFiltersResponse
+  return {
+    data: [],
+    filters: [],
+    sort_options: [],
+    default_sort: null,
+    total_count: 0,
+  } as unknown as ProductFiltersResponse
 }
 
 /**
