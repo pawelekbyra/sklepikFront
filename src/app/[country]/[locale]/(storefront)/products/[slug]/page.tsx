@@ -48,19 +48,19 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
 
   const storeUrl = getStoreUrl()
   const canonicalUrl = storeUrl
-    ? buildCanonicalUrl(storeUrl, `/${country}/${locale}/products/${product.slug}`)
+    ? buildCanonicalUrl(storeUrl, `/${country}/${locale}/products/${product!.slug}`)
     : undefined
 
-  const breadcrumbCategory = findBreadcrumbCategory(product.categories || [], category_id)
+  const breadcrumbCategory = findBreadcrumbCategory(product!.categories || [], category_id)
 
   return (
     <>
-      {canonicalUrl && <JsonLd data={buildProductJsonLd(product, canonicalUrl)} />}
+      {canonicalUrl && <JsonLd data={buildProductJsonLd(product!, canonicalUrl)} />}
       {breadcrumbCategory && storeUrl && (
         <JsonLd
           data={buildBreadcrumbJsonLd(breadcrumbCategory, basePath, storeUrl, {
-            name: product.name,
-            slug: product.slug,
+            name: product!.name,
+            slug: product!.slug,
           })}
         />
       )}
@@ -69,12 +69,12 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
           <Breadcrumbs
             category={breadcrumbCategory}
             basePath={basePath}
-            productName={product.name}
+            productName={product!.name}
             locale={locale}
           />
         )}
       </div>
-      <ProductDetails product={product} basePath={basePath} />
+      <ProductDetails product={product!} basePath={basePath} />
     </>
   )
 }
