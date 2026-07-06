@@ -1,21 +1,35 @@
-"use server";
+'use server'
 
 import type {
   PaginatedResponse,
   Product,
   ProductFiltersResponse,
   ProductListParams,
-} from "@spree/sdk";
-import { cacheLife, cacheTag } from "next/cache";
-import { getAccessToken, getClient, getLocaleOptions } from "@/lib/spree";
-import { isSpreeConfigured } from "@/lib/spree/config";
+} from '@spree/sdk'
+import { cacheLife, cacheTag } from 'next/cache'
+import { getAccessToken, getClient, getLocaleOptions } from '@/lib/spree'
+import { isSpreeConfigured } from '@/lib/spree/config'
 
 function emptyProductListResponse(): PaginatedResponse<Product> {
-  return { data: [], meta: { count: 0, pages: 0 } } as PaginatedResponse<Product>;
+  return {
+    data: [],
+    meta: {
+      count: 0,
+      pages: 0,
+      page: 1,
+      limit: 0,
+      from: 0,
+      to: 0,
+      total_count: 0,
+      in: 0,
+      previous: null,
+      next: null,
+    },
+  } as unknown as PaginatedResponse<Product>
 }
 
 function emptyProductFiltersResponse(): ProductFiltersResponse {
-  return { data: [] } as ProductFiltersResponse;
+  return { data: [] } as ProductFiltersResponse
 }
 
 /**
@@ -33,18 +47,18 @@ export async function cachedListProducts(
   options: { locale?: string; country?: string },
   _userToken?: string,
 ) {
-  "use cache: remote";
-  cacheLife("tenMinutes");
-  cacheTag("products");
-  return getClient().products.list(params, options);
+  'use cache: remote'
+  cacheLife('tenMinutes')
+  cacheTag('products')
+  return getClient().products.list(params, options)
 }
 
 export async function getProducts(params?: ProductListParams) {
-  if (!isSpreeConfigured()) return emptyProductListResponse();
+  if (!isSpreeConfigured()) return emptyProductListResponse()
 
-  const options = await getLocaleOptions();
-  const userToken = await getAccessToken();
-  return cachedListProducts(params, options, userToken);
+  const options = await getLocaleOptions()
+  const userToken = await getAccessToken()
+  return cachedListProducts(params, options, userToken)
 }
 
 /**
@@ -62,21 +76,18 @@ export async function cachedGetProduct(
   options: { locale?: string; country?: string },
   _userToken?: string,
 ) {
-  "use cache: remote";
-  cacheLife("tenMinutes");
-  cacheTag("products", `product:${slugOrId}`);
-  return getClient().products.get(slugOrId, { expand }, options);
+  'use cache: remote'
+  cacheLife('tenMinutes')
+  cacheTag('products', `product:${slugOrId}`)
+  return getClient().products.get(slugOrId, { expand }, options)
 }
 
-export async function getProduct(
-  slugOrId: string,
-  params?: { expand?: string[] },
-) {
-  if (!isSpreeConfigured()) return undefined;
+export async function getProduct(slugOrId: string, params?: { expand?: string[] }) {
+  if (!isSpreeConfigured()) return undefined
 
-  const options = await getLocaleOptions();
-  const userToken = await getAccessToken();
-  return cachedGetProduct(slugOrId, params?.expand ?? [], options, userToken);
+  const options = await getLocaleOptions()
+  const userToken = await getAccessToken()
+  return cachedGetProduct(slugOrId, params?.expand ?? [], options, userToken)
 }
 
 async function cachedGetProductFilters(
@@ -84,16 +95,16 @@ async function cachedGetProductFilters(
   options: { locale?: string; country?: string },
   _userToken?: string,
 ) {
-  "use cache: remote";
-  cacheLife("tenMinutes");
-  cacheTag("product-filters");
-  return getClient().products.filters(params, options);
+  'use cache: remote'
+  cacheLife('tenMinutes')
+  cacheTag('product-filters')
+  return getClient().products.filters(params, options)
 }
 
 export async function getProductFilters(params?: Record<string, unknown>) {
-  if (!isSpreeConfigured()) return emptyProductFiltersResponse();
+  if (!isSpreeConfigured()) return emptyProductFiltersResponse()
 
-  const options = await getLocaleOptions();
-  const userToken = await getAccessToken();
-  return cachedGetProductFilters(params, options, userToken);
+  const options = await getLocaleOptions()
+  const userToken = await getAccessToken()
+  return cachedGetProductFilters(params, options, userToken)
 }
