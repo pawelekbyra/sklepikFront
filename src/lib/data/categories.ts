@@ -3,6 +3,7 @@
 import type { CategoryListParams, ProductListParams } from "@spree/sdk";
 import { cacheLife, cacheTag } from "next/cache";
 import { getAccessToken, getClient, getLocaleOptions } from "@/lib/spree";
+import { isSpreeConfigured } from "@/lib/spree/config";
 
 async function cachedListCategories(
   params: CategoryListParams | undefined,
@@ -15,6 +16,8 @@ async function cachedListCategories(
 }
 
 export async function getCategories(params?: CategoryListParams) {
+  if (!isSpreeConfigured()) return { data: [] };
+
   const options = await getLocaleOptions();
   return cachedListCategories(params, options);
 }
@@ -34,6 +37,8 @@ export async function getCategory(
   idOrPermalink: string,
   params?: { expand?: string[] },
 ) {
+  if (!isSpreeConfigured()) return undefined;
+
   const options = await getLocaleOptions();
   return cachedGetCategory(idOrPermalink, params, options);
 }
@@ -62,6 +67,10 @@ export async function getCategoryProducts(
   categoryId: string,
   params?: ProductListParams,
 ) {
+  if (!isSpreeConfigured()) {
+    return { data: [], meta: { count: 0, pages: 0 } };
+  }
+
   const options = await getLocaleOptions();
   const userToken = await getAccessToken();
   return cachedListCategoryProducts(categoryId, params, options, userToken);
