@@ -1,3 +1,4 @@
+import type { Market } from "@spree/sdk";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
@@ -46,17 +47,28 @@ export default async function CountryLocaleLayout({
 }: CountryLocaleLayoutProps) {
   const { country, locale } = await params;
 
-  const markets = await getMarkets({ country, locale })
-    .then((res) => res.data)
-    .catch(() => []);
+  let markets: Market[] = [];
+  let marketsFetchFailed = false;
+  try {
+    markets = (await getMarkets({ country, locale })).data;
+  } catch {
+    marketsFetchFailed = true;
+  }
 
   // Validate that the URL country belongs to an available market.
   // If not, redirect server-side to avoid SSR with wrong prices.
-  const isValidCountry = markets.some((market) =>
-    market.countries?.some(
-      (c) => c.iso.toLowerCase() === country.toLowerCase(),
-    ),
-  );
+  //
+  // A transient markets-fetch failure must NOT be treated as "this country
+  // doesn't exist" — skip the check entirely in that case. Otherwise a
+  // network blip on the very fallback URL this redirects to would redirect
+  // to itself again on the next request, looping forever.
+  const isValidCountry =
+    marketsFetchFailed ||
+    markets.some((market) =>
+      market.countries?.some(
+        (c) => c.iso.toLowerCase() === country.toLowerCase(),
+      ),
+    );
 
   if (!isValidCountry) {
     const defaultMarket = markets.find((m) => m.default) ?? markets[0];
@@ -64,7 +76,13 @@ export default async function CountryLocaleLayout({
       defaultMarket?.countries?.[0]?.iso.toLowerCase() ?? getDefaultCountry();
     const fallbackLocale = defaultMarket?.default_locale ?? getDefaultLocale();
 
-    redirect(`/${fallbackCountry}/${fallbackLocale}`);
+    // Never redirect to the page we're already on.
+    if (
+      fallbackCountry !== country.toLowerCase() ||
+      fallbackLocale !== locale.toLowerCase()
+    ) {
+      redirect(`/${fallbackCountry}/${fallbackLocale}`);
+    }
   }
 
   // Load messages statically (no runtime data access) to avoid blocking prerender
