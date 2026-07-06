@@ -1,16 +1,21 @@
 "use server";
 
-import type { ProductListParams } from "@spree/sdk";
+import type {
+  PaginatedResponse,
+  Product,
+  ProductFiltersResponse,
+  ProductListParams,
+} from "@spree/sdk";
 import { cacheLife, cacheTag } from "next/cache";
 import { getAccessToken, getClient, getLocaleOptions } from "@/lib/spree";
 import { isSpreeConfigured } from "@/lib/spree/config";
 
-function emptyProductListResponse() {
-  return { data: [], meta: { count: 0, pages: 0 } };
+function emptyProductListResponse(): PaginatedResponse<Product> {
+  return { data: [], meta: { count: 0, pages: 0 } } as PaginatedResponse<Product>;
 }
 
-function emptyProductFiltersResponse() {
-  return { data: [] };
+function emptyProductFiltersResponse(): ProductFiltersResponse {
+  return { data: [] } as ProductFiltersResponse;
 }
 
 /**
