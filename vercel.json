@@ -5,13 +5,11 @@
   "framework": "nextjs",
   "env": {
     "NEXT_PUBLIC_DEFAULT_COUNTRY": {
-      "description": "Default country ISO code for store",
-      "default": "us",
+      "description": "Default country ISO code for store (e.g., 'us', 'pl')",
       "required": false
     },
     "NEXT_PUBLIC_DEFAULT_LOCALE": {
-      "description": "Default locale for the storefront",
-      "default": "en",
+      "description": "Default locale for the storefront (e.g., 'en', 'pl')",
       "required": false
     },
     "NEXT_PUBLIC_SITE_URL": {
