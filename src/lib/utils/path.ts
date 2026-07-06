@@ -1,19 +1,31 @@
+import { getDefaultLocale, getPrefixedLocales } from "@/lib/store";
+
 /**
- * Extract the /country/locale base path prefix from a pathname.
- * e.g. "/us/en/products" -> "/us/en"
+ * Build the base path for a locale: empty string for the default locale
+ * (no URL prefix), `/{locale}` for every other supported locale.
  */
-export function extractBasePath(pathname: string): string {
-  const segments = pathname.split("/").filter(Boolean);
-  if (segments.length < 2) return "";
-  return `/${segments[0]}/${segments[1]}`;
+export function buildBasePath(locale: string): string {
+  return locale === getDefaultLocale() ? "" : `/${locale}`;
 }
 
 /**
- * Get the path portion after the /country/locale prefix.
- * e.g. "/us/en/products/shoes" -> "/products/shoes"
+ * Extract the optional /{locale} prefix from a pathname, for locales other
+ * than the default (which has no prefix).
+ * e.g. "/en/products" -> "/en", "/products" -> ""
+ */
+export function extractBasePath(pathname: string): string {
+  const segments = pathname.split("/").filter(Boolean);
+  const first = segments[0]?.toLowerCase();
+  if (first && getPrefixedLocales().includes(first)) return `/${first}`;
+  return "";
+}
+
+/**
+ * Get the path portion after the optional /{locale} prefix.
+ * e.g. "/en/products/shoes" -> "/products/shoes", "/products/shoes" -> "/products/shoes"
  */
 export function getPathWithoutPrefix(pathname: string): string {
-  const segments = pathname.split("/").filter(Boolean);
-  if (segments.length <= 2) return "";
-  return `/${segments.slice(2).join("/")}`;
+  const prefix = extractBasePath(pathname);
+  if (!prefix) return pathname;
+  return pathname.slice(prefix.length) || "/";
 }

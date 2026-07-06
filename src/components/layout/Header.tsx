@@ -1,7 +1,6 @@
 import type { Category } from "@spree/sdk";
 import { User } from "lucide-react";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { CartButton } from "@/components/layout/CartButton";
@@ -58,16 +57,9 @@ export async function Header({
       }
       center={
         <Link href={basePath || "/"} className="flex items-center min-w-0">
-          <Image
-            src="/spree.png"
-            alt={storeName}
-            width={90}
-            height={32}
-            className="max-w-full object-contain"
-            style={{ width: "auto", height: "auto" }}
-            fetchPriority="high"
-            loading="eager"
-          />
+          <span className="truncate text-lg font-bold text-gray-900">
+            {storeName}
+          </span>
         </Link>
       }
       rightStart={

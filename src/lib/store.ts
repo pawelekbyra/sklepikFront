@@ -37,7 +37,7 @@ export function getStoreUrl(): string | undefined {
  * Get the store name from environment variables.
  */
 export function getStoreName(): string {
-  return process.env.NEXT_PUBLIC_STORE_NAME || "Spree Store";
+  return process.env.NEXT_PUBLIC_STORE_NAME || "Kakałowy Sklepik";
 }
 
 /**
@@ -46,22 +46,37 @@ export function getStoreName(): string {
 export function getStoreDescription(): string {
   return (
     process.env.NEXT_PUBLIC_STORE_DESCRIPTION ||
-    "A modern e-commerce storefront powered by Spree Commerce and Next.js."
+    "Kakaowe smakołyki najwyższej jakości."
   );
 }
 
 /**
- * Get the default country ISO code (lowercase).
+ * Get the default country ISO code (lowercase), used only for internal
+ * market/currency resolution — never part of the URL.
  */
 export function getDefaultCountry(): string {
-  return (process.env.NEXT_PUBLIC_DEFAULT_COUNTRY || "us").toLowerCase();
+  return (process.env.NEXT_PUBLIC_DEFAULT_COUNTRY || "pl").toLowerCase();
 }
 
 /**
- * Get the default locale code.
+ * Get the default locale code. The default locale has no URL prefix
+ * (see middleware.ts) — every other supported locale is prefixed.
  */
 export function getDefaultLocale(): string {
-  return process.env.NEXT_PUBLIC_DEFAULT_LOCALE || "en";
+  return process.env.NEXT_PUBLIC_DEFAULT_LOCALE || "pl";
+}
+
+/**
+ * Locale codes shown with a URL prefix (e.g. 'en' -> /en/...). Kept in sync
+ * with the middleware's `supportedLocales` default (see proxy.ts) — this is
+ * the single source of truth for "which locales does this store serve",
+ * consumed by both the middleware and the sitemap generator.
+ */
+export function getPrefixedLocales(): string[] {
+  return (process.env.NEXT_PUBLIC_PREFIXED_LOCALES || "en")
+    .split(",")
+    .map((l) => l.trim().toLowerCase())
+    .filter(Boolean);
 }
 
 /**

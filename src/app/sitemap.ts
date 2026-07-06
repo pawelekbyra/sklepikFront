@@ -1,6 +1,11 @@
 import type { Category, Media, Product } from "@spree/sdk";
 import { getClient } from "@/lib/spree";
-import { getDefaultCountry, getDefaultLocale, getStoreUrl } from "@/lib/store";
+import {
+  getDefaultCountry,
+  getDefaultLocale,
+  getPrefixedLocales,
+  getStoreUrl,
+} from "@/lib/store";
 
 type ProductWithMedia = Product & {
   media?: Media[];
@@ -14,11 +19,6 @@ type CategoryWithTimestamp = Category & {
 import type { MetadataRoute } from "next";
 
 export const dynamic = "force-dynamic";
-
-interface CountryLocale {
-  country: string;
-  locale: string;
-}
 
 interface LocaleOptions {
   locale: string;
@@ -58,10 +58,28 @@ const cachedCategoriesByLocale = new Map<
   string,
   Promise<CategoryWithTimestamp[]>
 >();
-let cachedCountryLocales: Promise<CountryLocale[]> | null = null;
 
 function localeCacheKey(locale: string, country: string): string {
   return `${locale}:${country}`;
+}
+
+/**
+ * Locales included in the sitemap: the default (unprefixed) locale plus
+ * every locale the middleware serves under a `/{locale}` prefix. This is a
+ * single-market store — the country used for API calls is always the fixed
+ * default, never derived from the URL.
+ */
+function resolveLocales(): string[] {
+  const defaultLocale = getDefaultLocale();
+  return [
+    defaultLocale,
+    ...getPrefixedLocales().filter((l) => l !== defaultLocale),
+  ];
+}
+
+/** Base path for a locale: no prefix for the default locale, `/{locale}` otherwise. */
+function basePathFor(baseUrl: string, locale: string): string {
+  return locale === getDefaultLocale() ? baseUrl : `${baseUrl}/${locale}`;
 }
 
 function getCachedProducts(
@@ -94,16 +112,6 @@ function getCachedCategories(
   return cached;
 }
 
-function getCachedCountryLocales(): Promise<CountryLocale[]> {
-  if (!cachedCountryLocales) {
-    cachedCountryLocales = resolveCountryLocales().catch((err) => {
-      cachedCountryLocales = null;
-      throw err;
-    });
-  }
-  return cachedCountryLocales;
-}
-
 /**
  * Splits the sitemap into multiple files when the total URL count
  * exceeds 50,000 (Google's per-sitemap limit).
@@ -115,7 +123,7 @@ function getCachedCountryLocales(): Promise<CountryLocale[]> {
  */
 export async function generateSitemaps(): Promise<Array<{ id: number }>> {
   try {
-    const countryLocales = await getCachedCountryLocales();
+    const locales = resolveLocales();
 
     // Lightweight count — fetch only 1 record per request to read meta.count.
     // Category count is approximate (includes root categories filtered out during generation),
@@ -129,7 +137,7 @@ export async function generateSitemaps(): Promise<Array<{ id: number }>> {
       STATIC_PAGES_PER_LOCALE +
       Math.min(productCount, MAX_FETCHABLE_ITEMS) +
       Math.min(categoryCount, MAX_FETCHABLE_ITEMS);
-    const totalUrls = urlsPerLocale * countryLocales.length;
+    const totalUrls = urlsPerLocale * locales.length;
     const sitemapCount = Math.max(1, Math.ceil(totalUrls / URLS_PER_SITEMAP));
 
     return Array.from({ length: sitemapCount }, (_, i) => ({ id: i }));
@@ -163,21 +171,15 @@ export default async function sitemap(props: {
     return [];
   }
 
-  let countryLocales: CountryLocale[];
-
-  try {
-    countryLocales = await getCachedCountryLocales();
-  } catch (err) {
-    console.error("Sitemap generation failed: API unavailable.", err);
-    return [];
-  }
+  const locales = resolveLocales();
+  const country = getDefaultCountry();
 
   // Build entries for all locales, then slice to the requested chunk.
   // For most stores (< 50k URLs) this produces a single chunk so no slicing occurs.
   const entries: MetadataRoute.Sitemap = [];
 
-  for (const { country, locale } of countryLocales) {
-    const basePath = `${baseUrl}/${country}/${locale}`;
+  for (const locale of locales) {
+    const basePath = basePathFor(baseUrl, locale);
     const localeOpts: LocaleOptions = { locale, country };
 
     let products: ProductWithMedia[];
@@ -252,35 +254,6 @@ export default async function sitemap(props: {
   }
   const start = id * URLS_PER_SITEMAP;
   return entries.slice(start, start + URLS_PER_SITEMAP);
-}
-
-/**
- * Resolves the list of country/locale pairs to include in the sitemap
- * by fetching all markets from the Spree API. Each market contains its
- * countries and default locale, so no env-based configuration is needed.
- */
-async function resolveCountryLocales(): Promise<CountryLocale[]> {
-  const localeOptions = getDefaultLocaleOptions();
-  const { data: markets } = await getClient().markets.list(localeOptions);
-
-  const seen = new Set<string>();
-  const result: CountryLocale[] = [];
-
-  for (const market of markets) {
-    for (const country of market.countries ?? []) {
-      const iso = country.iso.toLowerCase();
-      if (seen.has(iso)) continue;
-      seen.add(iso);
-      result.push({
-        country: iso,
-        locale: market.default_locale || localeOptions.locale,
-      });
-    }
-  }
-
-  return result.length > 0
-    ? result
-    : [{ country: localeOptions.country, locale: localeOptions.locale }];
 }
 
 /**

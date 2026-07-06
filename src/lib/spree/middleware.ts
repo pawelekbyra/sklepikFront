@@ -4,20 +4,23 @@ const COUNTRY_COOKIE = "spree_country";
 const LOCALE_COOKIE = "spree_locale";
 const COOKIE_MAX_AGE = 365 * 24 * 60 * 60;
 
-const HAS_COUNTRY_LOCALE = /^\/([a-z]{2})\/([a-z]{2})(\/|$)/i;
-
 export interface SpreeMiddlewareConfig {
-  /** Default country ISO code (default: 'us') */
+  /**
+   * Country ISO code used for market/currency resolution (default: 'pl').
+   * This is a single-market store — the country is never part of the URL.
+   */
   defaultCountry?: string;
-  /** Default locale code (default: 'en') */
+  /** Default locale code — has no URL prefix (default: 'pl') */
   defaultLocale?: string;
+  /** Locale codes shown with a URL prefix, e.g. 'en' -> /en/... (default: ['en']) */
+  supportedLocales?: string[];
   /** Routes to skip — prefixes matched with startsWith (default: ['/_next', '/api', '/favicon.ico']) */
   staticRoutes?: string[];
 }
 
 /**
  * Set spree_country / spree_locale cookies on a response so that
- * `getLocaleOptions()` reads values matching the URL during SSR.
+ * `getLocaleOptions()` reads values matching the resolved locale during SSR.
  */
 function setLocaleCookies(
   response: NextResponse,
@@ -35,18 +38,22 @@ function setLocaleCookies(
 }
 
 /**
- * Creates a Next.js middleware that handles:
- * - Redirecting bare paths to /{country}/{locale}/...
- * - Detecting country from cookies → geo headers → default
- * - Detecting locale from cookies → accept-language → default
- * - Syncing spree_country / spree_locale cookies with URL segments so
- *   server-side data fetching (via `getLocaleOptions()`) uses the correct market
+ * Creates a Next.js middleware implementing "as-needed" locale prefixing
+ * for a single-market store:
+ *
+ * - The default locale (Polish) has NO URL prefix: `/products`.
+ * - Every other supported locale is prefixed: `/en/products`.
+ * - An explicit `/{defaultLocale}/...` URL is canonicalized (redirected) to
+ *   its unprefixed form, so there's exactly one URL per page.
+ * - The market/country used for pricing is a fixed server default; it is
+ *   never derived from or exposed in the URL.
  */
 export function createSpreeMiddleware(
   config: SpreeMiddlewareConfig = {},
 ): (request: NextRequest) => NextResponse {
-  const defaultCountry = config.defaultCountry ?? "us";
-  const defaultLocale = config.defaultLocale ?? "en";
+  const defaultCountry = config.defaultCountry ?? "pl";
+  const defaultLocale = config.defaultLocale ?? "pl";
+  const supportedLocales = config.supportedLocales ?? ["en"];
   const staticRoutes = config.staticRoutes ?? [
     "/_next",
     "/api",
@@ -67,40 +74,33 @@ export function createSpreeMiddleware(
       return NextResponse.next();
     }
 
-    // Already has /{country}/{locale} prefix — sync cookies with URL segments
-    const match = pathname.match(HAS_COUNTRY_LOCALE);
-    if (match) {
-      const response = NextResponse.next();
-      setLocaleCookies(
-        response,
-        match[1].toLowerCase(),
-        match[2].toLowerCase(),
-      );
+    const firstSegment = pathname.split("/")[1]?.toLowerCase();
+
+    // Explicit default-locale prefix (e.g. /pl/products) — redirect to the
+    // canonical unprefixed URL so there's exactly one address per page.
+    if (firstSegment === defaultLocale) {
+      const rest = pathname.slice(`/${firstSegment}`.length);
+      const url = request.nextUrl.clone();
+      url.pathname = rest || "/";
+      const response = NextResponse.redirect(url);
+      setLocaleCookies(response, defaultCountry, defaultLocale);
       return response;
     }
 
-    // Detect country: cookie → geo headers → default
-    const country =
-      request.cookies.get(COUNTRY_COOKIE)?.value ??
-      request.headers.get("x-vercel-ip-country")?.toLowerCase() ??
-      request.headers.get("cf-ipcountry")?.toLowerCase() ??
-      defaultCountry;
+    if (firstSegment && supportedLocales.includes(firstSegment)) {
+      // Explicit non-default locale prefix — pass through, sync cookies.
+      const response = NextResponse.next();
+      setLocaleCookies(response, defaultCountry, firstSegment);
+      return response;
+    }
 
-    // Detect locale: cookie → accept-language → default
-    const locale =
-      request.cookies.get(LOCALE_COOKIE)?.value ??
-      request.headers
-        .get("accept-language")
-        ?.split(",")[0]
-        ?.split("-")[0]
-        ?.toLowerCase() ??
-      defaultLocale;
-
+    // No recognized locale prefix — this is the default locale. Rewrite
+    // internally to `/{defaultLocale}/...` so the `[locale]` route segment
+    // resolves, while the visible URL stays prefix-free.
     const url = request.nextUrl.clone();
-    url.pathname = `/${country}/${locale}${pathname === "/" ? "" : pathname}`;
-
-    const response = NextResponse.redirect(url);
-    setLocaleCookies(response, country, locale);
+    url.pathname = `/${defaultLocale}${pathname === "/" ? "" : pathname}`;
+    const response = NextResponse.rewrite(url);
+    setLocaleCookies(response, defaultCountry, defaultLocale);
     return response;
   };
 }

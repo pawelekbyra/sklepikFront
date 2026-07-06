@@ -2,15 +2,14 @@ import type { Metadata } from "next";
 import { getCachedProduct, PRODUCT_METADATA_EXPAND } from "@/lib/data/cached";
 import { buildCanonicalUrl, stripHtml } from "@/lib/seo";
 import { getStoreUrl } from "@/lib/store";
+import { buildBasePath } from "@/lib/utils/path";
 
 interface ProductMetadataParams {
-  country: string;
   locale: string;
   slug: string;
 }
 
 export async function generateProductMetadata({
-  country,
   locale,
   slug,
 }: ProductMetadataParams): Promise<Metadata> {
@@ -36,7 +35,7 @@ export async function generateProductMetadata({
   const canonicalUrl = storeUrl
     ? buildCanonicalUrl(
         storeUrl,
-        `/${country}/${locale}/products/${product.slug}`,
+        `${buildBasePath(locale)}/products/${product.slug}`,
       )
     : undefined;
 

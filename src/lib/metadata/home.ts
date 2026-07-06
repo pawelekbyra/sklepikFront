@@ -5,21 +5,20 @@ import {
   getStoreSeoTitle,
   getStoreUrl,
 } from "@/lib/store";
+import { buildBasePath } from "@/lib/utils/path";
 
 interface HomeMetadataParams {
-  country: string;
   locale: string;
 }
 
 export async function generateHomeMetadata({
-  country,
   locale,
 }: HomeMetadataParams): Promise<Metadata> {
   const storeName = getStoreSeoTitle();
   const description = getStoreMetaDescription();
   const storeUrl = getStoreUrl();
   const canonicalUrl = storeUrl
-    ? buildCanonicalUrl(storeUrl, `/${country}/${locale}`)
+    ? buildCanonicalUrl(storeUrl, buildBasePath(locale) || "/")
     : undefined;
 
   return {

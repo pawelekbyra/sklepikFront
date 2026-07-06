@@ -61,7 +61,7 @@ export const ProductCard = memo(function ProductCard({
 
   return (
     <Link
-      href={`${basePath}/products/${product.id}${categoryId ? `?category_id=${categoryId}` : ""}`}
+      href={`${basePath}/products/${product.slug}${categoryId ? `?category_id=${categoryId}` : ""}`}
       className="group block"
       onClick={handleClick}
     >

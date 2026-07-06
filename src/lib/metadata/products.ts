@@ -1,28 +1,27 @@
 import type { Metadata } from "next";
 import { buildCanonicalUrl } from "@/lib/seo";
 import { getStoreUrl } from "@/lib/store";
+import { buildBasePath } from "@/lib/utils/path";
 
 interface ProductsMetadataParams {
-  country: string;
   locale: string;
 }
 
 export async function generateProductsMetadata({
-  country,
   locale,
 }: ProductsMetadataParams): Promise<Metadata> {
   const storeUrl = getStoreUrl();
   const canonicalUrl = storeUrl
-    ? buildCanonicalUrl(storeUrl, `/${country}/${locale}/products`)
+    ? buildCanonicalUrl(storeUrl, `${buildBasePath(locale)}/products`)
     : undefined;
 
   return {
-    title: "Products",
-    description: "Browse our full collection of products.",
+    title: "Produkty",
+    description: "Przeglądaj naszą pełną kolekcję produktów.",
     ...(canonicalUrl ? { alternates: { canonical: canonicalUrl } } : {}),
     openGraph: {
-      title: "Products",
-      description: "Browse our full collection of products.",
+      title: "Produkty",
+      description: "Przeglądaj naszą pełną kolekcję produktów.",
       ...(canonicalUrl ? { url: canonicalUrl } : {}),
       type: "website",
     },
