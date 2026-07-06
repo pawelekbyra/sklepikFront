@@ -3,6 +3,7 @@
 import type { Market } from "@spree/sdk";
 import { cacheLife, cacheTag } from "next/cache";
 import { getClient, getLocaleOptions } from "@/lib/spree";
+import { isSpreeConfigured } from "@/lib/spree/config";
 
 async function cachedListMarkets(options: {
   locale?: string;
@@ -38,16 +39,22 @@ export async function getMarkets(options?: {
   locale?: string;
   country?: string;
 }): Promise<{ data: Market[] }> {
+  if (!isSpreeConfigured()) return { data: [] };
+
   const resolvedOptions = options ?? (await getLocaleOptions());
   return cachedListMarkets(resolvedOptions);
 }
 
 export async function resolveMarket(country: string) {
+  if (!isSpreeConfigured()) return undefined;
+
   const options = await getLocaleOptions();
   return cachedResolveMarket(country, options);
 }
 
 export async function getMarketCountries(marketId: string) {
+  if (!isSpreeConfigured()) return { data: [] };
+
   const options = await getLocaleOptions();
   return cachedListMarketCountries(marketId, options);
 }
