@@ -4,6 +4,7 @@ import { ProductCardSkeleton } from "@/components/products/ProductCardSkeleton";
 import { PRODUCT_CARD_FIELDS } from "@/lib/data/cached";
 import { cachedListProducts } from "@/lib/data/products";
 import { getAccessToken } from "@/lib/spree";
+import { isSpreeConfigured } from "@/lib/spree/config";
 
 const LazyProductCarousel = dynamic(
   () =>
@@ -36,16 +37,18 @@ export async function FeaturedProducts({
 }: FeaturedProductsProps) {
   let products: Product[] = [];
 
-  try {
-    const userToken = await getAccessToken();
-    const productsResponse = await cachedListProducts(
-      { limit: 8, fields: PRODUCT_CARD_FIELDS },
-      { locale, country },
-      userToken,
-    );
-    products = productsResponse.data ?? [];
-  } catch (error) {
-    console.error("FeaturedProducts: failed to load products", error);
+  if (isSpreeConfigured()) {
+    try {
+      const userToken = await getAccessToken();
+      const productsResponse = await cachedListProducts(
+        { limit: 8, fields: PRODUCT_CARD_FIELDS },
+        { locale, country },
+        userToken,
+      );
+      products = productsResponse.data ?? [];
+    } catch (error) {
+      console.error("FeaturedProducts: failed to load products", error);
+    }
   }
 
   return (
