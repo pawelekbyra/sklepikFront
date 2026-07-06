@@ -55,12 +55,20 @@ export async function getMarketCountries(marketId: string) {
 /**
  * Resolve the currency for a given country on the server side, using the
  * cached markets list. Returns undefined if the country is not served by
- * any market.
+ * any market or when market data is unavailable during static rendering.
  */
 export async function resolveCurrency(
   country: string,
 ): Promise<string | undefined> {
-  const { data: markets } = await getMarkets();
+  let markets: Market[];
+
+  try {
+    ({ data: markets } = await getMarkets());
+  } catch (error) {
+    console.error("resolveCurrency: failed to load markets", error);
+    return undefined;
+  }
+
   const iso = country.toLowerCase();
   for (const market of markets) {
     const match = market.countries?.some((c) => c.iso.toLowerCase() === iso);
