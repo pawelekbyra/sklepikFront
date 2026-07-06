@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
-import { getCachedCategory } from "@/lib/data/cached";
-import { buildCanonicalUrl } from "@/lib/seo";
-import { getStoreUrl } from "@/lib/store";
+import type { Metadata } from 'next'
+import { getCachedCategory } from '@/lib/data/cached'
+import { buildCanonicalUrl } from '@/lib/seo'
+import { getStoreUrl } from '@/lib/store'
 
 export interface CategoryMetadataParams {
-  country: string;
-  locale: string;
-  permalink: string[];
+  country: string
+  locale: string
+  permalink: string[]
 }
 
 export async function generateCategoryMetadata({
@@ -14,31 +14,27 @@ export async function generateCategoryMetadata({
   locale,
   permalink,
 }: CategoryMetadataParams): Promise<Metadata> {
-  const fullPermalink = permalink.join("/");
+  const fullPermalink = permalink.join('/')
 
-  let category;
+  let category
   try {
-    category = await getCachedCategory(fullPermalink, [
-      "ancestors",
-      "children",
-    ]);
+    category = await getCachedCategory(fullPermalink, ['ancestors', 'children'])
   } catch {
-    return { title: "Category Not Found" };
+    return { title: 'Category Not Found' }
   }
 
-  const title = category.meta_title || category.name;
-  const description =
-    category.meta_description ||
-    category.description ||
-    `Browse ${category.name} products.`;
+  if (!category) {
+    return { title: 'Category Not Found' }
+  }
 
-  const storeUrl = getStoreUrl();
+  const title = category.meta_title || category.name
+  const description =
+    category.meta_description || category.description || `Browse ${category.name} products.`
+
+  const storeUrl = getStoreUrl()
   const canonicalUrl = storeUrl
-    ? buildCanonicalUrl(
-        storeUrl,
-        `/${country}/${locale}/c/${category.permalink}`,
-      )
-    : undefined;
+    ? buildCanonicalUrl(storeUrl, `/${country}/${locale}/c/${category.permalink}`)
+    : undefined
 
   return {
     title,
@@ -49,16 +45,14 @@ export async function generateCategoryMetadata({
       title,
       description,
       ...(canonicalUrl ? { url: canonicalUrl } : {}),
-      type: "website",
-      ...(category.image_url
-        ? { images: [{ url: category.image_url, alt: category.name }] }
-        : {}),
+      type: 'website',
+      ...(category.image_url ? { images: [{ url: category.image_url, alt: category.name }] } : {}),
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title,
       description,
       ...(category.image_url ? { images: [category.image_url] } : {}),
     },
-  };
+  }
 }
