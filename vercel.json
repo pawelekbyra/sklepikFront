@@ -1,0 +1,72 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "nodeVersion": "20.x",
+  "env": {
+    "NEXT_PUBLIC_DEFAULT_COUNTRY": {
+      "description": "Default country ISO code for store",
+      "default": "us",
+      "required": false
+    },
+    "NEXT_PUBLIC_DEFAULT_LOCALE": {
+      "description": "Default locale for the storefront",
+      "default": "en",
+      "required": false
+    },
+    "NEXT_PUBLIC_SITE_URL": {
+      "description": "Public site URL (used for canonical tags and redirects)",
+      "required": true
+    },
+    "NEXT_PUBLIC_STORE_NAME": {
+      "description": "Store display name",
+      "required": false
+    },
+    "NEXT_PUBLIC_STORE_DESCRIPTION": {
+      "description": "Store SEO description",
+      "required": false
+    },
+    "SPREE_API_URL": {
+      "description": "Backend Spree API URL (server-side only, not exposed to browser)",
+      "required": true
+    },
+    "SPREE_PUBLISHABLE_KEY": {
+      "description": "Spree publishable API key for storefront operations",
+      "required": true
+    },
+    "SENTRY_DSN": {
+      "description": "Sentry error tracking DSN (optional)",
+      "required": false
+    },
+    "SENTRY_ORG": {
+      "description": "Sentry organization slug (required if SENTRY_DSN is set)",
+      "required": false
+    },
+    "SENTRY_PROJECT": {
+      "description": "Sentry project slug (required if SENTRY_DSN is set)",
+      "required": false
+    },
+    "SENTRY_AUTH_TOKEN": {
+      "description": "Sentry authentication token (required if SENTRY_DSN is set)",
+      "required": false
+    },
+    "SENTRY_SEND_DEFAULT_PII": {
+      "description": "Send PII to Sentry (only if you have user consent)",
+      "default": "false",
+      "required": false
+    },
+    "NEXT_PUBLIC_SENTRY_SEND_DEFAULT_PII": {
+      "description": "Send PII to Sentry from client (only if you have user consent)",
+      "default": "false",
+      "required": false
+    },
+    "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY": {
+      "description": "Stripe publishable key (optional, required for Stripe payments)",
+      "required": false
+    }
+  },
+  "git": {
+    "silent": false
+  }
+}
