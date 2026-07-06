@@ -1,6 +1,11 @@
 "use server";
 
-import type { CategoryListParams, ProductListParams } from "@spree/sdk";
+import type {
+  CategoryListParams,
+  PaginatedResponse,
+  Product,
+  ProductListParams,
+} from "@spree/sdk";
 import { cacheLife, cacheTag } from "next/cache";
 import { getAccessToken, getClient, getLocaleOptions } from "@/lib/spree";
 import { isSpreeConfigured } from "@/lib/spree/config";
@@ -43,6 +48,10 @@ export async function getCategory(
   return cachedGetCategory(idOrPermalink, params, options);
 }
 
+function emptyCategoryProductsResponse(): PaginatedResponse<Product> {
+  return { data: [], meta: { count: 0, pages: 0 } } as PaginatedResponse<Product>;
+}
+
 /**
  * Persistent cached category products fetch. Cache key is derived from
  * all function arguments (categoryId, params, locale, country, userToken).
@@ -66,10 +75,8 @@ async function cachedListCategoryProducts(
 export async function getCategoryProducts(
   categoryId: string,
   params?: ProductListParams,
-) {
-  if (!isSpreeConfigured()) {
-    return { data: [], meta: { count: 0, pages: 0 } };
-  }
+): Promise<PaginatedResponse<Product>> {
+  if (!isSpreeConfigured()) return emptyCategoryProductsResponse();
 
   const options = await getLocaleOptions();
   const userToken = await getAccessToken();
