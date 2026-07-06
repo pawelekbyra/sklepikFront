@@ -1,8 +1,30 @@
-# Claude Code Rules for Next.js Spree Storefront
+# Kakałowy Sklepik — storefront: zasady dla agentów
 
-## Project Overview
+## Kontekst projektu (przeczytaj najpierw)
 
-This is a headless e-commerce storefront built with Next.js 16 and React 19, using the Spree Commerce API v3 via `@spree/sdk`.
+To repozytorium to **storefront projektu Kakałowy Sklepik** (sklep z produktami kakao) — headless frontend Next.js 16 + React 19, konsumujący Store API v3 backendu przez `@spree/sdk`. Backend, API i panel admina żyją w osobnym repo `pawelekbyra/sklepik` — tam jest też **kanon całego systemu**:
+
+- `sklepik/docs/kierunek-projektu.md` — cel, podział repo, hierarchia decyzji.
+- `sklepik/docs/stan-projektu.md` — bieżący stan i znane problemy.
+- `sklepik/docs/roadmap.md` — backlog i priorytety.
+- Lokalna dokumentacja frontu: [`docs/README.md`](docs/README.md) (kierunek marki, deploy Vercel, dług techniczny).
+
+Zasada nadrzędna: frontend nie zawiera logiki commerce. Produkty, ceny, koszyk, zamówienia — zawsze przez Store API. Brakuje pola/endpointu → wymaganie względem repo `sklepik`, nie hardcode.
+
+## Protokół dokumentacji (obowiązkowy)
+
+Po każdym zakończonym zadaniu, w tym samym PR/commicie:
+
+1. Zaktualizuj dotknięte dokumenty w `docs/` (deploy, kierunek frontu) tak, żeby opisywały rzeczywisty stan.
+2. Świadomy skrót → wpis w [`docs/technical-debt.md`](docs/technical-debt.md); spłacony dług → zmień status na `zamknięte`.
+3. Zmiana istotna dla całego systemu (API, architektura, nowa usługa) → zaktualizuj też `sklepik/docs/stan-projektu.md` w repo backendu albo jawnie to zgłoś.
+4. Nie twórz nowych plików-notatek — aktualizuj istniejące. Historia jest w gicie.
+
+---
+
+## Tech Overview
+
+Headless e-commerce storefront: Next.js 16 + React 19 + Spree Commerce API v3 via `@spree/sdk`.
 
 ## Tech Stack
 
@@ -17,15 +39,20 @@ This is a headless e-commerce storefront built with Next.js 16 and React 19, usi
 ```
 src/
 ├── app/                          # Next.js App Router
-│   └── [country]/[locale]/       # Internationalized routes
-│       ├── (checkout)/           # Checkout route group (minimal layout)
-│       └── (storefront)/         # Storefront route group (full layout)
+│   ├── [locale]/                 # pl = default, no URL prefix; other locales get /{locale}
+│   │   ├── (checkout)/           # Checkout route group (minimal layout)
+│   │   └── (storefront)/         # Storefront route group (full layout)
+│   └── api/webhooks/             # Webhooks from the backend (transactional emails)
 ├── components/                   # Reusable UI components
 ├── contexts/                     # React Context providers
 ├── lib/
-│   └── data/                     # Server Actions for data fetching
+│   ├── data/                     # Server Actions for data fetching
+│   ├── spree/                    # SDK client, middleware, config
+│   └── store.ts                  # Store name + default country/locale (env, defaults pl)
 └── types/                        # TypeScript type definitions
 ```
+
+Uwaga: segment `[country]` został usunięty z URL-i (sklep jednorynkowy — kraj do rozwiązania rynku/waluty jest stałym defaultem server-side). Przykłady niżej używające starych ścieżek traktuj jako wzorce kodu, nie jako mapę routingu.
 
 ## React 19 Best Practices
 

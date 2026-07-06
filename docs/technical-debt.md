@@ -2,9 +2,9 @@
 
 ## Cel dokumentu
 
-Ten dokument zapisuje świadome skróty, decyzje tymczasowe i rzeczy, które trzeba wrócić poprawić.
+Ten dokument zapisuje świadome skróty, decyzje tymczasowe i rzeczy, które trzeba wrócić poprawić — żeby nikt nie traktował rozwiązania tymczasowego jako finalnej architektury.
 
-Zasada projektu: jeśli idziemy na skróty, zapisujemy to tutaj, żeby później nikt nie traktował rozwiązania tymczasowego jako finalnej architektury.
+Dług dotyczący całego systemu (backend, deploy, dane) żyje w `sklepik/docs/roadmap.md` i `sklepik/docs/stan-projektu.md` — tutaj tylko skróty frontowe.
 
 ## Statusy
 
@@ -14,61 +14,42 @@ Zasada projektu: jeśli idziemy na skróty, zapisujemy to tutaj, żeby później
 
 ## Dług techniczny
 
-### 2026-07-05 — Deploy frontu na Vercel przed finalnym backendem
+### 2026-07-06 — Cache storefrontu bez inwalidacji on-demand
 
 **Status:** otwarte
 
-**Skrót:** Możemy wdrożyć `sklepikFront` na Vercel wcześniej, zanim backend `sklepik` ma finalny publiczny hosting.
+**Skrót:** Produkty i rynki są cache'owane (`"use cache"` z TTL 10 min–godziny + edge Vercela) bez webhooka rewalidacyjnego. Zmiana w adminie jest widoczna po kilkunastu minutach.
 
-**Dlaczego to robimy:** Chcemy szybko zobaczyć frontend publicznie, testować wygląd, routing, build i pierwsze zmiany brandingowe Kakao Sklepik.
+**Co trzeba zrobić:** endpoint webhookowy z `revalidateTag(...)` + event z backendu — zadanie **F4** w `sklepik/docs/roadmap.md`.
 
-**Ryzyko:** Front na Vercelu nie będzie w pełni produkcyjnym sklepem, jeśli `SPREE_API_URL` nie wskazuje na publiczny backend Spree. Sam adres Vercela nie zastępuje Spree API.
+**Warunek zamknięcia:** edycja w adminie widoczna w storefroncie w sekundach.
 
-**Co trzeba zrobić później:**
+### 2026-07-06 — Idempotencja webhooków e-mail w pamięci procesu
 
-1. Wybrać hosting dla backendu `sklepik`.
-2. Wystawić publiczny URL backendu Spree.
-3. Ustawić w Vercel prawdziwe `SPREE_API_URL`.
-4. Ustawić `SPREE_PUBLISHABLE_KEY`.
-5. Przetestować katalog, koszyk i checkout end-to-end.
+**Status:** otwarte
 
-**Warunek zamknięcia:** `sklepikFront` działa na Vercel z publicznym backendem `sklepik`, a koszyk i checkout działają w środowisku testowym.
+**Skrót:** ochrona przed duplikatami zdarzeń to `Set` w pamięci (`src/lib/webhooks/handlers.ts`); restart instancji Vercela ją zeruje — klient może dostać duplikat e-maila.
+
+**Co trzeba zrobić:** trwały magazyn (Redis / Postgres z unique constraint + TTL) — zadanie **F6** w `sklepik/docs/roadmap.md`.
+
+**Warunek zamknięcia:** restart procesu nie resetuje ochrony przed duplikatami.
+
+## Zamknięte
+
+### 2026-07-05 — Deploy frontu na Vercel przed finalnym backendem
+
+**Status:** zamknięte (2026-07-06)
+
+Backend działa publicznie na Render, front ma ustawione prawdziwe `SPREE_API_URL` + `SPREE_PUBLISHABLE_KEY`, katalog renderuje realne produkty. Pełna weryfikacja checkoutu z płatnościami to Faza 2 roadmapy (Stripe jeszcze nieskonfigurowany).
 
 ### 2026-07-05 — Branding przed pełnym finalnym deploymentem commerce
 
-**Status:** otwarte
+**Status:** zamknięte (2026-07-06)
 
-**Skrót:** Możemy rozpocząć podstawowy branding Kakao Sklepik, zanim cała infrastruktura backendowa jest finalnie ustawiona.
-
-**Dlaczego to robimy:** Branding i struktura frontu mogą iść równolegle z decyzją hostingową backendu.
-
-**Ryzyko:** Część widoków może zależeć od danych demo albo niedocelowego backendu.
-
-**Co trzeba zrobić później:**
-
-1. Zastąpić dane demo realnymi produktami kakao.
-2. Sprawdzić, czy product pages korzystają z docelowego API.
-3. Sprawdzić koszyk i checkout na docelowym backendzie.
-4. Usunąć albo oznaczyć wszystkie treści demo.
-
-**Warunek zamknięcia:** Front ma podstawowy branding Kakao Sklepik i działa z docelowymi produktami/testowym backendem Spree.
+Rebranding "Kakałowy Sklepik" wdrożony (nazwa, layout, locale-only URLs, usunięte linki demo Spree); w backendzie zseedowano 6 realnych produktów kakao. Dalszy branding premium to normalna praca Fazy 2, nie dług.
 
 ### 2026-07-05 — Vercel Commerce wymaga adaptera Spree
 
-**Status:** otwarte
+**Status:** zamknięte (2026-07-06) — **kierunek odrzucony**
 
-**Skrót/decyzja:** Chcemy użyć Vercel Commerce jako lepszego fundamentu frontendowego, mimo że oficjalny `vercel/commerce` jest aktywnie utrzymywany głównie pod Shopify.
-
-**Dlaczego to robimy:** Vercel Commerce może dać lepszy UX, lepszy kod frontu, lepszy fit pod Vercel i bardziej premium punkt startu niż standardowy Spree Storefront.
-
-**Ryzyko:** Vercel Commerce nie działa ze Spree API od razu. Trzeba przygotować custom adapter Spree, który zastąpi warstwę Shopify/provider.
-
-**Co trzeba zrobić później:**
-
-1. Pozyskać kod Vercel Commerce.
-2. Zmapować aktualną warstwę `lib/shopify`.
-3. Zaprojektować `lib/spree` jako adapter do Spree API.
-4. Obsłużyć minimum: produkty, produkt, warianty, koszyk, checkout.
-5. Dopiero po działającym adapterze uznać Vercel Commerce za realny storefront sklepu.
-
-**Warunek zamknięcia:** Vercel Commerce-style frontend działa z backendem `sklepik` przez Spree API co najmniej dla flow: produkt → koszyk → checkout testowy.
+Brak ROI: `@spree/sdk` + obecny storefront realizują ten sam zakres, a adaptacja `vercel/commerce` (utrzymywanego pod Shopify) wymagałaby napisania i utrzymywania całego adaptera provider→Spree. Żaden dokument w repo nie traktuje już migracji na Vercel Commerce jako aktywnego planu.
