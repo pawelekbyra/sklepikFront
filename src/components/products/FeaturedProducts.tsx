@@ -26,14 +26,14 @@ interface FeaturedProductsProps {
   basePath: string;
   locale: string;
   country: string;
-  currency?: string;
+  currencyPromise: Promise<string | undefined>;
 }
 
 export async function FeaturedProducts({
   basePath,
   locale,
   country,
-  currency,
+  currencyPromise,
 }: FeaturedProductsProps) {
   let products: Product[] = [];
 
@@ -50,6 +50,8 @@ export async function FeaturedProducts({
       console.error("FeaturedProducts: failed to load products", error);
     }
   }
+
+  const currency = await currencyPromise;
 
   return (
     <LazyProductCarousel

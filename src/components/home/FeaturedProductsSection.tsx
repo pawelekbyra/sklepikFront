@@ -19,14 +19,14 @@ interface FeaturedProductsSectionProps {
   basePath: string;
   locale: string;
   country: string;
-  currency?: string;
+  currencyPromise: Promise<string | undefined>;
 }
 
 export async function FeaturedProductsSection({
   basePath,
   locale,
   country,
-  currency,
+  currencyPromise,
 }: FeaturedProductsSectionProps) {
   const t = await getTranslations({
     locale: locale as Locale,
@@ -48,7 +48,7 @@ export async function FeaturedProductsSection({
           basePath={basePath}
           locale={locale}
           country={country}
-          currency={currency}
+          currencyPromise={currencyPromise}
         />
       </Suspense>
     </section>
