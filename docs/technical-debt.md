@@ -14,6 +14,22 @@ Dług dotyczący całego systemu (backend, deploy, dane) żyje w `sklepik/docs/r
 
 ## Dług techniczny
 
+### 2026-07-07 — `@spree/sdk` nie ma jeszcze opublikowanej metody `store.get()`
+
+**Status:** otwarte
+
+**Skrót:** backend (`sklepik`) dostał nowy publiczny endpoint `GET /api/v3/store/store` i SDK w monorepie (`sklepik/packages/sdk/src/store-client.ts`) ma już `client.store.get()`, ale `@spree/sdk` zainstalowany w tym repo to opublikowana wersja npm (1.1.0), która tej metody jeszcze nie ma. `src/lib/data/store.ts` (`getStoreInfo()`) obchodzi to przez `client.request<StoreInfo>("GET", "/store")` — udokumentowany w SDK "escape hatch" na dokładnie taki przypadek — plus lokalny interfejs `StoreInfo` ręcznie skopiowany z kształtu `Spree::Api::V3::StoreSerializer`.
+
+**Co trzeba zrobić:** po wydaniu nowej wersji `@spree/sdk` z `store.get()` — podmienić `getStoreInfo()` na `getClient().store.get()`, usunąć lokalny `StoreInfo` interface na rzecz `import type { Store } from "@spree/sdk"`, zaktualizować `@spree/sdk` w `package.json`.
+
+**Warunek zamknięcia:** `@spree/sdk` w `package.json` ma wersję z `store.get()`, shim usunięty.
+
+### 2026-07-07 — Logo sklepu: brak konsumenta w storefroncie (zamknięte)
+
+**Status:** zamknięte (2026-07-07) — zadanie **F10** w `sklepik/docs/roadmap.md`
+
+Nagłówek (`Header.tsx`) renderuje `logo_url` z nowego publicznego Store API zamiast samej tekstowej nazwy sklepu, gdy sklep ma wgrane logo (fallback na tekst gdy brak) — `max-h-10` (40px), `w-auto`, `object-contain`, bez wymuszonego cropu, spójne z tekstem pomocniczym w panelu admina (`admin.pages.settings.store.logo_dimensions_help`). JSON-LD Organization (`buildOrganizationJsonLd`, `src/lib/seo.ts`) teraz przyjmuje logo z API jako pierwszy wybór, z fallbackiem na statyczny `STORE_LOGO_URL` dla sklepów bez wgranego logo. Fetch (`getStoreInfo()`, `src/lib/data/store.ts`) idzie równolegle (`Promise.all`) z resztą danych layoutu — nie blokuje renderu, zgodnie z zasadą ustaloną przy dzisiejszym fixie `resolveCurrency`/Suspense.
+
 ### 2026-07-07 — CountrySwitcher zastąpiony LanguageSwitcher — Market switcher jeszcze nie istnieje
 
 **Status:** w toku (krok 0+1 planu zamknięte, kroki 2-4 czekają na realny drugi rynek)

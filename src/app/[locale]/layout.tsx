@@ -7,6 +7,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { StoreProvider } from "@/contexts/StoreContext";
 import { getMarkets } from "@/lib/data/markets";
+import { getStoreInfo } from "@/lib/data/store";
 import { generateStoreMetadata } from "@/lib/metadata/store";
 import { buildOrganizationJsonLd } from "@/lib/seo";
 import { getDefaultCountry } from "@/lib/store";
@@ -48,10 +49,14 @@ export default async function LocaleLayout({
   // Single-market store: the country used for pricing/markets is a fixed
   // server default, never derived from the URL. Fetch failures here just
   // mean an empty country-switcher list — not a redirect, so there's no
-  // way for this to loop.
-  const markets = await getMarkets({ country, locale })
-    .then((res) => res.data)
-    .catch(() => []);
+  // way for this to loop. Fetched in parallel with store branding info —
+  // neither await blocks on the other.
+  const [markets, storeInfo] = await Promise.all([
+    getMarkets({ country, locale })
+      .then((res) => res.data)
+      .catch(() => []),
+    getStoreInfo().catch(() => undefined),
+  ]);
 
   // Load messages statically (no runtime data access) to avoid blocking prerender
   const messages = messagesMap[locale] || messagesMap.en;
@@ -68,7 +73,7 @@ export default async function LocaleLayout({
       >
         <AuthProvider>
           <CartProvider>
-            <JsonLd data={buildOrganizationJsonLd()} />
+            <JsonLd data={buildOrganizationJsonLd(storeInfo?.logo_url)} />
             {children}
             <CartDrawer />
             <Toaster />

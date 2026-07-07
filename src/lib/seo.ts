@@ -125,13 +125,18 @@ export function buildBreadcrumbJsonLd(
 }
 
 /**
- * Build JSON-LD Organization schema from environment variables.
+ * Build JSON-LD Organization schema. Store name/social links still come
+ * from environment variables, but the logo prefers the real Store API
+ * value (`apiLogoUrl`, from `getStoreInfo()`) — falling back to the static
+ * `STORE_LOGO_URL` env var for stores that haven't uploaded one yet.
  * https://schema.org/Organization
  */
-export function buildOrganizationJsonLd(): Record<string, unknown> {
+export function buildOrganizationJsonLd(
+  apiLogoUrl?: string | null,
+): Record<string, unknown> {
   const storeName = getStoreName();
   const storeUrl = getStoreUrl();
-  const logoUrl = process.env.STORE_LOGO_URL;
+  const logoUrl = apiLogoUrl || process.env.STORE_LOGO_URL;
   const facebook = process.env.STORE_FACEBOOK;
   const twitter = process.env.STORE_TWITTER;
   const instagram = process.env.STORE_INSTAGRAM;
