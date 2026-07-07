@@ -51,6 +51,28 @@ export default async function ProductPage({
   const { category_id } = await searchParams;
   const basePath = buildBasePath(locale);
 
+  // TEMP DEBUG: raw fetch bypassing the SDK entirely, to see the real
+  // baseUrl/status/body Vercel's serverless function actually gets.
+  try {
+    const rawBase = (process.env.SPREE_API_URL || "").replace(/\/$/, "");
+    const rawUrl = `${rawBase}/api/v3/store/products/${slug}`;
+    const rawKey = process.env.SPREE_PUBLISHABLE_KEY || "";
+    const rawRes = await fetch(rawUrl, {
+      headers: { "x-spree-api-key": rawKey },
+    });
+    const rawText = await rawRes.text();
+    console.error("[DEBUG raw fetch]", {
+      rawUrl,
+      keyPrefix: rawKey.slice(0, 6),
+      keyLength: rawKey.length,
+      status: rawRes.status,
+      ok: rawRes.ok,
+      bodySnippet: rawText.slice(0, 300),
+    });
+  } catch (rawErr) {
+    console.error("[DEBUG raw fetch] threw", rawErr);
+  }
+
   let product: Awaited<ReturnType<typeof getCachedProduct>>;
   try {
     product = await getCachedProduct(slug, PRODUCT_PAGE_EXPAND);
