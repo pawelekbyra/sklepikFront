@@ -45,7 +45,7 @@ npx vitest run
 - [ ] Sentry skonfigurowane w całości albo wcale
 - [ ] Katalog, strona produktu, koszyk i checkout działają
 - [ ] Obrazy produktów ładują się (z R2 przez `CDN_HOST` backendu; host backendu musi być też wpisany w `images.remotePatterns` w `next.config.ts`, inaczej `next/image` odrzuca URL)
-- [ ] W adminie (Ustawienia → Webhooks) istnieje endpoint na `{storefront}/api/webhooks/spree` z `product.created`/`product.updated`/`product.deleted` w subskrypcjach — bez tego zmiany produktów w adminie są widoczne w sklepie dopiero po TTL cache (do 10 min)
+- [ ] W adminie (Ustawienia → Webhooks) istnieje endpoint na `{storefront}/api/webhooks/spree` z `product.created`/`product.updated`/`product.deleted`/`product.activated`/`product.archived`/`product.out_of_stock`/`product.back_in_stock` w subskrypcjach — bez tego zmiany produktów w adminie są widoczne w sklepie dopiero po TTL cache (do 10 min)
 
 ## Znane ograniczenia
 

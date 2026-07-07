@@ -29,6 +29,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       "product.created": handleProductChanged,
       "product.updated": handleProductChanged,
       "product.deleted": handleProductChanged,
+      "product.activated": handleProductChanged,
+      "product.archived": handleProductChanged,
+      "product.out_of_stock": handleProductChanged,
+      "product.back_in_stock": handleProductChanged,
     },
   });
 
