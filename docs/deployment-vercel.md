@@ -43,7 +43,7 @@ npx vitest run
 - [ ] `NEXT_PUBLIC_SITE_URL` = prawdziwa domena
 - [ ] Sentry skonfigurowane w całości albo wcale
 - [ ] Katalog, strona produktu, koszyk i checkout działają
-- [ ] Obrazy produktów ładują się (z R2 przez `CDN_HOST` backendu)
+- [ ] Obrazy produktów ładują się (z R2 przez `CDN_HOST` backendu; host backendu musi być też wpisany w `images.remotePatterns` w `next.config.ts`, inaczej `next/image` odrzuca URL)
 
 ## Znane ograniczenia
 
