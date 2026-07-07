@@ -34,6 +34,8 @@ Dług dotyczący całego systemu (backend, deploy, dane) żyje w `sklepik/docs/r
 
 **Warunek operacyjny (nie kod):** w panelu admina → Ustawienia → Webhooks musi istnieć endpoint wskazujący na `{storefront}/api/webhooks/spree` z powyższymi eventami (lub `product.*`) w subskrypcjach — skonfigurowane 2026-07-07 — a `SPREE_WEBHOOK_SECRET` na Vercelu musi być tym samym sekretem co `secret_key` tego endpointu.
 
+**Jak dodać kolejny event w przyszłości** (np. inwalidacja przy zmianie rynku/ceny — patrz `sklepik/docs/roadmap.md` F4, otwarta reszta): (1) napisz handler w `src/lib/webhooks/handlers.ts` i dopisz go do mapy w `src/app/api/webhooks/spree/route.ts`; (2) dopiero potem dopisz nazwę eventu do subskrypcji tego samego endpointu w adminie. Świadomie nie subskrybujemy `*` — event bez handlera to niepotrzebny ruch webhookowy (delivery + HTTP POST) donikąd.
+
 ### 2026-07-05 — Deploy frontu na Vercel przed finalnym backendem
 
 **Status:** zamknięte (2026-07-06)
