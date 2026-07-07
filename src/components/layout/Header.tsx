@@ -20,10 +20,10 @@ const LazyMobileMenu = dynamic(
   },
 );
 
-const LazyCountrySwitcher = dynamic(
+const LazyLanguageSwitcher = dynamic(
   () =>
-    import("@/components/layout/CountrySwitcher").then((mod) => ({
-      default: mod.CountrySwitcher,
+    import("@/components/layout/LanguageSwitcher").then((mod) => ({
+      default: mod.LanguageSwitcher,
     })),
   {
     loading: () => (
@@ -64,7 +64,7 @@ export async function Header({
       }
       rightStart={
         <div className="hidden lg:block">
-          <LazyCountrySwitcher />
+          <LazyLanguageSwitcher />
         </div>
       }
       rightEnd={
