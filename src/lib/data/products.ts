@@ -1,14 +1,14 @@
-'use server'
+"use server";
 
 import type {
   PaginatedResponse,
   Product,
   ProductFiltersResponse,
   ProductListParams,
-} from '@spree/sdk'
-import { cacheLife, cacheTag } from 'next/cache'
-import { getAccessToken, getClient, getLocaleOptions } from '@/lib/spree'
-import { isSpreeConfigured } from '@/lib/spree/config'
+} from "@spree/sdk";
+import { cacheLife, cacheTag } from "next/cache";
+import { getAccessToken, getClient, getLocaleOptions } from "@/lib/spree";
+import { isSpreeConfigured } from "@/lib/spree/config";
 
 function emptyProductListResponse(): PaginatedResponse<Product> {
   return {
@@ -25,7 +25,7 @@ function emptyProductListResponse(): PaginatedResponse<Product> {
       previous: null,
       next: null,
     },
-  } as unknown as PaginatedResponse<Product>
+  } as unknown as PaginatedResponse<Product>;
 }
 
 function emptyProductFiltersResponse(): ProductFiltersResponse {
@@ -35,7 +35,7 @@ function emptyProductFiltersResponse(): ProductFiltersResponse {
     sort_options: [],
     default_sort: null,
     total_count: 0,
-  } as unknown as ProductFiltersResponse
+  } as unknown as ProductFiltersResponse;
 }
 
 /**
@@ -53,18 +53,17 @@ export async function cachedListProducts(
   options: { locale?: string; country?: string },
   _userToken?: string,
 ) {
-  'use cache: remote'
-  cacheLife('tenMinutes')
-  cacheTag('products')
-  return getClient().products.list(params, options)
+  // TEMP DEBUG: cache disabled to isolate whether the empty catalog is a
+  // caching-layer issue or a genuine data-fetch issue. Revert once confirmed.
+  return getClient().products.list(params, options);
 }
 
 export async function getProducts(params?: ProductListParams) {
-  if (!isSpreeConfigured()) return emptyProductListResponse()
+  if (!isSpreeConfigured()) return emptyProductListResponse();
 
-  const options = await getLocaleOptions()
-  const userToken = await getAccessToken()
-  return cachedListProducts(params, options, userToken)
+  const options = await getLocaleOptions();
+  const userToken = await getAccessToken();
+  return cachedListProducts(params, options, userToken);
 }
 
 /**
@@ -82,18 +81,21 @@ export async function cachedGetProduct(
   options: { locale?: string; country?: string },
   _userToken?: string,
 ) {
-  'use cache: remote'
-  cacheLife('tenMinutes')
-  cacheTag('products', `product:${slugOrId}`)
-  return getClient().products.get(slugOrId, { expand }, options)
+  "use cache: remote";
+  cacheLife("tenMinutes");
+  cacheTag("products", `product:${slugOrId}`);
+  return getClient().products.get(slugOrId, { expand }, options);
 }
 
-export async function getProduct(slugOrId: string, params?: { expand?: string[] }) {
-  if (!isSpreeConfigured()) return undefined
+export async function getProduct(
+  slugOrId: string,
+  params?: { expand?: string[] },
+) {
+  if (!isSpreeConfigured()) return undefined;
 
-  const options = await getLocaleOptions()
-  const userToken = await getAccessToken()
-  return cachedGetProduct(slugOrId, params?.expand ?? [], options, userToken)
+  const options = await getLocaleOptions();
+  const userToken = await getAccessToken();
+  return cachedGetProduct(slugOrId, params?.expand ?? [], options, userToken);
 }
 
 async function cachedGetProductFilters(
@@ -101,16 +103,16 @@ async function cachedGetProductFilters(
   options: { locale?: string; country?: string },
   _userToken?: string,
 ) {
-  'use cache: remote'
-  cacheLife('tenMinutes')
-  cacheTag('product-filters')
-  return getClient().products.filters(params, options)
+  "use cache: remote";
+  cacheLife("tenMinutes");
+  cacheTag("product-filters");
+  return getClient().products.filters(params, options);
 }
 
 export async function getProductFilters(params?: Record<string, unknown>) {
-  if (!isSpreeConfigured()) return emptyProductFiltersResponse()
+  if (!isSpreeConfigured()) return emptyProductFiltersResponse();
 
-  const options = await getLocaleOptions()
-  const userToken = await getAccessToken()
-  return cachedGetProductFilters(params, options, userToken)
+  const options = await getLocaleOptions();
+  const userToken = await getAccessToken();
+  return cachedGetProductFilters(params, options, userToken);
 }
