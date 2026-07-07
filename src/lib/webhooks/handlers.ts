@@ -225,10 +225,12 @@ export async function handlePasswordReset(
 }
 
 /**
- * Handle product.created / product.updated / product.deleted webhooks —
- * busts the "use cache" entries from src/lib/data/products.ts so catalog
- * changes made in the admin show up immediately instead of after the
- * 10-minute cacheLife TTL. See docs/technical-debt.md (F4).
+ * Handle any product.* lifecycle/status webhook (created, updated, deleted,
+ * activated, archived, out_of_stock, back_in_stock) — all carry the same
+ * serialized-product payload, so one handler busts the "use cache" entries
+ * from src/lib/data/products.ts for all of them. Catalog changes made in
+ * the admin show up immediately instead of after the 10-minute cacheLife
+ * TTL. See docs/technical-debt.md (F4).
  *
  * "max" forces an immediate bust regardless of the cacheLife profile the
  * entry was cached under (passing the profile name back does not).
