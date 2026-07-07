@@ -1,9 +1,10 @@
 "use client";
 
 import type { Category } from "@spree/sdk";
-import { ArrowLeft, Check, ChevronRight, User, X } from "lucide-react";
+import { ArrowLeft, Check, ChevronRight, Globe, User, X } from "lucide-react";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { usePathname, useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { Button } from "@/components/ui/button";
@@ -14,22 +15,14 @@ import {
   SheetFooter,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { useStore } from "@/contexts/StoreContext";
-import { useCountrySwitch } from "@/hooks/useCountrySwitch";
-
-// Convert ISO country code to flag emoji
-function countryToFlag(countryCode: string): string {
-  const code = countryCode.toUpperCase();
-  if (code.length !== 2) return "";
-  const firstChar = code.charCodeAt(0) - 65 + 0x1f1e6;
-  const secondChar = code.charCodeAt(1) - 65 + 0x1f1e6;
-  return String.fromCodePoint(firstChar, secondChar);
-}
+import { getDefaultLocale, getPrefixedLocales } from "@/lib/store";
+import { LANGUAGE_NAMES } from "@/lib/utils/language-names";
+import { buildBasePath, getPathWithoutPrefix } from "@/lib/utils/path";
 
 type PanelType =
   | { kind: "main" }
   | { kind: "category"; category: Category }
-  | { kind: "country" };
+  | { kind: "language" };
 
 interface MobileMenuProps {
   rootCategories: Category[];
@@ -46,11 +39,20 @@ export function MobileMenu({ rootCategories, basePath }: MobileMenuProps) {
   const rafRef = useRef<number | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const { country, currency, countries } = useStore();
-  const { isCountryNavigating, handleCountrySelect } = useCountrySwitch({
-    currentCountry: country,
-    onBeforeNavigate: () => setOpen(false),
-  });
+  const currentLocale = useLocale();
+  const pathname = usePathname();
+  const router = useRouter();
+  const locales = [
+    getDefaultLocale() as Locale,
+    ...getPrefixedLocales().map((l) => l as Locale),
+  ];
+
+  const handleLanguageSelect = (locale: Locale) => {
+    setOpen(false);
+    if (locale === currentLocale) return;
+    const pathRest = getPathWithoutPrefix(pathname);
+    router.push(`${buildBasePath(locale)}${pathRest}`);
+  };
 
   const currentPanel = panelStack[panelStack.length - 1];
 
@@ -191,8 +193,8 @@ export function MobileMenu({ rootCategories, basePath }: MobileMenuProps) {
             <span>
               {currentPanel.kind === "category"
                 ? currentPanel.category.name
-                : currentPanel.kind === "country"
-                  ? t("selectCountry")
+                : currentPanel.kind === "language"
+                  ? t("selectLanguage")
                   : ""}
             </span>
           </button>
@@ -262,21 +264,22 @@ export function MobileMenu({ rootCategories, basePath }: MobileMenuProps) {
               </Link>
             </nav>
 
-            {/* Footer: Country switcher (mobile + tablet) + Account (mobile only) */}
+            {/* Footer: Language switcher (mobile + tablet) + Account (mobile only) */}
             <SheetFooter className="lg:hidden border-t border-gray-200 pt-4 gap-2">
-              <button
-                type="button"
-                onClick={() => pushPanel({ kind: "country" })}
-                className="flex items-center gap-2 px-4 py-2.5 text-base text-gray-700 hover:bg-gray-50 rounded-lg transition-colors w-full"
-              >
-                <span className="text-lg leading-none">
-                  {countryToFlag(country)}
-                </span>
-                <span className="font-medium">{country.toUpperCase()}</span>
-                <span className="text-gray-400">|</span>
-                <span>{currency}</span>
-                <ChevronRight className="w-4 h-4 text-gray-400 ml-auto" />
-              </button>
+              {locales.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => pushPanel({ kind: "language" })}
+                  className="flex items-center gap-2 px-4 py-2.5 text-base text-gray-700 hover:bg-gray-50 rounded-lg transition-colors w-full"
+                >
+                  <Globe className="w-4 h-4 text-gray-400" />
+                  <span className="font-medium">
+                    {LANGUAGE_NAMES[currentLocale as Locale] ??
+                      currentLocale.toUpperCase()}
+                  </span>
+                  <ChevronRight className="w-4 h-4 text-gray-400 ml-auto" />
+                </button>
+              )}
 
               <SheetClose asChild className="md:hidden">
                 <Link
@@ -358,10 +361,10 @@ export function MobileMenu({ rootCategories, basePath }: MobileMenuProps) {
             );
           })}
 
-          {/* Country selector panel */}
+          {/* Language selector panel */}
           <div
             className={`absolute inset-0 flex flex-col bg-white transition-transform duration-300 ease-in-out ${
-              currentPanel.kind === "country" &&
+              currentPanel.kind === "language" &&
               animatedIndex === panelStack.length - 1
                 ? "translate-x-0"
                 : "translate-x-full"
@@ -374,33 +377,27 @@ export function MobileMenu({ rootCategories, basePath }: MobileMenuProps) {
                 className="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2 text-base font-medium"
               >
                 <ArrowLeft className="w-5 h-5" />
-                <span>{t("selectCountry")}</span>
+                <span>{t("selectLanguage")}</span>
               </button>
             </div>
 
             <div className="flex-1 overflow-y-auto px-4 py-2">
-              {countries.map((c) => {
-                const isSelected =
-                  c.iso.toLowerCase() === country.toLowerCase();
+              {locales.map((locale) => {
+                const isSelected = locale === currentLocale;
                 return (
                   <button
-                    key={c.iso}
+                    key={locale}
                     type="button"
-                    disabled={isCountryNavigating}
-                    onClick={() => handleCountrySelect(c)}
+                    onClick={() => handleLanguageSelect(locale)}
                     className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-base transition-colors ${
                       isSelected
                         ? "bg-gray-100 font-medium"
                         : "hover:bg-gray-50"
                     }`}
                   >
-                    <span className="text-lg leading-none">
-                      {countryToFlag(c.iso)}
-                    </span>
                     <span className="flex-1 text-left font-medium">
-                      {c.name}
+                      {LANGUAGE_NAMES[locale] ?? locale.toUpperCase()}
                     </span>
-                    <span className="text-sm text-gray-500">{c.currency}</span>
                     {isSelected && <Check className="w-4 h-4 text-black" />}
                   </button>
                 );

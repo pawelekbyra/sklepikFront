@@ -14,6 +14,16 @@ Dług dotyczący całego systemu (backend, deploy, dane) żyje w `sklepik/docs/r
 
 ## Dług techniczny
 
+### 2026-07-07 — CountrySwitcher zastąpiony LanguageSwitcher — Market switcher jeszcze nie istnieje
+
+**Status:** w toku (krok 0+1 planu zamknięte, kroki 2-4 czekają na realny drugi rynek)
+
+**Skrót:** `CountrySwitcher.tsx` mieszał język i walutę w jednym dropdownie i linkował wg usuniętego schematu URL `/{country}/{locale}/...` → 404 na wyborze kraju + wizualny duplikat "PL PL | PLN". Usunięty (razem z `useCountrySwitch.ts`) i zastąpiony `LanguageSwitcher.tsx` — czysto językowym przełącznikiem (pl/en dziś, de/es/fr gotowe strukturalnie w `messages/*.json`, ale niewystawione dopóki ktoś nie zweryfikuje ich jakości), niezależnym od waluty/rynku. Ten sam fix zastosowany w `MobileMenu.tsx` (panel "country" → "language").
+
+**Co trzeba zrobić:** zbudować `MarketSwitcher` (waluta + wysyłka, oparty o cookie, nie URL) — dopiero gdy w adminie powstanie realny drugi `Market` (np. Eurozone/EUR). `updateCartMarket` (`src/lib/data/checkout.ts`) zostawiony nieużywany celowo — gotowa, przetestowana funkcja do reużycia w tym kroku.
+
+**Warunek zamknięcia:** pełny plan w `sklepik/docs/plans/market-language-switcher.md` zrealizowany (kroki 2-4).
+
 ### 2026-07-07 — Zdjęcie główne na stronie produktu czasem się nie wyświetla (mitygacja, nie fix)
 
 **Status:** otwarte (frontowa mitygacja wdrożona, przyczyna po stronie backendu/infra pozostaje)
