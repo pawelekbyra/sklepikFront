@@ -36,11 +36,16 @@ interface MediaGalleryProps {
   activeIndex?: number | null;
 }
 
-/** Prefer pre-sized Spree media URLs over the full-resolution original,
- * so the Next.js image optimizer doesn't have to fetch the source file. */
+/** Prefer `large` (720x720) over `xlarge` (2000x2000) for the eagerly-loaded
+ * main image: the backend generates Active Storage variants on first
+ * request, and the xlarge resize can take 10+ seconds on Render's
+ * constrained CPU — long enough to blow past Vercel's image-optimizer
+ * fetch timeout and leave the gallery showing no image at all. Full
+ * xlarge resolution is still used in MediaLightbox, where the user has
+ * explicitly opted into waiting for a zoomed view. */
 function getMainImageUrl(media: Media | undefined): string | null {
   if (!media) return null;
-  return media.xlarge_url || media.large_url || media.original_url || null;
+  return media.large_url || media.xlarge_url || media.original_url || null;
 }
 
 function getThumbImageUrl(media: Media | undefined): string | null {

@@ -14,6 +14,18 @@ Dług dotyczący całego systemu (backend, deploy, dane) żyje w `sklepik/docs/r
 
 ## Dług techniczny
 
+### 2026-07-07 — Zdjęcie główne na stronie produktu czasem się nie wyświetla (mitygacja, nie fix)
+
+**Status:** otwarte (frontowa mitygacja wdrożona, przyczyna po stronie backendu/infra pozostaje)
+
+**Skrót:** `MediaGallery` (`src/components/products/MediaGallery.tsx`) pokazywała jako główne zdjęcie wariant `xlarge` (2000×2000) — Spree generuje warianty Active Storage **na żądanie**, nie z góry. Na Renderze (starter/free, ograniczone CPU — patrz `sklepik/docs/stan-projektu.md` pkt 5) pierwsze wygenerowanie wariantu 2000×2000 zajęło zmierzone **12.5 s**; ten sam wariant po scache'owaniu — 1.3 s. Next.js/Vercel Image Optimization ma limit czasu na pobranie źródła — 12+ sekund go przekracza, więc pierwszy odwiedzający konkretny produkt (zanim wariant się scache'uje) widział brak zdjęcia zamiast oczekiwania.
+
+**Zastosowana mitygacja:** `getMainImageUrl` preferuje teraz `large_url` (720×720 — i tak udokumentowany w Spree jako rozmiar pod galerię produktową) przed `xlarge_url`. Mniej pikseli = radykalnie krótszy czas generowania przy zimnym cache, mniejsze ryzyko przekroczenia timeoutu. `xlarge` zostaje tylko w `MediaLightbox` (powiększenie na kliknięcie — świadoma akcja użytkownika, może poczekać).
+
+**Co zostaje nierozwiązane:** to mitygacja ryzyka, nie usunięcie przyczyny — każdy nowy rozmiar wariantu nadal generuje się leniwie przy pierwszym żądaniu, więc pierwszy odwiedzający wciąż może trafić na wolne (choć krótsze) oczekiwanie. Trwałe rozwiązanie: generowanie wariantów w tle zaraz po uploadzie zdjęcia (wymaga workera Sidekiq — **F7** w `sklepik/docs/roadmap.md`, obecnie wyłączony na darmowym/starter planie Render).
+
+**Warunek zamknięcia:** worker w tle pre-generuje warianty przy uploadzie (F7 domknięte), więc żaden odwiedzający nigdy nie trafia na zimne generowanie.
+
 ### 2026-07-06 — Idempotencja webhooków e-mail w pamięci procesu
 
 **Status:** otwarte
