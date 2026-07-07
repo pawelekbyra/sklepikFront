@@ -41,22 +41,37 @@ export async function getMarkets(options?: {
 }): Promise<{ data: Market[] }> {
   if (!isSpreeConfigured()) return { data: [] };
 
-  const resolvedOptions = options ?? (await getLocaleOptions());
-  return cachedListMarkets(resolvedOptions);
+  try {
+    const resolvedOptions = options ?? (await getLocaleOptions());
+    return await cachedListMarkets(resolvedOptions);
+  } catch (error) {
+    console.error("getMarkets: failed to fetch from API", error);
+    return { data: [] };
+  }
 }
 
 export async function resolveMarket(country: string) {
   if (!isSpreeConfigured()) return undefined;
 
-  const options = await getLocaleOptions();
-  return cachedResolveMarket(country, options);
+  try {
+    const options = await getLocaleOptions();
+    return await cachedResolveMarket(country, options);
+  } catch (error) {
+    console.error("resolveMarket: failed to fetch from API", error);
+    return undefined;
+  }
 }
 
 export async function getMarketCountries(marketId: string) {
   if (!isSpreeConfigured()) return { data: [] };
 
-  const options = await getLocaleOptions();
-  return cachedListMarketCountries(marketId, options);
+  try {
+    const options = await getLocaleOptions();
+    return await cachedListMarketCountries(marketId, options);
+  } catch (error) {
+    console.error("getMarketCountries: failed to fetch from API", error);
+    return { data: [] };
+  }
 }
 
 /**
