@@ -53,8 +53,9 @@ export async function cachedListProducts(
   options: { locale?: string; country?: string },
   _userToken?: string,
 ) {
-  // TEMP DEBUG: cache disabled to isolate whether the empty catalog is a
-  // caching-layer issue or a genuine data-fetch issue. Revert once confirmed.
+  "use cache: remote";
+  cacheLife("tenMinutes");
+  cacheTag("products");
   return getClient().products.list(params, options);
 }
 
@@ -81,7 +82,9 @@ export async function cachedGetProduct(
   options: { locale?: string; country?: string },
   _userToken?: string,
 ) {
-  // TEMP DEBUG: cache disabled to isolate root cause (see cachedListProducts above).
+  "use cache: remote";
+  cacheLife("tenMinutes");
+  cacheTag("products", `product:${slugOrId}`);
   return getClient().products.get(slugOrId, { expand }, options);
 }
 
