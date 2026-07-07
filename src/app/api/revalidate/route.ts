@@ -1,4 +1,4 @@
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
@@ -36,8 +36,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   revalidateTag("products", "max");
   revalidateTag("product-filters", "max");
 
+  // revalidateTag only busts the underlying data-fetch cache. The rendered
+  // page HTML itself is cached separately (Full Route Cache / PPR shell) and
+  // needs its own invalidation, or a stale page keeps serving even after the
+  // data cache is cleared.
+  revalidatePath("/", "layout");
+
   return NextResponse.json({
     revalidated: true,
     tags: ["products", "product-filters"],
+    paths: ["/ (layout)"],
   });
 }
