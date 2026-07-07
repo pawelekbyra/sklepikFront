@@ -125,8 +125,14 @@ export async function GET(request: Request): Promise<NextResponse> {
   const backendUrl = (process.env.SPREE_API_URL || "").replace(/\/$/, "");
   const apiKey = process.env.SPREE_ADMIN_SECRET_KEY;
   if (!backendUrl || !apiKey) {
+    // TEMP DEBUG: report exactly which one is missing, without leaking values.
     return NextResponse.json(
-      { error: "SPREE_API_URL or SPREE_ADMIN_SECRET_KEY not configured" },
+      {
+        error: "SPREE_API_URL or SPREE_ADMIN_SECRET_KEY not configured",
+        hasBackendUrl: Boolean(backendUrl),
+        hasApiKey: Boolean(apiKey),
+        apiKeyLength: apiKey?.length ?? 0,
+      },
       { status: 503 },
     );
   }
