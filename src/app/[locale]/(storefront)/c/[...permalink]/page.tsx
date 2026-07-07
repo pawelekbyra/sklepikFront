@@ -35,6 +35,10 @@ export default async function CategoryPage({
   const rawSearchParams = await searchParams;
   const fullPermalink = permalink.join("/");
   const basePath = buildBasePath(locale);
+  // Kicked off before the category fetch (not awaited) so it resolves in
+  // parallel instead of adding a sequential round-trip on top of it; the
+  // actual await happens inside ProductListing's Suspense boundary.
+  const currencyPromise = resolveCurrency(getDefaultCountry());
 
   let category;
   try {
@@ -51,7 +55,6 @@ export default async function CategoryPage({
   }
 
   const storeUrl = getStoreUrl();
-  const currency = await resolveCurrency(getDefaultCountry());
   const listingState = parseListingSearchParams(rawSearchParams);
 
   // Pre-bind categoryId onto the server action so the client-side
@@ -72,7 +75,7 @@ export default async function CategoryPage({
         <ProductListing
           state={listingState}
           basePath={basePath}
-          currency={currency}
+          currencyPromise={currencyPromise}
           locale={locale as Locale}
           listId={`category-${category.id}`}
           listName={`Category: ${category.name}`}

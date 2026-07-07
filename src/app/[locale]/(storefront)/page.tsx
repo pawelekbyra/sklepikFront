@@ -41,7 +41,10 @@ export async function generateMetadata({
 export default async function HomePage({ params }: HomePageProps) {
   const { locale } = await params;
   const basePath = buildBasePath(locale);
-  const currency = await resolveCurrency(getDefaultCountry());
+  // Not awaited here — resolved inside the Suspense-wrapped product grid so
+  // the static Hero can stream immediately instead of blocking on the
+  // backend's markets round-trip (see docs/technical-debt.md).
+  const currencyPromise = resolveCurrency(getDefaultCountry());
 
   return (
     <div>
@@ -50,7 +53,7 @@ export default async function HomePage({ params }: HomePageProps) {
         basePath={basePath}
         locale={locale}
         country={getDefaultCountry()}
-        currency={currency}
+        currencyPromise={currencyPromise}
       />
     </div>
   );

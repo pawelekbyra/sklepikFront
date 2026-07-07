@@ -29,7 +29,10 @@ export default async function ProductsPage({
   const { locale } = await params;
   const rawSearchParams = await searchParams;
   const basePath = buildBasePath(locale);
-  const currency = await resolveCurrency(getDefaultCountry());
+  // Not awaited here — resolved inside ProductListing's Suspense boundary
+  // so the page chrome (heading, breadcrumbs) can stream immediately
+  // instead of blocking on the backend's markets round-trip.
+  const currencyPromise = resolveCurrency(getDefaultCountry());
 
   const listingState = parseListingSearchParams(rawSearchParams);
   const query = listingState.query;
@@ -62,7 +65,7 @@ export default async function ProductsPage({
       <ProductListing
         state={listingState}
         basePath={basePath}
-        currency={currency}
+        currencyPromise={currencyPromise}
         locale={locale as Locale}
         listId={listId}
         listName={listName}

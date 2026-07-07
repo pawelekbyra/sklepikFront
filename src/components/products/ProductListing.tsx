@@ -26,7 +26,7 @@ const PAGE_SIZE = 12;
 interface ProductListingProps {
   state: ListingSearchParams;
   basePath: string;
-  currency?: string;
+  currencyPromise: Promise<string | undefined>;
   locale: Locale;
   listId: string;
   listName: string;
@@ -83,7 +83,7 @@ export function ProductListing(props: ProductListingProps): ReactElement {
 async function ProductListingInner({
   state,
   basePath,
-  currency,
+  currencyPromise,
   locale,
   listId,
   listName,
@@ -128,12 +128,13 @@ async function ProductListingInner({
   // error boundary rather than masquerade as a legitimate empty
   // results page. Filters fetch is cosmetic (facet counts) so we fall
   // back to a bare filter bar on failure.
-  const [productsResponse, filtersResponse] = await Promise.all([
+  const [productsResponse, filtersResponse, currency] = await Promise.all([
     fetchProducts({ ...listParams, page: 1 }),
     fetchFilters(filterFetchParams).catch((error) => {
       console.error("ProductListing: filters fetch failed", error);
       return null;
     }),
+    currencyPromise,
   ]);
 
   const products = productsResponse.data;

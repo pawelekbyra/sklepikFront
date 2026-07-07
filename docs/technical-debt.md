@@ -26,6 +26,16 @@ Dług dotyczący całego systemu (backend, deploy, dane) żyje w `sklepik/docs/r
 
 ## Zamknięte
 
+### 2026-07-07 — Strony blokowały się na `resolveCurrency` przed Suspense
+
+**Status:** zamknięte (2026-07-07)
+
+**Problem:** strona główna, listing produktów i strona kategorii robiły `await resolveCurrency(...)` bezpośrednio w komponencie strony (`page.tsx`), poza jakąkolwiek granicą `<Suspense>`. `resolveCurrency` woła Store API (`/api/v3/store/markets`) na backendzie Render. Skutek: cała strona — łącznie ze statyczną powłoką (Hero, nagłówki, breadcrumbs) — czekała na ten jeden request, zanim przeglądarka dostała cokolwiek. Przy wolniejszych odpowiedziach Render (obserwowane 1.7–5.7 s na `/api/v3/store/markets`, patrz `sklepik/docs/stan-projektu.md` pkt 5 — OOM/wydajność Render) dawało to kilkusekundowy biały ekran przy każdym cache miss (co godzinę, `cacheLife("hours")`).
+
+**Fix:** `resolveCurrency(...)` nie jest już await'owane w `page.tsx` — promise leci nierozwiązany do komponentów już opakowanych w `<Suspense>` (`FeaturedProducts`, `ProductListing`), gdzie jest await'owane równolegle z pobieraniem produktów/filtrów. Powłoka strony streamuje się natychmiast; skeleton pokazuje się tylko dla części zależnej od API.
+
+**Zasada na przyszłość:** żaden `await` do Store API nie powinien siedzieć bezpośrednio w `page.tsx` bez `<Suspense>` nad nim — zawsze przekazuj promise w dół do komponentu, który jest już pod granicą Suspense, i await'uj go tam (wzorzec `use()`/await z React 19, patrz `CLAUDE.md`).
+
 ### 2026-07-07 — Cache storefrontu bez inwalidacji on-demand
 
 **Status:** zamknięte (2026-07-07) — zadanie **F4** z `sklepik/docs/roadmap.md`
