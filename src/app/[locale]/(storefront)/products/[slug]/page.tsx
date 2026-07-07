@@ -54,7 +54,17 @@ export default async function ProductPage({
   let product: Awaited<ReturnType<typeof getCachedProduct>>;
   try {
     product = await getCachedProduct(slug, PRODUCT_PAGE_EXPAND);
-  } catch {
+    // TEMP DEBUG: log what actually came back before anything touches it.
+    console.error("[DEBUG product page]", {
+      slug,
+      productIsUndefined: product === undefined,
+      productIsNull: product === null,
+      productType: typeof product,
+      productKeys:
+        product && typeof product === "object" ? Object.keys(product) : null,
+    });
+  } catch (err) {
+    console.error("[DEBUG product page] threw", err);
     notFound();
   }
 
