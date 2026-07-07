@@ -6,6 +6,7 @@ import {
   handleOrderCompleted,
   handleOrderShipped,
   handlePasswordReset,
+  handleProductChanged,
 } from "@/lib/webhooks/handlers";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
@@ -25,6 +26,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       "order.canceled": handleOrderCanceled,
       "order.shipped": handleOrderShipped,
       "customer.password_reset_requested": handlePasswordReset,
+      "product.created": handleProductChanged,
+      "product.updated": handleProductChanged,
+      "product.deleted": handleProductChanged,
     },
   });
 

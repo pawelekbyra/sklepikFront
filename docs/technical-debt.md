@@ -14,16 +14,6 @@ Dług dotyczący całego systemu (backend, deploy, dane) żyje w `sklepik/docs/r
 
 ## Dług techniczny
 
-### 2026-07-06 — Cache storefrontu bez inwalidacji on-demand
-
-**Status:** otwarte
-
-**Skrót:** Produkty i rynki są cache'owane (`"use cache"` z TTL 10 min–godziny + edge Vercela) bez webhooka rewalidacyjnego. Zmiana w adminie jest widoczna po kilkunastu minutach.
-
-**Co trzeba zrobić:** endpoint webhookowy z `revalidateTag(...)` + event z backendu — zadanie **F4** w `sklepik/docs/roadmap.md`.
-
-**Warunek zamknięcia:** edycja w adminie widoczna w storefroncie w sekundach.
-
 ### 2026-07-06 — Idempotencja webhooków e-mail w pamięci procesu
 
 **Status:** otwarte
@@ -35,6 +25,14 @@ Dług dotyczący całego systemu (backend, deploy, dane) żyje w `sklepik/docs/r
 **Warunek zamknięcia:** restart procesu nie resetuje ochrony przed duplikatami.
 
 ## Zamknięte
+
+### 2026-07-07 — Cache storefrontu bez inwalidacji on-demand
+
+**Status:** zamknięte (2026-07-07) — zadanie **F4** z `sklepik/docs/roadmap.md`
+
+`/api/webhooks/spree` obsługuje teraz `product.created`/`product.updated`/`product.deleted` (`handleProductChanged` w `src/lib/webhooks/handlers.ts`) — przy każdej zmianie produktu w adminie backend wysyła webhook, handler busuje tagi `products`, `product-filters`, `product:{slug}` oraz `revalidatePath("/", "layout")`. Backend nie wymagał żadnych zmian — `Spree::Product` już publikował te eventy przez `publishes_lifecycle_events`.
+
+**Warunek operacyjny (nie kod):** w panelu admina → Ustawienia → Webhooks musi istnieć endpoint wskazujący na `{storefront}/api/webhooks/spree` z `product.created`/`product.updated`/`product.deleted` (lub `product.*`) w subskrypcjach, a `SPREE_WEBHOOK_SECRET` na Vercelu musi być tym samym sekretem co `secret_key` tego endpointu.
 
 ### 2026-07-05 — Deploy frontu na Vercel przed finalnym backendem
 
