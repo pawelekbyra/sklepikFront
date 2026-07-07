@@ -81,9 +81,7 @@ export async function cachedGetProduct(
   options: { locale?: string; country?: string },
   _userToken?: string,
 ) {
-  "use cache: remote";
-  cacheLife("tenMinutes");
-  cacheTag("products", `product:${slugOrId}`);
+  // TEMP DEBUG: cache disabled to isolate root cause (see cachedListProducts above).
   return getClient().products.get(slugOrId, { expand }, options);
 }
 
