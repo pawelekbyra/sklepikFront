@@ -62,9 +62,14 @@ export async function cachedListProducts(
 export async function getProducts(params?: ProductListParams) {
   if (!isSpreeConfigured()) return emptyProductListResponse();
 
-  const options = await getLocaleOptions();
-  const userToken = await getAccessToken();
-  return cachedListProducts(params, options, userToken);
+  try {
+    const options = await getLocaleOptions();
+    const userToken = await getAccessToken();
+    return await cachedListProducts(params, options, userToken);
+  } catch (error) {
+    console.error("getProducts: failed to fetch from API", error);
+    return emptyProductListResponse();
+  }
 }
 
 /**
@@ -94,9 +99,19 @@ export async function getProduct(
 ) {
   if (!isSpreeConfigured()) return undefined;
 
-  const options = await getLocaleOptions();
-  const userToken = await getAccessToken();
-  return cachedGetProduct(slugOrId, params?.expand ?? [], options, userToken);
+  try {
+    const options = await getLocaleOptions();
+    const userToken = await getAccessToken();
+    return await cachedGetProduct(
+      slugOrId,
+      params?.expand ?? [],
+      options,
+      userToken,
+    );
+  } catch (error) {
+    console.error("getProduct: failed to fetch from API", error);
+    return undefined;
+  }
 }
 
 async function cachedGetProductFilters(
@@ -113,7 +128,12 @@ async function cachedGetProductFilters(
 export async function getProductFilters(params?: Record<string, unknown>) {
   if (!isSpreeConfigured()) return emptyProductFiltersResponse();
 
-  const options = await getLocaleOptions();
-  const userToken = await getAccessToken();
-  return cachedGetProductFilters(params, options, userToken);
+  try {
+    const options = await getLocaleOptions();
+    const userToken = await getAccessToken();
+    return await cachedGetProductFilters(params, options, userToken);
+  } catch (error) {
+    console.error("getProductFilters: failed to fetch from API", error);
+    return emptyProductFiltersResponse();
+  }
 }

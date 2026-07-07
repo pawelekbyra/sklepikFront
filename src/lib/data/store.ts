@@ -46,5 +46,10 @@ async function cachedGetStore(): Promise<StoreInfo> {
 export async function getStoreInfo(): Promise<StoreInfo | undefined> {
   if (!isSpreeConfigured()) return undefined;
 
-  return cachedGetStore();
+  try {
+    return await cachedGetStore();
+  } catch (error) {
+    console.error("getStoreInfo: failed to fetch from API", error);
+    return undefined;
+  }
 }
