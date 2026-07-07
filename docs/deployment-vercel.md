@@ -26,7 +26,8 @@ Prawdziwe wartości ustawiamy wyłącznie w Vercel (Project Settings → Environ
 ### Opcjonalne
 
 - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` — płatności Stripe (jeszcze nieskonfigurowane; roadmapa Faza 2).
-- `SPREE_WEBHOOK_SECRET`, `RESEND_API_KEY`, `EMAIL_FROM` — e-maile transakcyjne przez webhooki (`src/app/api/webhooks/spree`).
+- `SPREE_WEBHOOK_SECRET` — weryfikacja podpisu `/api/webhooks/spree`; obsługuje e-maile transakcyjne (order.*, customer.password_reset_requested) **i** rewalidację cache po zmianie produktu (product.created/updated/deleted). Musi być identyczny z `secret_key` webhook endpointu ustawionego w adminie (Ustawienia → Webhooks) wskazującego na `{storefront}/api/webhooks/spree`.
+- `RESEND_API_KEY`, `EMAIL_FROM` — dostawca e-maili transakcyjnych.
 - `SENTRY_DSN` + `SENTRY_ORG` + `SENTRY_PROJECT` + `SENTRY_AUTH_TOKEN` — monitoring (wszystkie albo żadna); `*_SEND_DEFAULT_PII=true` tylko za zgodą użytkowników.
 
 ## Test lokalny przed deployem
@@ -44,8 +45,9 @@ npx vitest run
 - [ ] Sentry skonfigurowane w całości albo wcale
 - [ ] Katalog, strona produktu, koszyk i checkout działają
 - [ ] Obrazy produktów ładują się (z R2 przez `CDN_HOST` backendu; host backendu musi być też wpisany w `images.remotePatterns` w `next.config.ts`, inaczej `next/image` odrzuca URL)
+- [ ] W adminie (Ustawienia → Webhooks) istnieje endpoint na `{storefront}/api/webhooks/spree` z `product.created`/`product.updated`/`product.deleted` w subskrypcjach — bez tego zmiany produktów w adminie są widoczne w sklepie dopiero po TTL cache (do 10 min)
 
 ## Znane ograniczenia
 
-- **Cache:** produkty/rynki są cache'owane (`"use cache"` + edge Vercela) — zmiany z admina widać po ~10–15 min, dopóki nie powstanie webhook rewalidacyjny (roadmapa F4 w `sklepik/docs/roadmap.md`).
+- **Cache:** produkty/rynki są cache'owane (`"use cache"` + edge Vercela, TTL do 10 min). Zmiana produktu w adminie wywołuje webhook `product.*` → `/api/webhooks/spree` rewaliduje cache w sekundach (F4, zamknięte) — **pod warunkiem** że webhook endpoint jest skonfigurowany w adminie (patrz checklist wyżej). Zmiany rynków/cen poza produktem nadal czekają na TTL.
 - Backend na darmowym Renderze ma cold start ~18 s po bezczynności — pierwsze żądanie po przerwie bywa wolne; to backend, nie front.

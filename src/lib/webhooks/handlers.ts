@@ -1,5 +1,6 @@
-import type { Order } from "@spree/sdk";
+import type { Order, Product } from "@spree/sdk";
 import type { WebhookEvent } from "@spree/sdk/webhooks";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { createElement } from "react";
 import { OrderCanceledEmail } from "@/lib/emails/order-canceled";
 import { OrderConfirmationEmail } from "@/lib/emails/order-confirmation";
@@ -221,4 +222,25 @@ export async function handlePasswordReset(
   });
 
   markProcessed(event.id);
+}
+
+/**
+ * Handle product.created / product.updated / product.deleted webhooks —
+ * busts the "use cache" entries from src/lib/data/products.ts so catalog
+ * changes made in the admin show up immediately instead of after the
+ * 10-minute cacheLife TTL. See docs/technical-debt.md (F4).
+ *
+ * "max" forces an immediate bust regardless of the cacheLife profile the
+ * entry was cached under (passing the profile name back does not).
+ * revalidatePath is also needed because the rendered page HTML (Full Route
+ * Cache / PPR shell) is cached separately from the underlying data fetch.
+ */
+export async function handleProductChanged(event: WebhookEvent<Product>) {
+  const product = event.data;
+
+  revalidateTag("products", "max");
+  revalidateTag("product-filters", "max");
+  if (product.slug) revalidateTag(`product:${product.slug}`, "max");
+
+  revalidatePath("/", "layout");
 }
