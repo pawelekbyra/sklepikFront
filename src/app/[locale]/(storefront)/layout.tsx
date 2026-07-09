@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 import type { Category } from "@spree/sdk";
 import Link from "next/link";
