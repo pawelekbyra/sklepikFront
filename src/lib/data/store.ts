@@ -30,8 +30,6 @@ export interface StoreInfo {
 }
 
 async function cachedGetStore(): Promise<StoreInfo> {
-  "use cache: remote";
-  cacheLife("hours");
   cacheTag("store");
   return getClient().request<StoreInfo>("GET", "/store");
 }

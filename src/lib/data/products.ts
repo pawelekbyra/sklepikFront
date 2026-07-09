@@ -53,8 +53,6 @@ export async function cachedListProducts(
   options: { locale?: string; country?: string },
   _userToken?: string,
 ) {
-  "use cache: remote";
-  cacheLife("tenMinutes");
   cacheTag("products");
   return getClient().products.list(params, options);
 }
@@ -87,8 +85,6 @@ export async function cachedGetProduct(
   options: { locale?: string; country?: string },
   _userToken?: string,
 ) {
-  "use cache: remote";
-  cacheLife("tenMinutes");
   cacheTag("products", `product:${slugOrId}`);
   return getClient().products.get(slugOrId, { expand }, options);
 }
@@ -119,8 +115,6 @@ async function cachedGetProductFilters(
   options: { locale?: string; country?: string },
   _userToken?: string,
 ) {
-  "use cache: remote";
-  cacheLife("tenMinutes");
   cacheTag("product-filters");
   return getClient().products.filters(params, options);
 }
