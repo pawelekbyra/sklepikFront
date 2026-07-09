@@ -29,7 +29,6 @@ export interface StoreInfo {
 }
 
 async function cachedGetStore(): Promise<StoreInfo> {
-  cacheTag("store");
   return getClient().request<StoreInfo>("GET", "/store");
 }
 

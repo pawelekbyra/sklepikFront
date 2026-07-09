@@ -13,7 +13,6 @@ async function cachedListCategories(
   params: CategoryListParams | undefined,
   options: { locale?: string; country?: string },
 ) {
-  cacheTag("categories");
   return getClient().categories.list(params, options);
 }
 
@@ -34,7 +33,6 @@ async function cachedGetCategory(
   params: { expand?: string[] } | undefined,
   options: { locale?: string; country?: string },
 ) {
-  cacheTag("category");
   return getClient().categories.get(idOrPermalink, params, options);
 }
 
@@ -82,7 +80,6 @@ async function cachedListCategoryProducts(
   options: { locale?: string; country?: string },
   _userToken?: string,
 ) {
-  cacheTag("products", `category-products:${categoryId}`);
   return getClient().products.list(
     { ...params, in_category: categoryId },
     options,

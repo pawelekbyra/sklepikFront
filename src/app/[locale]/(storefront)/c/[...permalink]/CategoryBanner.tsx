@@ -13,8 +13,6 @@ export async function CategoryBanner({
   basePath,
   locale,
 }: CategoryBannerProps) {
-  cacheTag("category-banner");
-
   return (
     <>
       <div

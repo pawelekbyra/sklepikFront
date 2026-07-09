@@ -8,7 +8,6 @@ async function cachedListMarkets(options: {
   locale?: string;
   country?: string;
 }) {
-  cacheTag("markets");
   return getClient().markets.list(options);
 }
 
@@ -16,7 +15,6 @@ async function cachedResolveMarket(
   country: string,
   options: { locale?: string; country?: string },
 ) {
-  cacheTag("resolved-market");
   return getClient().markets.resolve(country, options);
 }
 
@@ -24,7 +22,6 @@ async function cachedListMarketCountries(
   marketId: string,
   options: { locale?: string; country?: string },
 ) {
-  cacheTag("market-countries");
   return getClient().markets.countries.list(marketId, options);
 }
 
