@@ -1,6 +1,6 @@
 # Deployment storefrontu (Vercel)
 
-Storefront jest wdrażany na Vercel: projekt **`sklepik_front`**, produkcja `sklepikkk.vercel.app`, deploy automatyczny z gałęzi `main` tego repo. Backend, z którym rozmawia, żyje na Render (`kakaowy-sklepik.onrender.com`) — mapa całego systemu: `sklepik/docs/architektura.md`.
+Storefront jest wdrażany na Vercel: projekt **`sklepik_front`**, produkcja `sklepikkk.vercel.app`, deploy automatyczny z gałęzi `main` tego repo. Backend, z którym rozmawia, żyje na **Oracle VPS** (`http://141.253.103.172`; zmigrowany z Render 2026-07-09) — mapa całego systemu: `sklepik/docs/architektura.md`.
 
 ## Zmienne środowiskowe
 
@@ -10,7 +10,7 @@ Prawdziwe wartości ustawiamy wyłącznie w Vercel (Project Settings → Environ
 
 | Zmienna | Rola |
 |---|---|
-| `SPREE_API_URL` | Adres backendu (produkcyjnie: `https://kakaowy-sklepik.onrender.com`; lokalnie `http://localhost:3000`) |
+| `SPREE_API_URL` | Adres backendu (produkcyjnie: `http://141.253.103.172` Oracle VPS; lokalnie `http://localhost:3000`) |
 | `SPREE_PUBLISHABLE_KEY` | Publiczny klucz Store API (generowany w backendzie; to nie jest klucz Stripe) |
 | `NEXT_PUBLIC_SITE_URL` | Publiczny adres storefrontu (SEO, sitemap, canonical) |
 
@@ -50,4 +50,4 @@ npx vitest run
 ## Znane ograniczenia
 
 - **Cache:** produkty/rynki są cache'owane (`"use cache"` + edge Vercela, TTL do 10 min). Zmiana produktu w adminie wywołuje webhook `product.*` → `/api/webhooks/spree` rewaliduje cache w sekundach (F4, zamknięte) — **pod warunkiem** że webhook endpoint jest skonfigurowany w adminie (patrz checklist wyżej). Zmiany rynków/cen poza produktem nadal czekają na TTL.
-- Backend na darmowym Renderze ma cold start ~18 s po bezczynności — pierwsze żądanie po przerwie bywa wolne; to backend, nie front.
+- Backend na Oracle VPS (od 2026-07-09): Self-signed TLS certificate. Frontend musi używać `http://` zamiast `https://` aby uniknąć certificate rejection w Node.js. Permanent fix: Deploy Let's Encrypt certificate z prawdziwą domeną.
