@@ -229,10 +229,8 @@ export async function handlePasswordReset(
  * activated, archived, out_of_stock, back_in_stock) — all carry the same
  * serialized-product payload, so one handler busts the "use cache" entries
  * from src/lib/data/products.ts for all of them. Catalog changes made in
- * the admin show up immediately instead of after the 10-minute cacheLife
  * TTL. See docs/technical-debt.md (F4).
  *
- * "max" forces an immediate bust regardless of the cacheLife profile the
  * entry was cached under (passing the profile name back does not).
  * revalidatePath is also needed because the rendered page HTML (Full Route
  * Cache / PPR shell) is cached separately from the underlying data fetch.

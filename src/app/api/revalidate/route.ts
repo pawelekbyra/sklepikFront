@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 
 /**
  * Manual escape hatch for the product-list "use cache" entries
- * (`cacheLife('tenMinutes')`, tag `products`/`product-filters` in
  * `src/lib/data/products.ts`). Lets an operator force a refresh after an
  * admin-side catalog change instead of waiting out the cache life.
  *
@@ -28,7 +27,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // "max" forces an immediate, full invalidation regardless of the cacheLife
   // profile the entry was cached under — passing the profile name back
   // (e.g. "tenMinutes") does NOT force an immediate bust, it just re-applies
   // that profile's own timing rules, which is why calling this with
