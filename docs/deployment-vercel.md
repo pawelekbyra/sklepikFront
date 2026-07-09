@@ -1,6 +1,6 @@
 # Deployment storefrontu (Vercel)
 
-Storefront jest wdrażany na Vercel: projekt **`sklepik_front`**, produkcja `sklepikkk.vercel.app`, deploy automatyczny z gałęzi `main` tego repo. Backend, z którym rozmawia, żyje na **Oracle VPS** (`http://141.253.103.172`; zmigrowany z Render 2026-07-09) — mapa całego systemu: `sklepik/docs/architektura.md`.
+Storefront jest wdrażany na Vercel: projekt **`sklepik_front`**, produkcja `sklepikkk.vercel.app`, deploy automatyczny z gałęzi `main` tego repo. Backend, z którym rozmawia, żyje na **Oracle VPS** (`https://141-253-103-172.nip.io`; zmigrowany z Render 2026-07-09) — mapa całego systemu: `sklepik/docs/architektura.md`.
 
 ## Zmienne środowiskowe
 
@@ -10,7 +10,7 @@ Prawdziwe wartości ustawiamy wyłącznie w Vercel (Project Settings → Environ
 
 | Zmienna | Rola |
 |---|---|
-| `SPREE_API_URL` | Adres backendu (produkcyjnie: `http://141.253.103.172` Oracle VPS; lokalnie `http://localhost:3000`) |
+| `SPREE_API_URL` | Adres backendu (produkcyjnie: `https://141-253-103-172.nip.io` Oracle VPS, zaufany cert Let's Encrypt; lokalnie `http://localhost:3000`) |
 | `SPREE_PUBLISHABLE_KEY` | Publiczny klucz Store API (generowany w backendzie; to nie jest klucz Stripe) |
 | `NEXT_PUBLIC_SITE_URL` | Publiczny adres storefrontu (SEO, sitemap, canonical) |
 
@@ -50,4 +50,4 @@ npx vitest run
 ## Znane ograniczenia
 
 - **Cache:** produkty/rynki są cache'owane (`"use cache"` + edge Vercela, TTL do 10 min). Zmiana produktu w adminie wywołuje webhook `product.*` → `/api/webhooks/spree` rewaliduje cache w sekundach (F4, zamknięte) — **pod warunkiem** że webhook endpoint jest skonfigurowany w adminie (patrz checklist wyżej). Zmiany rynków/cen poza produktem nadal czekają na TTL.
-- **TEMPORARY WORKAROUND (2026-07-09):** Backend Nginx redirects `http://` → `https://`, which breaks Node.js fetches (self-signed cert rejection). Disabled redirect to allow `http://` API calls. ⚠️ **This is NOT production-ready** — requires Let's Encrypt deployment before any real customer access. See `docs/vercel-build-fix-2026-07-09.md` for full details and permanent fix instructions.
+- **RESOLVED (2026-07-09):** Backend now serves a trusted Let's Encrypt certificate for `141-253-103-172.nip.io` (free wildcard DNS pointing at the Oracle VPS IP — no domain purchase needed). Node.js fetches work over `https://` again; HTTP→HTTPS redirect is re-enabled. See `docs/vercel-build-fix-2026-07-09.md` for history.
