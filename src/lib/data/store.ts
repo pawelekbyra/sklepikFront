@@ -1,6 +1,5 @@
 "use server";
 
-import { cacheLife, cacheTag } from "next/cache";
 import { getClient } from "@/lib/spree";
 import { isSpreeConfigured } from "@/lib/spree/config";
 

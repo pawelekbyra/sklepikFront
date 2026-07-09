@@ -6,7 +6,6 @@ import type {
   ProductFiltersResponse,
   ProductListParams,
 } from "@spree/sdk";
-import { cacheLife, cacheTag } from "next/cache";
 import { getAccessToken, getClient, getLocaleOptions } from "@/lib/spree";
 import { isSpreeConfigured } from "@/lib/spree/config";
 

@@ -1,6 +1,5 @@
 "use server";
 
-import { cacheLife, cacheTag } from "next/cache";
 import { getClient, getLocaleOptions } from "@/lib/spree";
 
 export async function getCountries() {
@@ -12,8 +11,6 @@ async function cachedGetCountry(
   iso: string,
   options: { locale?: string; country?: string },
 ) {
-  "use cache: remote";
-  cacheLife("hours");
   cacheTag("country", `country-${iso}`);
   return getClient().countries.get(iso, { expand: ["states"] }, options);
 }

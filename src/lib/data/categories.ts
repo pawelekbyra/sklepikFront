@@ -6,7 +6,6 @@ import type {
   Product,
   ProductListParams,
 } from "@spree/sdk";
-import { cacheLife, cacheTag } from "next/cache";
 import { getAccessToken, getClient, getLocaleOptions } from "@/lib/spree";
 import { isSpreeConfigured } from "@/lib/spree/config";
 
@@ -14,8 +13,6 @@ async function cachedListCategories(
   params: CategoryListParams | undefined,
   options: { locale?: string; country?: string },
 ) {
-  "use cache: remote";
-  cacheLife("hours");
   cacheTag("categories");
   return getClient().categories.list(params, options);
 }
@@ -37,8 +34,6 @@ async function cachedGetCategory(
   params: { expand?: string[] } | undefined,
   options: { locale?: string; country?: string },
 ) {
-  "use cache: remote";
-  cacheLife("tenMinutes");
   cacheTag("category");
   return getClient().categories.get(idOrPermalink, params, options);
 }
@@ -87,8 +82,6 @@ async function cachedListCategoryProducts(
   options: { locale?: string; country?: string },
   _userToken?: string,
 ) {
-  "use cache: remote";
-  cacheLife("tenMinutes");
   cacheTag("products", `category-products:${categoryId}`);
   return getClient().products.list(
     { ...params, in_category: categoryId },
