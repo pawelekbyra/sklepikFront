@@ -111,9 +111,34 @@ All commits in order:
 ### Issue 1: Backend HTTP→HTTPS Redirect
 **Problem:** Backend (Nginx on Oracle) redirects `http://` → `https://` automatically. Even with `SPREE_API_URL=http://141.253.103.172`, Node.js fetch follows the redirect to HTTPS and rejects the self-signed cert.
 
-**Current Workaround:** Use `http://` and temporarily disable Nginx redirect during testing.
+**Current Workaround (TEMPORARY):** Disable Nginx redirect to allow `http://` fetches. 
+```bash
+ssh root@141.253.103.172
+sudo nano /etc/nginx/sites-enabled/default
+# Comment out: return 301 https://$server_name$request_uri;
+sudo systemctl reload nginx
+```
 
-**Permanent Fix:** Deploy Let's Encrypt certificate on backend with valid domain name.
+⚠️ **CRITICAL NOTICE:** This is a **TEMPORARY WORKAROUND ONLY**. 
+- HTTP without encryption is NOT suitable for production
+- Products will load but no transport encryption
+- Temporary window for testing/development only
+
+**MUST DO BEFORE PRODUCTION:**
+Deploy Let's Encrypt certificate on backend with a valid domain name (e.g., `api.kakałowy-sklepik.pl`). See `docs/vercel-build-fix-2026-07-09.md` → "Permanent Solution" section for full instructions.
+
+**Permanent Fix (Do This Next):** 
+1. Register domain for backend (e.g., `api.kakałowy-sklepik.pl`)
+2. Point DNS to `141.253.103.172`
+3. SSH to backend and run Certbot:
+   ```bash
+   sudo certbot certonly --standalone -d api.kakałowy-sklepik.pl
+   ```
+4. Configure Nginx with Let's Encrypt certificate
+5. Update `SPREE_API_URL` on Vercel to `https://api.kakałowy-sklepik.pl`
+6. Re-enable Nginx HTTPS redirect
+
+**Timeline:** Deploy temporary fix now (hours), permanent fix before any real customer access (days).
 
 ### Issue 2: Vercel Build Limits
 Free tier Vercel account may have build deployment limits. If deployments don't appear after push, check:

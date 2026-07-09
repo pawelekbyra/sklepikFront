@@ -50,4 +50,4 @@ npx vitest run
 ## Znane ograniczenia
 
 - **Cache:** produkty/rynki są cache'owane (`"use cache"` + edge Vercela, TTL do 10 min). Zmiana produktu w adminie wywołuje webhook `product.*` → `/api/webhooks/spree` rewaliduje cache w sekundach (F4, zamknięte) — **pod warunkiem** że webhook endpoint jest skonfigurowany w adminie (patrz checklist wyżej). Zmiany rynków/cen poza produktem nadal czekają na TTL.
-- Backend na Oracle VPS (od 2026-07-09): Self-signed TLS certificate. Frontend musi używać `http://` zamiast `https://` aby uniknąć certificate rejection w Node.js. Permanent fix: Deploy Let's Encrypt certificate z prawdziwą domeną.
+- **TEMPORARY WORKAROUND (2026-07-09):** Backend Nginx redirects `http://` → `https://`, which breaks Node.js fetches (self-signed cert rejection). Disabled redirect to allow `http://` API calls. ⚠️ **This is NOT production-ready** — requires Let's Encrypt deployment before any real customer access. See `docs/vercel-build-fix-2026-07-09.md` for full details and permanent fix instructions.
