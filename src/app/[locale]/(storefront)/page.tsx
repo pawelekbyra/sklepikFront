@@ -18,26 +18,15 @@ interface HomePageProps {
   }>;
 }
 
-/**
- * Prebuild the homepage shell for every locale the store serves (the
- * default, unprefixed locale plus every locale with a URL prefix). Next.js
- * reuses the static shell (hero + featured section chrome) while featured
- * products stream in under Suspense.
- */
-export async function generateStaticParams() {
-  const defaultLocale = getDefaultLocale();
-  const locales = [
-    defaultLocale,
-    ...getPrefixedLocales().filter((l) => l !== defaultLocale),
-  ];
-  return locales.map((locale) => ({ locale }));
-}
-
 export async function generateMetadata({
   params,
 }: HomePageProps): Promise<Metadata> {
   const { locale } = await params;
-  return generateHomeMetadata({ locale });
+  try {
+    return generateHomeMetadata({ locale });
+  } catch (error) {
+    return { title: "Shop" };
+  }
 }
 
 export default async function HomePage({ params }: HomePageProps) {
