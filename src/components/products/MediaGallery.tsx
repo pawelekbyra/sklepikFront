@@ -157,7 +157,7 @@ function MediaGalleryInner({
           src={mainImageUrl}
           alt={selectedImage?.alt || productName}
           fill
-          className="object-cover"
+          className="object-contain"
           fetchPriority="high"
           loading="eager"
           priority
