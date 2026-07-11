@@ -54,6 +54,11 @@ const nextConfig: NextConfig = {
         hostname: "kakaowy-sklepik.onrender.com",
         pathname: "/rails/active_storage/**",
       },
+      {
+        protocol: "https",
+        hostname: "141-253-103-172.nip.io",
+        pathname: "/rails/active_storage/**",
+      },
     ],
   },
 };
