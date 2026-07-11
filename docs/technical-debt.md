@@ -48,19 +48,19 @@ Nagłówek (`Header.tsx`) renderuje `logo_url` z nowego publicznego Store API za
 
 **Zastosowana mitygacja:** `getMainImageUrl` preferuje teraz `large_url` (720×720 — i tak udokumentowany w Spree jako rozmiar pod galerię produktową) przed `xlarge_url`. Mniej pikseli = radykalnie krótszy czas generowania przy zimnym cache, mniejsze ryzyko przekroczenia timeoutu. `xlarge` zostaje tylko w `MediaLightbox` (powiększenie na kliknięcie — świadoma akcja użytkownika, może poczekać).
 
-**Co zostaje nierozwiązane:** to mitygacja ryzyka, nie usunięcie przyczyny — każdy nowy rozmiar wariantu nadal generuje się leniwie przy pierwszym żądaniu, więc pierwszy odwiedzający wciąż może trafić na wolne (choć krótsze) oczekiwanie. Trwałe rozwiązanie: generowanie wariantów w tle zaraz po uploadzie zdjęcia (wymaga workera Sidekiq — **F7** w `sklepik/docs/roadmap.md`, obecnie wyłączony na darmowym/starter planie Render).
+**Co zostaje nierozwiązane:** to mitygacja ryzyka, nie usunięcie przyczyny — każdy nowy rozmiar wariantu nadal generuje się leniwie przy pierwszym żądaniu, więc pierwszy odwiedzający wciąż może trafić na wolne (choć krótsze) oczekiwanie. Trwałe rozwiązanie: generowanie wariantów w tle zaraz po uploadzie zdjęcia — worker Sidekiq już działa (F7 zamknięte, backend na Oracle Cloud od 2026-07-09), ale nic jeszcze nie enqueue'uje tego joba, patrz **F20** w `sklepik/docs/roadmap.md`.
 
 **Warunek zamknięcia:** worker w tle pre-generuje warianty przy uploadzie (F7 domknięte), więc żaden odwiedzający nigdy nie trafia na zimne generowanie.
 
 ### 2026-07-06 — Idempotencja webhooków e-mail w pamięci procesu
 
-**Status:** otwarte
+**Status:** zamknięte kodowo 2026-07-11, wymaga konfiguracji właściciela
 
-**Skrót:** ochrona przed duplikatami zdarzeń to `Set` w pamięci (`src/lib/webhooks/handlers.ts`); restart instancji Vercela ją zeruje — klient może dostać duplikat e-maila.
+**Skrót:** ochrona przed duplikatami zdarzeń przeniesiona z `Set` w pamięci na Upstash Redis (`src/lib/webhooks/idempotency.ts`, klucz `webhook-processed:{eventId}`, TTL 7 dni) — restart instancji Vercela już nie zeruje ochrony, **pod warunkiem że `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN` (albo `KV_REST_API_URL`/`KV_REST_API_TOKEN` z Vercel KV) są ustawione**. Bez nich moduł po cichu wraca do starego zachowania (in-memory `Set`, log ostrzeżenia w produkcji) — działa, ale nie jest trwałe.
 
-**Co trzeba zrobić:** trwały magazyn (Redis / Postgres z unique constraint + TTL) — zadanie **F6** w `sklepik/docs/roadmap.md`.
+**Co trzeba zrobić:** właściciel zakłada bazę Upstash Redis (darmowy plan wystarcza) albo podłącza Vercel KV do projektu i ustawia dwie zmienne środowiskowe na Vercelu — kod jest gotowy na obie konwencje nazw.
 
-**Warunek zamknięcia:** restart procesu nie resetuje ochrony przed duplikatami.
+**Warunek zamknięcia:** ✅ kod gotowy (F6 w `sklepik/docs/roadmap.md`). Pełne zamknięcie operacyjne — gdy zmienne są faktycznie ustawione na produkcji.
 
 ## Zamknięte
 
