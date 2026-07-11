@@ -40,8 +40,8 @@ Branding trafia głównie do: layoutu, homepage, headera, footera, komponentów 
 
 Jeśli frontend potrzebuje nowego pola, endpointu albo logiki commerce — nie udajemy tego hardcodem; opisujemy wymaganie względem repo `sklepik`.
 
-## Aktualny etap (2026-07-06)
+## Aktualny etap (2026-07-11)
 
-Zrobione: rebranding podstawowy (nazwa, layout bez elementów demo), polski domyślny locale bez prefiksu URL, katalog i strony produktów działają na realnych danych z backendu.
+Zrobione: rebranding podstawowy (nazwa, layout bez elementów demo), polski domyślny locale bez prefiksu URL, katalog i strony produktów działają na realnych danych z backendu, rewalidacja cache po zmianach w adminie w tym edycji cen (F4, zamknięte), trwała idempotencja webhooków e-mail przez Upstash Redis (F6, zamknięte kodowo — wymaga ustawienia zmiennych środowiskowych na Vercelu, patrz `docs/technical-debt.md`).
 
-Przed nami (kolejność wg `sklepik/docs/roadmap.md`): rewalidacja cache po zmianach w adminie (F4), trwała idempotencja webhooków e-mail (F6), potem pełny branding premium, strony informacyjne i płatności w Fazie 2.
+Przed nami (kolejność wg `sklepik/docs/roadmap.md`): pełny branding premium, strony informacyjne, strony prawne i płatności w Fazie 2.

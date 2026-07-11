@@ -28,6 +28,7 @@ Prawdziwe wartości ustawiamy wyłącznie w Vercel (Project Settings → Environ
 - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` — płatności Stripe (jeszcze nieskonfigurowane; roadmapa Faza 2).
 - `SPREE_WEBHOOK_SECRET` — weryfikacja podpisu `/api/webhooks/spree`; obsługuje e-maile transakcyjne (order.*, customer.password_reset_requested) **i** rewalidację cache po zmianie produktu (product.created/updated/deleted). Musi być identyczny z `secret_key` webhook endpointu ustawionego w adminie (Ustawienia → Webhooks) wskazującego na `{storefront}/api/webhooks/spree`.
 - `RESEND_API_KEY`, `EMAIL_FROM` — dostawca e-maili transakcyjnych.
+- `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` (albo `KV_REST_API_URL`/`KV_REST_API_TOKEN` z Vercel KV) — trwała idempotencja webhooków e-mail (F6); bez nich ochrona przed duplikatami jest tylko w pamięci i resetuje się przy każdym cold starcie.
 - `SENTRY_DSN` + `SENTRY_ORG` + `SENTRY_PROJECT` + `SENTRY_AUTH_TOKEN` — monitoring (wszystkie albo żadna); `*_SEND_DEFAULT_PII=true` tylko za zgodą użytkowników.
 
 ## Test lokalny przed deployem
