@@ -51,3 +51,7 @@ Przed nami (kolejność wg `sklepik/docs/roadmap.md`): pełny branding premium, 
 Strona główna została przekształcona z generycznego storefrontu w dom marki **Serowy Michał**. Główna narracja prowadzi przez osobowość rzemieślniczej firmy, a sklep jest świadomie potraktowany jako opcja zakupowa. Flagowym produktem komunikowanym na froncie są **HEJARTY**; realne dane produktowe nadal pochodzą ze Store API, bez hardcodowania cen, wariantów i logiki commerce w frontendzie.
 
 Zakres tej zmiany obejmuje homepage, wejście do podstrony sklepu, header i footer. Checkout oraz koszyk nie były zmieniane.
+
+## Ujednolicenie sklepu z landingiem (2026-07-12)
+
+Po dopracowaniu warstwy wizualnej elementy sklepowe — listing, karty produktów, filtry, wejście do katalogu oraz strona produktu — używają tego samego języka co landing Serowego Michała: ciepłe tła, ciemne akcenty, zaokrąglone karty, produktowy charakter HEJARTÓW i narrację, że zakup jest naturalnym dalszym krokiem w domu marki. Logika commerce nadal pozostaje w Store API; zmiana dotyczy wyłącznie doświadczenia i oprawy frontowej.

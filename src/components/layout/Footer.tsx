@@ -6,6 +6,7 @@ import { getStoreName } from "@/lib/store";
 import { CurrentYear } from "./CurrentYear";
 
 const storeName = getStoreName();
+const brandName = "Serowy Michał";
 
 interface FooterProps {
   rootCategories: Category[];
@@ -28,7 +29,7 @@ export async function Footer({
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
             <span className="text-xl font-black tracking-[-0.04em] text-[#ffd166]">
-              {storeName}
+              {brandName}
             </span>
             <p className="mt-4 text-sm text-neutral-400">
               Serowy Michał to domowa opowieść o rzemiośle, charakterze i

@@ -74,6 +74,32 @@ export default async function ProductsPage({
       </section>
 
       <div className="container mx-auto px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mb-8 grid gap-4 rounded-[2rem] border border-[#3b2415]/10 bg-[#26180f] p-6 text-white shadow-2xl shadow-[#3b2415]/15 md:grid-cols-3">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffd166]">
+              01 / HEJARTY
+            </p>
+            <p className="mt-2 text-sm text-white/70">
+              Produkt-bohater prowadzi do zakupu bez utraty klimatu strony.
+            </p>
+          </div>
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffd166]">
+              02 / Store API
+            </p>
+            <p className="mt-2 text-sm text-white/70">
+              Ceny, warianty i dostępność zostają źródłowo w backendzie.
+            </p>
+          </div>
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffd166]">
+              03 / Serowy styl
+            </p>
+            <p className="mt-2 text-sm text-white/70">
+              Karty, filtry i listing mają ten sam język wizualny co landing.
+            </p>
+          </div>
+        </div>
         <ProductListing
           state={listingState}
           basePath={basePath}

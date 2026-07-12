@@ -86,17 +86,17 @@ export function FilterChips({
   if (chips.length === 0) return null;
 
   return (
-    <div className="flex flex-wrap items-center gap-2 mt-3">
+    <div className="mt-3 flex flex-wrap items-center gap-2">
       {chips.map((chip) => (
         <span
           key={chip.key}
-          className="inline-flex items-center gap-1.5 px-3 py-1 text-sm bg-gray-50 text-primary rounded-lg"
+          className="inline-flex items-center gap-1.5 rounded-full bg-[#26180f] px-3 py-1 text-sm font-semibold text-[#ffd166]"
         >
           <span>{chip.label}</span>
           <button
             type="button"
             onClick={chip.onRemove}
-            className="p-0.5 text-primary hover:text-primary transition-colors"
+            className="p-0.5 text-[#ffd166] transition-colors hover:text-white"
             aria-label={t("clearFilter", { label: chip.label })}
           >
             <X className="w-3.5 h-3.5" />

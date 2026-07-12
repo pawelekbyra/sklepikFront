@@ -8,7 +8,6 @@ import { CartButton } from "@/components/layout/CartButton";
 import { SearchToggle } from "@/components/layout/SearchToggle";
 import { Button } from "@/components/ui/button";
 import type { StoreInfo } from "@/lib/data/store";
-import { getStoreName } from "@/lib/store";
 
 const LazyMobileMenu = dynamic(
   () =>
@@ -36,7 +35,7 @@ const LazyLanguageSwitcher = dynamic(
   },
 );
 
-const storeName = getStoreName();
+const brandName = "Serowy Michał";
 
 interface HeaderProps {
   rootCategories: Category[];
@@ -68,7 +67,7 @@ export async function Header({
           {logoUrl ? (
             <Image
               src={logoUrl}
-              alt={storeName}
+              alt={brandName}
               width={200}
               height={80}
               priority
@@ -76,7 +75,7 @@ export async function Header({
             />
           ) : (
             <span className="truncate text-lg font-black tracking-[-0.03em] text-[#26180f]">
-              {storeName}
+              {brandName}
             </span>
           )}
         </Link>

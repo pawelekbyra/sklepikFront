@@ -127,7 +127,7 @@ export function InfiniteProductList({
 
   return (
     <>
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {products.map((product, index) => (
           <ProductCard
             key={product.id}
@@ -145,16 +145,18 @@ export function InfiniteProductList({
 
       <div
         ref={sentinelRef}
-        className="h-20 flex items-center justify-center mt-8"
+        className="mt-8 flex h-20 items-center justify-center"
       >
         {isPending && (
-          <div className="flex items-center gap-2 text-gray-500">
+          <div className="flex items-center gap-2 rounded-full bg-[#fffaf0] px-4 py-2 text-[#6b4428]">
             <Loader2 className="animate-spin h-5 w-5" />
             {t("loadingMore")}
           </div>
         )}
         {!hasError && !hasMore && products.length > 0 && (
-          <p className="text-gray-500 text-sm">{t("noMoreProducts")}</p>
+          <p className="text-sm font-semibold text-[#6b4428]">
+            {t("noMoreProducts")}
+          </p>
         )}
       </div>
     </>
