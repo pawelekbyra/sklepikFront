@@ -125,7 +125,7 @@ export function ProductDetails({ product, basePath }: ProductDetailsProps) {
         {/* Product Info */}
         <div className="rounded-[2rem] bg-[#fffaf0] p-6 lg:p-8">
           <p className="text-sm font-black uppercase tracking-[0.35em] text-[#d95d00]">
-            produkt Serowego Michała
+            HEJKARTA Serowego Michała
           </p>
           <h1 className="mt-3 text-4xl font-black tracking-[-0.05em] text-[#26180f] sm:text-5xl">
             {product.name}

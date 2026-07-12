@@ -60,12 +60,12 @@ export default async function ProductsPage({
             ) : (
               <>
                 <h1 className="mt-4 text-4xl font-black tracking-[-0.05em] text-[#26180f] sm:text-6xl">
-                  HEJARTY i serowe rzeczy
+                  HEJKARTY i rzeczy z talii
                 </h1>
                 <p className="mt-4 max-w-2xl text-lg leading-8 text-[#6b4428]">
                   To nadal sklep z produktami ze Store API, ale potraktowany
-                  jako część świata Serowego Michała: szybki zakup, mocna
-                  narracja i zero generycznego katalogu.
+                  jako część świata HEJKART Serowego Michała: szybki zakup,
+                  mocna narracja i zero generycznego katalogu.
                 </p>
               </>
             )}
@@ -77,7 +77,7 @@ export default async function ProductsPage({
         <div className="mb-8 grid gap-4 rounded-[2rem] border border-[#3b2415]/10 bg-[#26180f] p-6 text-white shadow-2xl shadow-[#3b2415]/15 md:grid-cols-3">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffd166]">
-              01 / HEJARTY
+              01 / HEJKARTY
             </p>
             <p className="mt-2 text-sm text-white/70">
               Produkt-bohater prowadzi do zakupu bez utraty klimatu strony.
@@ -93,7 +93,7 @@ export default async function ProductsPage({
           </div>
           <div>
             <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffd166]">
-              03 / Serowy styl
+              03 / Styl HEJKART
             </p>
             <p className="mt-2 text-sm text-white/70">
               Karty, filtry i listing mają ten sam język wizualny co landing.

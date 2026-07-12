@@ -11,4 +11,4 @@ Dokumenty wspólne dla całego systemu (wizja, hierarchia decyzji, architektura,
 Zasada: aktualizujemy istniejące pliki, nie tworzymy notatek-sierot. Historia jest w gicie.
 
 
-Aktualnie front pełni rolę strony domowej marki **Serowy Michał** z opcją sklepu dla produktu **HEJARTY** i pozostałych produktów zasilanych przez Store API.
+Aktualnie front pełni rolę strony domowej marki **Serowy Michał** z opcją sklepu dla produktu **HEJKARTY** jako głównej talii marki i pozostałych produktów zasilanych przez Store API.

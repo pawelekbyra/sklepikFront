@@ -2,7 +2,7 @@
 
 ## Cel repozytorium
 
-`sklepikFront` jest frontendową warstwą sklepu rozwijaną teraz jako dom marki **Serowy Michał**: opowieść o rzemieślniczej firmie z opcją zakupu produktów, w tym flagowych **HEJARTÓW**. Aplikacja nadal opiera się o Next.js, Store API backendu i deployment na Vercel. Repo bazuje na forku oficjalnego Spree Storefront, ale jest rozwijane jako storefront własnej marki, nie jako demo.
+`sklepikFront` jest frontendową warstwą sklepu rozwijaną teraz jako dom marki **Serowy Michał**: opowieść o rzemieślniczej firmie z opcją zakupu produktów, w tym flagowych **HEJKARTACH**. Aplikacja nadal opiera się o Next.js, Store API backendu i deployment na Vercel. Repo bazuje na forku oficjalnego Spree Storefront, ale jest rozwijane jako storefront własnej marki, nie jako demo.
 
 Kanon całego systemu (cel, podział repo, hierarchia decyzji): `sklepik/docs/kierunek-projektu.md`.
 
@@ -21,7 +21,7 @@ Marka frontowa: **Serowy Michał**.
 
 Ton marki: rzemieślniczy, bezpośredni, odważny, ciepły, z humorem — bez korpo-języka i bez "marketplace vibe". Strona ma wyglądać jak dom marki z charakterem, nie jak losowy template e-commerce.
 
-Klient ma najpierw zrozumieć, kim jest Serowy Michał i dlaczego HEJARTY są produktem-bohaterem, a dopiero potem płynnie przejść do zakupów, dostawy, zwrotów i konta.
+Klient ma najpierw zrozumieć, kim jest Serowy Michał i dlaczego HEJKARTY są produktem-bohaterem, a dopiero potem płynnie przejść do zakupów, dostawy, zwrotów i konta.
 
 ## Zakres MVP frontu (Faza 2 roadmapy)
 
@@ -48,10 +48,14 @@ Przed nami (kolejność wg `sklepik/docs/roadmap.md`): pełny branding premium, 
 
 ## Pivot landingu: Serowy Michał (2026-07-12)
 
-Strona główna została przekształcona z generycznego storefrontu w dom marki **Serowy Michał**. Główna narracja prowadzi przez osobowość rzemieślniczej firmy, a sklep jest świadomie potraktowany jako opcja zakupowa. Flagowym produktem komunikowanym na froncie są **HEJARTY**; realne dane produktowe nadal pochodzą ze Store API, bez hardcodowania cen, wariantów i logiki commerce w frontendzie.
+Strona główna została przekształcona z generycznego storefrontu w dom marki **Serowy Michał**. Główna narracja prowadzi przez osobowość rzemieślniczej firmy, a sklep jest świadomie potraktowany jako opcja zakupowa. Flagowym produktem komunikowanym na froncie są **HEJKARTY**; realne dane produktowe nadal pochodzą ze Store API, bez hardcodowania cen, wariantów i logiki commerce w frontendzie.
 
 Zakres tej zmiany obejmuje homepage, wejście do podstrony sklepu, header i footer. Checkout oraz koszyk nie były zmieniane.
 
 ## Ujednolicenie sklepu z landingiem (2026-07-12)
 
-Po dopracowaniu warstwy wizualnej elementy sklepowe — listing, karty produktów, filtry, wejście do katalogu oraz strona produktu — używają tego samego języka co landing Serowego Michała: ciepłe tła, ciemne akcenty, zaokrąglone karty, produktowy charakter HEJARTÓW i narrację, że zakup jest naturalnym dalszym krokiem w domu marki. Logika commerce nadal pozostaje w Store API; zmiana dotyczy wyłącznie doświadczenia i oprawy frontowej.
+Po dopracowaniu warstwy wizualnej elementy sklepowe — listing, karty produktów, filtry, wejście do katalogu oraz strona produktu — używają tego samego języka co landing Serowego Michała: ciepłe tła, ciemne akcenty, zaokrąglone karty, produktowy charakter HEJKART i narrację, że zakup jest naturalnym dalszym krokiem w domu marki. Logika commerce nadal pozostaje w Store API; zmiana dotyczy wyłącznie doświadczenia i oprawy frontowej.
+
+## HEJKARTY jako rdzeń strony (2026-07-12)
+
+Kolejna iteracja autonomicznie przesuwa komunikację z ogólnego „serowego sklepu” na **HEJKARTY** jako główny produkt i mechanikę strony. Hero pokazuje talię kart, sklep mówi językiem kart, a komponenty commerce są traktowane jak część systemu HEJKART. Usunięto zależność od zewnętrznego Google Font w root layoucie, żeby build nie zależał od pobierania fontu w środowisku CI/Vercel.

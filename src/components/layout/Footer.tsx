@@ -33,8 +33,7 @@ export async function Footer({
             </span>
             <p className="mt-4 text-sm text-neutral-400">
               Serowy Michał to domowa opowieść o rzemiośle, charakterze i
-              produktach HEJARTY. Sklep jest opcją, marka jest centrum
-              doświadczenia.
+              HEJKARTACH. Sklep jest opcją, marka jest centrum doświadczenia.
             </p>
           </div>
 

@@ -79,7 +79,7 @@ export const ProductCard = memo(function ProductCard({
             fetchPriority={fetchPriority}
           />
           <div className="absolute left-3 top-3 rounded-full bg-[#26180f]/90 px-3 py-1 text-[10px] font-black uppercase tracking-[0.22em] text-[#ffd166] backdrop-blur">
-            Serowy Michał
+            HEJKARTA
           </div>
           {onSale && (
             <span className="absolute right-3 top-3 rounded-full bg-[#d95d00] px-3 py-1 text-xs font-black text-white shadow-lg">

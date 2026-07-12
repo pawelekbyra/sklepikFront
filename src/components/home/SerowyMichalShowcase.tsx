@@ -21,15 +21,15 @@ const chapters = [
   {
     id: "rzemioslo",
     eyebrow: "01 / rzemiosło",
-    title: "Ser, który ma własny charakter",
+    title: "Karta, która ma własny charakter",
     copy: "Serowy Michał to domowa, bezpośrednia opowieść o twórcy, który nie udaje korporacyjnej marki. Najpierw jest człowiek, potem receptura, a dopiero na końcu przycisk „kup”.",
     icon: Milk,
   },
   {
     id: "hejarty",
     eyebrow: "02 / produkt flagowy",
-    title: "HEJARTY — produkt, który robi wejście",
-    copy: "HEJARTY prowadzą sklepową część strony: mają być widoczne, konkretne i łatwe do kupienia, ale bez zabierania miejsca historii firmy Serowy Michał.",
+    title: "HEJKARTY — produkt, który robi wejście",
+    copy: "HEJKARTY prowadzą sklepową część strony: mają być widoczne, konkretne i łatwe do kupienia, ale bez zabierania miejsca historii firmy Serowy Michał.",
     icon: Flame,
   },
   {
@@ -43,20 +43,20 @@ const chapters = [
 
 const rituals = [
   [
-    "Krojenie",
-    "Duże kadry, tekstura i apetyt zamiast zimnej siatki katalogowej.",
+    "Rozdanie",
+    "Duże karty, mocne hasła i produkt, który od razu wygląda jak prezent.",
   ],
   [
-    "Degustacja",
-    "Język marki tłumaczy smak, charakter i powód, dla którego warto spróbować.",
+    "Odkrycie",
+    "Każda karta ma własny vibe: trochę żartu, trochę czułości, zero nudnego katalogu.",
   ],
   [
-    "Dzielenie",
-    "Sekcje prowadzą do zakupu, ale nie wyrywają użytkownika z opowieści.",
+    "Podarowanie",
+    "Zakup wynika z historii: chcesz mieć kartę, wysłać ją albo zachować w talii.",
   ],
   [
     "Powrót",
-    "Sklep zostaje łatwo dostępny, zapamiętywalny i spójny z całą stroną.",
+    "Sklep zostaje prosty, ale wygląda jak część świata HEJKART, nie doklejony moduł.",
   ],
 ];
 
@@ -78,14 +78,15 @@ export function SerowyMichalShowcase({ basePath }: SerowyMichalShowcaseProps) {
           <div>
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#26180f]/15 bg-white/60 px-4 py-2 text-sm font-semibold shadow-sm backdrop-blur">
               <Sparkles className="size-4 text-[#d95d00]" />
-              Dom Serowego Michała · HEJARTY dostępne w sklepie
+              Dom Serowego Michała · HEJKARTY gotowe do kupienia
             </div>
             <h1 className="max-w-4xl text-5xl font-black tracking-[-0.065em] text-[#26180f] sm:text-7xl lg:text-8xl">
-              Serowy Michał robi serową scenę, a nie zwykły sklep.
+              Serowy Michał rozdaje HEJKARTY. To nie sklep — to talia
+              charakteru.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[#54351f] sm:text-xl">
               To strona domowa marki: historia, charakter, rytuał jedzenia i
-              dopiero potem sprzedaż. HEJARTY są bohaterem produktu, ale całość
+              dopiero potem sprzedaż. HEJKARTY są bohaterem produktu, ale całość
               pracuje na rozpoznawalność Serowego Michała.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -95,7 +96,7 @@ export function SerowyMichalShowcase({ basePath }: SerowyMichalShowcaseProps) {
                 className="rounded-full bg-[#26180f] px-7 text-white shadow-xl shadow-[#7a3412]/20 hover:bg-[#3b2415]"
               >
                 <Link href={`${basePath}/products`}>
-                  Kup HEJARTY <ArrowRight className="ml-2 size-4" />
+                  Wejdź po HEJKARTY <ArrowRight className="ml-2 size-4" />
                 </Link>
               </Button>
               <Button
@@ -114,38 +115,54 @@ export function SerowyMichalShowcase({ basePath }: SerowyMichalShowcaseProps) {
               <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#d95d00]">
                 produkt
               </p>
-              <p className="text-3xl font-black tracking-[-0.05em]">HEJARTY</p>
+              <p className="text-3xl font-black tracking-[-0.05em]">HEJKARTY</p>
             </div>
             <div className="absolute -right-5 bottom-12 z-10 max-w-44 rotate-[7deg] rounded-3xl bg-[#26180f] p-4 text-white shadow-xl sm:-right-8">
               <Quote className="mb-2 size-5 text-[#ffd166]" />
               <p className="text-sm font-semibold leading-5">
-                sklep jest opcją, charakter jest głównym produktem
+                HEJKARTY są produktem, opowieść jest mechaniką
               </p>
             </div>
-            <div className="grid h-full place-items-center overflow-hidden rounded-[2.3rem] bg-[radial-gradient(circle,#ffe08a_0,#f4a62a_38%,#6c2f12_78%)]">
-              <div className="relative grid size-64 place-items-center rounded-full bg-[#ffd166] shadow-[inset_0_-24px_40px_rgba(80,32,8,0.22),0_30px_80px_rgba(0,0,0,0.28)] sm:size-80">
-                {[...Array(14)].map((_, index) => (
-                  <span
-                    className="absolute rounded-full bg-[#bf5b19]/35"
-                    key={index}
+            <div className="relative grid h-full place-items-center overflow-hidden rounded-[2.3rem] bg-[radial-gradient(circle_at_30%_10%,#ffe08a_0,transparent_34%),linear-gradient(135deg,#f4a62a_0%,#7a3412_72%,#26180f_100%)]">
+              <div className="absolute inset-0 opacity-25 [background-image:linear-gradient(120deg,#fff_1px,transparent_1px)] [background-size:22px_22px]" />
+              <div className="relative h-[360px] w-[270px] sm:h-[430px] sm:w-[320px]">
+                {[
+                  { rotation: "-12deg", x: "-38px", y: "32px" },
+                  { rotation: "7deg", x: "42px", y: "20px" },
+                  { rotation: "0deg", x: "0px", y: "0px" },
+                ].map((card, index) => (
+                  <div
+                    className="absolute inset-0 rounded-[2rem] border border-white/55 bg-[#fffaf0] p-5 shadow-2xl"
+                    key={card.rotation}
                     style={{
-                      width: `${16 + (index % 5) * 10}px`,
-                      height: `${16 + (index % 5) * 10}px`,
-                      transform: `rotate(${index * 27}deg) translate(${62 + (index % 4) * 24}px)`,
+                      transform: `translate(${card.x}, ${card.y}) rotate(${card.rotation})`,
                     }}
-                  />
+                  >
+                    <div className="flex h-full flex-col justify-between rounded-[1.45rem] border border-[#3b2415]/15 bg-[linear-gradient(160deg,#fff7df,#ffd166)] p-5 text-[#26180f]">
+                      <div className="flex items-center justify-between">
+                        <span className="rounded-full bg-[#26180f] px-3 py-1 text-[10px] font-black uppercase tracking-[0.25em] text-[#ffd166]">
+                          HEJ
+                        </span>
+                        <span className="text-xs font-black uppercase tracking-[0.3em] text-[#d95d00]">
+                          0{index + 1}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-black uppercase tracking-[0.35em] text-[#7a3412]">
+                          Serowy Michał
+                        </p>
+                        <p className="mt-2 text-5xl font-black tracking-[-0.08em] sm:text-6xl">
+                          HEJ
+                          <br />
+                          KARTY
+                        </p>
+                      </div>
+                      <p className="text-sm font-bold leading-5 text-[#7a3412]">
+                        talia do kupienia, dania i kolekcjonowania
+                      </p>
+                    </div>
+                  </div>
                 ))}
-                <div className="text-center">
-                  <p className="text-sm font-black uppercase tracking-[0.35em] text-[#7a3412]">
-                    Serowy Michał
-                  </p>
-                  <p className="mt-2 text-5xl font-black tracking-[-0.08em] text-[#26180f] sm:text-6xl">
-                    HEJARTY
-                  </p>
-                  <p className="mt-2 text-sm font-semibold text-[#7a3412]">
-                    limitowana energia rzemiosła
-                  </p>
-                </div>
               </div>
             </div>
           </div>

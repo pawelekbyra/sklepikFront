@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import type { Metadata } from "next";
-import { HeartyProductsSection } from "@/components/home/HeartyProductsSection";
+import { HejkartyProductsSection } from "@/components/home/HejkartyProductsSection";
 import { SerowyMichalShowcase } from "@/components/home/SerowyMichalShowcase";
 import { resolveCurrency } from "@/lib/data/markets";
 import { generateHomeMetadata } from "@/lib/metadata/home";
@@ -36,7 +36,7 @@ export default async function HomePage({ params }: HomePageProps) {
   return (
     <div>
       <SerowyMichalShowcase basePath={basePath} />
-      <HeartyProductsSection
+      <HejkartyProductsSection
         basePath={basePath}
         locale={locale}
         country={getDefaultCountry()}
