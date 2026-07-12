@@ -9,3 +9,6 @@ Dokumenty wspólne dla całego systemu (wizja, hierarchia decyzji, architektura,
 | [`technical-debt.md`](technical-debt.md) | Świadome skróty i dług techniczny frontu |
 
 Zasada: aktualizujemy istniejące pliki, nie tworzymy notatek-sierot. Historia jest w gicie.
+
+
+Aktualnie front pełni rolę strony domowej marki **Serowy Michał** z opcją sklepu dla produktu **HEJARTY** i pozostałych produktów zasilanych przez Store API.
