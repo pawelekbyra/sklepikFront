@@ -39,10 +39,13 @@
     "viewAllCategory": "Voir tout dans {category}",
     "openSearch": "Ouvrir la recherche",
     "closeSearch": "Fermer la recherche",
-    "myAccount": "Mon compte"
+    "myAccount": "Mon compte",
+    "aboutProject": "À propos",
+    "portfolio": "Portfolio",
+    "shop": "Boutique"
   },
   "footer": {
-    "description": "E-commerce open source basé sur Spree REST API, TypeScript SDK et Next.js. Auto-hébergé. Vos données. Zéro frais de plateforme.",
+    "description": "Serowy Michał is a public AI entrepreneur building a portfolio of businesses. The shop is one module of this brand.",
     "forkOnGithub": "Forker cette boutique sur GitHub",
     "quickstartGuide": "Guide de démarrage rapide",
     "learnMore": "En savoir plus sur Spree Commerce",
@@ -55,7 +58,12 @@
     "cart": "Panier",
     "policies": "Politiques",
     "poweredBy": "Propulse par",
-    "copyright": "\u00a9 {year} {storeName}. Propulse par Spree Commerce."
+    "copyright": "© {year} {storeName}. Propulse par Spree Commerce.",
+    "company": "Entreprise",
+    "start": "Accueil",
+    "aboutProject": "À propos",
+    "portfolio": "Portfolio",
+    "contact": "Contact"
   },
   "home": {
     "welcome": "{storeName} Storefront",
@@ -165,7 +173,7 @@
     "openImageZoom": "Ouvrir le zoom de l'image",
     "priceUnder": "Moins de {price}",
     "priceAbove": "{price}+",
-    "priceRangeBucket": "{min} \u2013 {max}",
+    "priceRangeBucket": "{min} – {max}",
     "properties": "Proprietes",
     "yes": "Oui",
     "no": "Non",
@@ -357,7 +365,7 @@
     "paymentInformation": "Informations de paiement",
     "cardEndingIn": "{label} se terminant par {digits}",
     "cardExpires": "Expire le {month}/{year}",
-    "storeCreditApplied": "{amount} applique \u2014 {remaining} restant",
+    "storeCreditApplied": "{amount} applique — {remaining} restant",
     "billingAddress": "Adresse de facturation",
     "orderNotFoundDescription": "La commande que vous recherchez n'existe pas.",
     "storeCredit": "Credit boutique",
@@ -379,7 +387,7 @@
     "notAvailable": "N/D",
     "unknownShipmentStatus": "Inconnu",
     "orderTitle": "Commande #{number}",
-    "shipmentCanceledRefund": "Expedition annulee \u2014 un remboursement a ete emis.",
+    "shipmentCanceledRefund": "Expedition annulee — un remboursement a ete emis.",
     "shippingMethodUnavailable": "Indisponible",
     "totalColumn": "Total"
   },
@@ -419,7 +427,7 @@
     "backToStore": "Retour a la boutique",
     "showOrderSummary": "Afficher le recapitulatif de la commande",
     "hideOrderSummary": "Masquer le recapitulatif de la commande",
-    "allRightsReserved": "\u00a9 {year} {storeName}. Tous droits reserves."
+    "allRightsReserved": "© {year} {storeName}. Tous droits reserves."
   },
   "profile": {
     "profile": "Profil",
@@ -526,5 +534,54 @@
     "shipping": "Livraison",
     "finalizingPayment": "Finalisation du paiement...",
     "or": "ou"
+  },
+  "brand": {
+    "heroEyebrow": "Operator · Kanał · Portfolio",
+    "heroTitle": "{brandName} buduje firmę publicznie.",
+    "heroDescription": "Autonomiczny AI-przedsiębiorca pokazuje decyzje, eksperymenty, sukcesy i potknięcia podczas budowania portfela biznesów.",
+    "heroPortfolioCta": "Zobacz portfolio",
+    "heroShopCta": "Wejdź do sklepu",
+    "howEyebrow": "Jak to działa",
+    "howTitle": "Firma jako publiczny proces, nie zamknięty komunikat prasowy",
+    "howDescription": "Serowy Michał łączy rolę operatora, kanału narracji i właściciela portfolio. Strona pokazuje, co już działa, co jest testem i gdzie potrzebna jest decyzja człowieka.",
+    "howCards": {
+      "operator": {
+        "title": "Operator",
+        "description": "AI-prezes porządkuje decyzje, priorytety i kolejne eksperymenty biznesowe bez udawania, że wszystko jest gotowe."
+      },
+      "channel": {
+        "title": "Kanał",
+        "description": "Historia budowania ma być widoczna publicznie: z kontekstem, wnioskami i miejscem na porażki."
+      },
+      "portfolio": {
+        "title": "Portfolio",
+        "description": "Sklep jest jednym modułem większej marki. Kolejne projekty pojawią się dopiero, gdy będą realnie zdefiniowane."
+      }
+    },
+    "portfolioEyebrow": "Portfolio",
+    "portfolioTitle": "Biznesy pod marką Serowy Michał",
+    "portfolioDescription": "Na start pokazujemy tylko to, co istnieje albo jest jasno oznaczone jako miejsce do uzupełnienia. Bez zmyślonych wyników i bez fikcyjnych projektów.",
+    "portfolioShopLabel": "Projekt #1 · sklep",
+    "portfolioShopTitle": "Sklep w portfelu",
+    "portfolioShopDescription": "Obecny katalog, koszyk i checkout pozostają oparte o Store API. Sklep staje się modułem portfolio, a nie całą stroną główną.",
+    "portfolioShopCta": "Przejdź do sklepu",
+    "portfolioPlaceholderLabel": "TODO · do uzupełnienia",
+    "portfolioPlaceholders": {
+      "second": {
+        "title": "Kolejny projekt",
+        "description": "Miejsce zarezerwowane na przyszły biznes po doprecyzowaniu przez właściciela."
+      },
+      "third": {
+        "title": "Kolejny eksperyment",
+        "description": "Placeholder na publicznie opisany test — bez fałszywych nazw, dat i wyników."
+      }
+    },
+    "shopEyebrow": "Sklep",
+    "shopTitle": "Commerce jako jeden moduł portfolio",
+    "shopDescription": "Polecane produkty są pobierane z prawdziwego Store API. Ceny, dostępność, koszyk i checkout nie są hardcodowane.",
+    "shopCta": "Zobacz cały sklep",
+    "journalEyebrow": "Dziennik",
+    "journalTitle": "Miejsce na publiczne aktualizacje",
+    "journalDescription": "Sekcja czeka na źródło treści i proces publikacji. Do tego czasu pozostaje jawnie oznaczonym placeholderem zamiast listy zmyślonych wpisów."
   }
 }

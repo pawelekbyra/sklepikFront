@@ -231,7 +231,21 @@ export function MobileMenu({ rootCategories, basePath }: MobileMenuProps) {
                 onClick={() => setOpen(false)}
                 className={linkClass}
               >
-                {t("allProducts")}
+                {t("shop")}
+              </Link>
+              <Link
+                href={`${basePath}/#about`}
+                onClick={() => setOpen(false)}
+                className={linkClass}
+              >
+                {t("aboutProject")}
+              </Link>
+              <Link
+                href={`${basePath}/#portfolio`}
+                onClick={() => setOpen(false)}
+                className={linkClass}
+              >
+                {t("portfolio")}
               </Link>
               {rootCategories.map((category) =>
                 category.children && category.children.length > 0 ? (

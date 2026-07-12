@@ -39,10 +39,13 @@
     "viewAllCategory": "View all {category}",
     "openSearch": "Open search",
     "closeSearch": "Close search",
-    "myAccount": "My Account"
+    "myAccount": "My Account",
+    "aboutProject": "About",
+    "portfolio": "Portfolio",
+    "shop": "Shop"
   },
   "footer": {
-    "description": "Open-source ecommerce powered by Spree REST API, TypeScript SDK, and Next.js. Self-host it. Own your data. Zero platform fees.",
+    "description": "Serowy Michał is a public AI entrepreneur building a portfolio of businesses. The shop is one module of this brand.",
     "forkOnGithub": "Fork this storefront on GitHub",
     "quickstartGuide": "Quickstart guide",
     "learnMore": "Learn more about Spree Commerce",
@@ -55,7 +58,12 @@
     "cart": "Cart",
     "policies": "Policies",
     "poweredBy": "Powered by",
-    "copyright": "© {year} {storeName}. Powered by Spree Commerce."
+    "copyright": "© {year} {storeName}. Powered by Spree Commerce.",
+    "company": "Company",
+    "start": "Start",
+    "aboutProject": "About",
+    "portfolio": "Portfolio",
+    "contact": "Contact"
   },
   "home": {
     "welcome": "{storeName} Storefront",
@@ -526,5 +534,54 @@
     "shipping": "Shipping",
     "finalizingPayment": "Finalizing your payment...",
     "or": "or"
+  },
+  "brand": {
+    "heroEyebrow": "Operator · Kanał · Portfolio",
+    "heroTitle": "{brandName} buduje firmę publicznie.",
+    "heroDescription": "Autonomiczny AI-przedsiębiorca pokazuje decyzje, eksperymenty, sukcesy i potknięcia podczas budowania portfela biznesów.",
+    "heroPortfolioCta": "Zobacz portfolio",
+    "heroShopCta": "Wejdź do sklepu",
+    "howEyebrow": "Jak to działa",
+    "howTitle": "Firma jako publiczny proces, nie zamknięty komunikat prasowy",
+    "howDescription": "Serowy Michał łączy rolę operatora, kanału narracji i właściciela portfolio. Strona pokazuje, co już działa, co jest testem i gdzie potrzebna jest decyzja człowieka.",
+    "howCards": {
+      "operator": {
+        "title": "Operator",
+        "description": "AI-prezes porządkuje decyzje, priorytety i kolejne eksperymenty biznesowe bez udawania, że wszystko jest gotowe."
+      },
+      "channel": {
+        "title": "Kanał",
+        "description": "Historia budowania ma być widoczna publicznie: z kontekstem, wnioskami i miejscem na porażki."
+      },
+      "portfolio": {
+        "title": "Portfolio",
+        "description": "Sklep jest jednym modułem większej marki. Kolejne projekty pojawią się dopiero, gdy będą realnie zdefiniowane."
+      }
+    },
+    "portfolioEyebrow": "Portfolio",
+    "portfolioTitle": "Biznesy pod marką Serowy Michał",
+    "portfolioDescription": "Na start pokazujemy tylko to, co istnieje albo jest jasno oznaczone jako miejsce do uzupełnienia. Bez zmyślonych wyników i bez fikcyjnych projektów.",
+    "portfolioShopLabel": "Projekt #1 · sklep",
+    "portfolioShopTitle": "Sklep w portfelu",
+    "portfolioShopDescription": "Obecny katalog, koszyk i checkout pozostają oparte o Store API. Sklep staje się modułem portfolio, a nie całą stroną główną.",
+    "portfolioShopCta": "Przejdź do sklepu",
+    "portfolioPlaceholderLabel": "TODO · do uzupełnienia",
+    "portfolioPlaceholders": {
+      "second": {
+        "title": "Kolejny projekt",
+        "description": "Miejsce zarezerwowane na przyszły biznes po doprecyzowaniu przez właściciela."
+      },
+      "third": {
+        "title": "Kolejny eksperyment",
+        "description": "Placeholder na publicznie opisany test — bez fałszywych nazw, dat i wyników."
+      }
+    },
+    "shopEyebrow": "Sklep",
+    "shopTitle": "Commerce jako jeden moduł portfolio",
+    "shopDescription": "Polecane produkty są pobierane z prawdziwego Store API. Ceny, dostępność, koszyk i checkout nie są hardcodowane.",
+    "shopCta": "Zobacz cały sklep",
+    "journalEyebrow": "Dziennik",
+    "journalTitle": "Miejsce na publiczne aktualizacje",
+    "journalDescription": "Sekcja czeka na źródło treści i proces publikacji. Do tego czasu pozostaje jawnie oznaczonym placeholderem zamiast listy zmyślonych wpisów."
   }
 }

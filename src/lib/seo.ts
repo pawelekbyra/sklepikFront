@@ -1,5 +1,6 @@
 import type { Category, Media, Product } from "@spree/sdk";
-import { ensureProtocol, getStoreName, getStoreUrl } from "@/lib/store";
+import { BRAND_NAME } from "@/lib/brand";
+import { ensureProtocol, getStoreUrl } from "@/lib/store";
 
 /**
  * Default social image path (stored in public/).
@@ -134,7 +135,6 @@ export function buildBreadcrumbJsonLd(
 export function buildOrganizationJsonLd(
   apiLogoUrl?: string | null,
 ): Record<string, unknown> {
-  const storeName = getStoreName();
   const storeUrl = getStoreUrl();
   const logoUrl = apiLogoUrl || process.env.STORE_LOGO_URL;
   const facebook = process.env.STORE_FACEBOOK;
@@ -145,7 +145,7 @@ export function buildOrganizationJsonLd(
   const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: storeName,
+    name: BRAND_NAME,
     ...(storeUrl ? { url: storeUrl } : {}),
   };
 
