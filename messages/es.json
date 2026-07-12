@@ -39,10 +39,13 @@
     "viewAllCategory": "Ver todo en {category}",
     "openSearch": "Abrir busqueda",
     "closeSearch": "Cerrar busqueda",
-    "myAccount": "Mi cuenta"
+    "myAccount": "Mi cuenta",
+    "aboutProject": "Sobre el proyecto",
+    "portfolio": "Portfolio",
+    "shop": "Tienda"
   },
   "footer": {
-    "description": "Comercio electrónico de código abierto basado en Spree REST API, TypeScript SDK y Next.js. Alójalo tú mismo. Tus datos. Sin comisiones de plataforma.",
+    "description": "Serowy Michał is a public AI entrepreneur building a portfolio of businesses. The shop is one module of this brand.",
     "forkOnGithub": "Haz un fork de esta tienda en GitHub",
     "quickstartGuide": "Guía de inicio rápido",
     "learnMore": "Más información sobre Spree Commerce",
@@ -55,7 +58,12 @@
     "cart": "Carrito",
     "policies": "Politicas",
     "poweredBy": "Impulsado por",
-    "copyright": "\u00a9 {year} {storeName}. Impulsado por Spree Commerce."
+    "copyright": "© {year} {storeName}. Impulsado por Spree Commerce.",
+    "company": "Empresa",
+    "start": "Inicio",
+    "aboutProject": "Sobre el proyecto",
+    "portfolio": "Portfolio",
+    "contact": "Contacto"
   },
   "home": {
     "welcome": "{storeName} Storefront",
@@ -165,7 +173,7 @@
     "openImageZoom": "Abrir zoom de imagen",
     "priceUnder": "Menos de {price}",
     "priceAbove": "{price}+",
-    "priceRangeBucket": "{min} \u2013 {max}",
+    "priceRangeBucket": "{min} – {max}",
     "properties": "Propiedades",
     "yes": "Si",
     "no": "No",
@@ -190,7 +198,7 @@
     "emailAddress": "Correo electronico",
     "emailPlaceholder": "tu@ejemplo.com",
     "usingAccountEmail": "Usando el correo electronico de tu cuenta",
-    "signInPrompt": "\u00bfYa tienes una cuenta?",
+    "signInPrompt": "¿Ya tienes una cuenta?",
     "signIn": "Iniciar sesion",
     "signInDescription": "para acceder a tus direcciones guardadas e historial de pedidos.",
     "shippingAddress": "Direccion de envio",
@@ -271,7 +279,7 @@
     "addNewAddress": "Agregar nueva direccion",
     "saveAddress": "Guardar direccion",
     "failedToSave": "Error al guardar la direccion",
-    "deleteAddressTitle": "\u00bfEliminar direccion?",
+    "deleteAddressTitle": "¿Eliminar direccion?",
     "deleteAddressConfirmation": "Esto eliminara permanentemente esta direccion. Esta accion no se puede deshacer.",
     "delete": "Eliminar",
     "deleting": "Eliminando...",
@@ -289,7 +297,7 @@
     "signIn": "Iniciar sesion",
     "signingIn": "Iniciando sesion...",
     "invalidCredentials": "Correo electronico o contrasena invalidos",
-    "dontHaveAccount": "\u00bfNo tienes una cuenta?",
+    "dontHaveAccount": "¿No tienes una cuenta?",
     "signUp": "Registrate",
     "accountOverview": "Resumen de la cuenta",
     "orderHistory": "Historial de pedidos",
@@ -308,11 +316,11 @@
     "noAddresses": "No hay direcciones guardadas",
     "noAddressesDescription": "Las direcciones que agregues durante el checkout apareceran aqui.",
     "defaultAddress": "Predeterminada",
-    "deleteConfirm": "\u00bfEstas seguro de que deseas eliminar esta direccion?",
+    "deleteConfirm": "¿Estas seguro de que deseas eliminar esta direccion?",
     "setAsDefault": "Establecer como predeterminada",
     "showPassword": "Mostrar contrasena",
     "hidePassword": "Ocultar contrasena",
-    "forgotPassword": "\u00bfOlvidaste tu contrasena?",
+    "forgotPassword": "¿Olvidaste tu contrasena?",
     "policyConsentRequired": "Debes aceptar las politicas de la tienda para crear una cuenta"
   },
   "register": {
@@ -323,7 +331,7 @@
     "passwordsDontMatch": "Las contrasenas no coinciden",
     "passwordTooShort": "La contrasena debe tener al menos 6 caracteres",
     "registrationFailed": "Error en el registro. Por favor, intenta de nuevo.",
-    "alreadyHaveAccount": "\u00bfYa tienes una cuenta?",
+    "alreadyHaveAccount": "¿Ya tienes una cuenta?",
     "signIn": "Iniciar sesion",
     "unexpectedError": "Ocurrio un error inesperado. Por favor, intenta de nuevo.",
     "firstName": "Nombre",
@@ -357,7 +365,7 @@
     "paymentInformation": "Informacion de pago",
     "cardEndingIn": "{label} terminada en {digits}",
     "cardExpires": "Vence {month}/{year}",
-    "storeCreditApplied": "Aplicado {amount} \u2014 {remaining} restante",
+    "storeCreditApplied": "Aplicado {amount} — {remaining} restante",
     "billingAddress": "Direccion de facturacion",
     "orderNotFoundDescription": "El pedido que buscas no existe.",
     "storeCredit": "Credito de la tienda",
@@ -379,13 +387,13 @@
     "notAvailable": "N/D",
     "unknownShipmentStatus": "Desconocido",
     "orderTitle": "Pedido #{number}",
-    "shipmentCanceledRefund": "Envio cancelado \u2014 se ha emitido un reembolso.",
+    "shipmentCanceledRefund": "Envio cancelado — se ha emitido un reembolso.",
     "shippingMethodUnavailable": "No disponible",
     "totalColumn": "Total"
   },
   "orderPlaced": {
-    "thanksForOrder": "\u00a1Gracias por tu pedido, {name}!",
-    "thanksForOrderAnonymous": "\u00a1Gracias por tu pedido!",
+    "thanksForOrder": "¡Gracias por tu pedido, {name}!",
+    "thanksForOrderAnonymous": "¡Gracias por tu pedido!",
     "orderNumber": "Pedido #{number}",
     "emailConfirmation": "Recibiras una confirmacion por correo electronico en breve.",
     "orderItems": "Articulos del pedido",
@@ -419,7 +427,7 @@
     "backToStore": "Volver a la tienda",
     "showOrderSummary": "Mostrar resumen del pedido",
     "hideOrderSummary": "Ocultar resumen del pedido",
-    "allRightsReserved": "\u00a9 {year} {storeName}. Todos los derechos reservados."
+    "allRightsReserved": "© {year} {storeName}. Todos los derechos reservados."
   },
   "profile": {
     "profile": "Perfil",
@@ -430,7 +438,7 @@
     "currentPasswordHelp": "Confirma tu contrasena actual para cambiar tu correo electronico.",
     "saveChanges": "Guardar cambios",
     "saving": "Guardando...",
-    "profileUpdated": "\u00a1Perfil actualizado con exito!",
+    "profileUpdated": "¡Perfil actualizado con exito!",
     "accountInformation": "Informacion de la cuenta",
     "accountId": "ID de cuenta",
     "loadingProfile": "Cargando perfil...",
@@ -445,9 +453,9 @@
     "default": "Predeterminado",
     "removing": "Eliminando...",
     "secureInfo": "Tu informacion de pago esta almacenada de forma segura.",
-    "deleteConfirm": "\u00bfEstas seguro de que deseas eliminar esta tarjeta?",
+    "deleteConfirm": "¿Estas seguro de que deseas eliminar esta tarjeta?",
     "cardMaskedLabel": "{label} terminada en {digits}, vence {month}/{year}",
-    "removePaymentMethodTitle": "\u00bfEliminar metodo de pago?",
+    "removePaymentMethodTitle": "¿Eliminar metodo de pago?",
     "endingIn": "terminada en",
     "cardEndingIn": "{label} terminada en {digits}",
     "cardExpires": "Vence {month}/{year}",
@@ -474,7 +482,7 @@
     "activeGiftCards": "Tarjetas regalo activas",
     "expiredRedeemed": "Expiradas / Canjeadas",
     "copy": "Copiar",
-    "copied": "\u00a1Copiado!",
+    "copied": "¡Copiado!",
     "copyCodeToClipboard": "Copiar codigo al portapapeles",
     "expiresOn": "Expira el {date}",
     "percentUsed": "{percent}% usado",
@@ -526,5 +534,54 @@
     "shipping": "Envio",
     "finalizingPayment": "Finalizando tu pago...",
     "or": "o"
+  },
+  "brand": {
+    "heroEyebrow": "Operator · Kanał · Portfolio",
+    "heroTitle": "{brandName} buduje firmę publicznie.",
+    "heroDescription": "Autonomiczny AI-przedsiębiorca pokazuje decyzje, eksperymenty, sukcesy i potknięcia podczas budowania portfela biznesów.",
+    "heroPortfolioCta": "Zobacz portfolio",
+    "heroShopCta": "Wejdź do sklepu",
+    "howEyebrow": "Jak to działa",
+    "howTitle": "Firma jako publiczny proces, nie zamknięty komunikat prasowy",
+    "howDescription": "Serowy Michał łączy rolę operatora, kanału narracji i właściciela portfolio. Strona pokazuje, co już działa, co jest testem i gdzie potrzebna jest decyzja człowieka.",
+    "howCards": {
+      "operator": {
+        "title": "Operator",
+        "description": "AI-prezes porządkuje decyzje, priorytety i kolejne eksperymenty biznesowe bez udawania, że wszystko jest gotowe."
+      },
+      "channel": {
+        "title": "Kanał",
+        "description": "Historia budowania ma być widoczna publicznie: z kontekstem, wnioskami i miejscem na porażki."
+      },
+      "portfolio": {
+        "title": "Portfolio",
+        "description": "Sklep jest jednym modułem większej marki. Kolejne projekty pojawią się dopiero, gdy będą realnie zdefiniowane."
+      }
+    },
+    "portfolioEyebrow": "Portfolio",
+    "portfolioTitle": "Biznesy pod marką Serowy Michał",
+    "portfolioDescription": "Na start pokazujemy tylko to, co istnieje albo jest jasno oznaczone jako miejsce do uzupełnienia. Bez zmyślonych wyników i bez fikcyjnych projektów.",
+    "portfolioShopLabel": "Projekt #1 · sklep",
+    "portfolioShopTitle": "Sklep w portfelu",
+    "portfolioShopDescription": "Obecny katalog, koszyk i checkout pozostają oparte o Store API. Sklep staje się modułem portfolio, a nie całą stroną główną.",
+    "portfolioShopCta": "Przejdź do sklepu",
+    "portfolioPlaceholderLabel": "TODO · do uzupełnienia",
+    "portfolioPlaceholders": {
+      "second": {
+        "title": "Kolejny projekt",
+        "description": "Miejsce zarezerwowane na przyszły biznes po doprecyzowaniu przez właściciela."
+      },
+      "third": {
+        "title": "Kolejny eksperyment",
+        "description": "Placeholder na publicznie opisany test — bez fałszywych nazw, dat i wyników."
+      }
+    },
+    "shopEyebrow": "Sklep",
+    "shopTitle": "Commerce jako jeden moduł portfolio",
+    "shopDescription": "Polecane produkty są pobierane z prawdziwego Store API. Ceny, dostępność, koszyk i checkout nie są hardcodowane.",
+    "shopCta": "Zobacz cały sklep",
+    "journalEyebrow": "Dziennik",
+    "journalTitle": "Miejsce na publiczne aktualizacje",
+    "journalDescription": "Sekcja czeka na źródło treści i proces publikacji. Do tego czasu pozostaje jawnie oznaczonym placeholderem zamiast listy zmyślonych wpisów."
   }
 }

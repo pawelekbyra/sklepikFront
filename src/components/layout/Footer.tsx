@@ -1,12 +1,9 @@
 import type { Category } from "@spree/sdk";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { BRAND_NAME } from "@/lib/brand";
 import { POLICY_LINKS } from "@/lib/constants/policies";
-import { getStoreDescription, getStoreName } from "@/lib/store";
 import { CurrentYear } from "./CurrentYear";
-
-const storeName = getStoreName();
-const storeDescription = getStoreDescription();
 
 interface FooterProps {
   rootCategories: Category[];
@@ -25,13 +22,11 @@ export async function Footer({
   return (
     <footer className="bg-primary text-gray-300">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-5">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {/* Brand */}
-          <div className="col-span-1 md:col-span-2">
-            <span className="text-xl font-bold text-white">{storeName}</span>
-            <p className="mt-4 text-sm text-neutral-400">
-              {t("description") || storeDescription}
-            </p>
+          <div className="col-span-1">
+            <span className="text-xl font-bold text-white">{BRAND_NAME}</span>
+            <p className="mt-4 text-sm text-neutral-400">{t("description")}</p>
           </div>
 
           {/* Links */}
@@ -48,6 +43,14 @@ export async function Footer({
                   {t("allProducts")}
                 </Link>
               </li>
+              <li>
+                <Link
+                  href={`${basePath}/cart`}
+                  className="text-sm text-neutral-400 hover:text-neutral-200 transition-colors"
+                >
+                  {t("cart")}
+                </Link>
+              </li>
               {rootCategories.map((category) => (
                 <li key={category.id}>
                   <Link
@@ -61,34 +64,42 @@ export async function Footer({
             </ul>
           </div>
 
-          {/* Account */}
+          {/* Company */}
           <div>
             <h3 className="text-sm font-medium text-neutral-300">
-              {t("account")}
+              {t("company")}
             </h3>
             <ul className="mt-4 space-y-3">
               <li>
                 <Link
-                  href={`${basePath}/account`}
+                  href={basePath || "/"}
                   className="text-sm text-neutral-400 hover:text-neutral-200 transition-colors"
                 >
-                  {t("myAccount")}
+                  {t("start")}
                 </Link>
               </li>
               <li>
                 <Link
-                  href={`${basePath}/account/orders`}
+                  href={`${basePath}/#about`}
                   className="text-sm text-neutral-400 hover:text-neutral-200 transition-colors"
                 >
-                  {t("orderHistory")}
+                  {t("aboutProject")}
                 </Link>
               </li>
               <li>
                 <Link
-                  href={`${basePath}/cart`}
+                  href={`${basePath}/#portfolio`}
                   className="text-sm text-neutral-400 hover:text-neutral-200 transition-colors"
                 >
-                  {t("cart")}
+                  {t("portfolio")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={`${basePath}/#contact`}
+                  className="text-sm text-neutral-400 hover:text-neutral-200 transition-colors"
+                >
+                  {t("contact")}
                 </Link>
               </li>
             </ul>
@@ -116,7 +127,7 @@ export async function Footer({
 
         <div className="mt-8 pt-8 border-t border-neutral-800 text-xs text-neutral-400 text-center">
           <p>
-            &copy; <CurrentYear /> {storeName}.
+            &copy; <CurrentYear /> {BRAND_NAME}.
           </p>
         </div>
       </div>

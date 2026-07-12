@@ -14,6 +14,17 @@ Dług dotyczący całego systemu (backend, deploy, dane) żyje w `sklepik/docs/r
 
 ## Dług techniczny
 
+### 2026-07-12 — Placeholdery portfolio i dziennika Serowego Michała
+
+**Status:** otwarte
+
+**Skrót:** homepage ma już docelową strukturę marki Serowy Michał, ale karty kolejnych projektów portfolio i sekcja dziennika są świadomie oznaczonymi placeholderami. Nie dodano fikcyjnych nazw biznesów, dat, wyników ani wpisów aktualności, bo repo nie ma jeszcze źródła prawdziwej treści.
+
+**Co trzeba zrobić:** właściciel musi dostarczyć zatwierdzone projekty portfolio oraz proces/źródło publikacji dziennika. Dopiero wtedy placeholdery można zamienić na realne karty i wpisy.
+
+**Warunek zamknięcia:** portfolio i dziennik korzystają z potwierdzonej treści albo z jawnie zdefiniowanego źródła danych.
+
+
 ### 2026-07-07 — `@spree/sdk` nie ma jeszcze opublikowanej metody `store.get()`
 
 **Status:** otwarte

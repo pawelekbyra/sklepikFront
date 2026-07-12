@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
+import { BRAND_META_DESCRIPTION, BRAND_SEO_TITLE } from "@/lib/brand";
 import { buildCanonicalUrl, SOCIAL_IMAGE_PATH } from "@/lib/seo";
-import {
-  getStoreMetaDescription,
-  getStoreSeoTitle,
-  getStoreUrl,
-} from "@/lib/store";
+import { getStoreUrl } from "@/lib/store";
 import { buildBasePath } from "@/lib/utils/path";
 
 interface HomeMetadataParams {
@@ -14,19 +11,19 @@ interface HomeMetadataParams {
 export async function generateHomeMetadata({
   locale,
 }: HomeMetadataParams): Promise<Metadata> {
-  const storeName = getStoreSeoTitle();
-  const description = getStoreMetaDescription();
+  const title = BRAND_SEO_TITLE;
+  const description = BRAND_META_DESCRIPTION;
   const storeUrl = getStoreUrl();
   const canonicalUrl = storeUrl
     ? buildCanonicalUrl(storeUrl, buildBasePath(locale) || "/")
     : undefined;
 
   return {
-    title: { absolute: storeName },
+    title: { absolute: title },
     description,
     ...(canonicalUrl ? { alternates: { canonical: canonicalUrl } } : {}),
     openGraph: {
-      title: storeName,
+      title,
       description,
       ...(canonicalUrl ? { url: canonicalUrl } : {}),
       type: "website",

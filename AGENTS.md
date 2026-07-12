@@ -1,6 +1,6 @@
 # sklepikFront — instrukcja dla agentów kodowania
 
-To repozytorium to **storefront projektu Kakałowy Sklepik**: Next.js 16 + React 19, doświadczenie klienta, branding, UX, SEO, deploy na Vercel. Rozmawia ze Store API backendu przez `@spree/sdk`.
+To repozytorium to **strona domowa marki Serowy Michał oraz moduł storefrontu w jej portfolio**: Next.js 16 + React 19, doświadczenie klienta, branding, UX, SEO, deploy na Vercel. Część sklepowa nadal rozmawia ze Store API backendu przez `@spree/sdk`.
 
 Backend, admin i API żyją w osobnym repo **`pawelekbyra/sklepik`** — tam też jest **kanon całego systemu**. Nie duplikujemy go tutaj:
 
