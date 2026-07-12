@@ -14,6 +14,16 @@ Dług dotyczący całego systemu (backend, deploy, dane) żyje w `sklepik/docs/r
 
 ## Dług techniczny
 
+### 2026-07-12 — Storefront to nadal "jeden deployment = jeden sklep" (multi-store Faza 1 w backendzie)
+
+**Status:** w toku (świadoma decyzja na czas Fazy 1, nie awaria)
+
+**Skrót:** `sklepik` wdraża wielosklepowość w panelu admina (`sklepik/docs/plans/multi-store-support.md`, F25 w `sklepik/docs/roadmap.md`) — właściciel będzie mógł zakładać kolejne sklepy i przełączać się między nimi z jednego panelu. Ten storefront (`sklepikFront`) **celowo nie zmienia się w tej fazie**: `src/lib/store.ts` nadal czyta konfigurację (nazwa, opis, domyślny kraj/locale) ze zmiennych środowiskowych ustalonych w buildzie, a `src/lib/spree/config.ts` trzyma jeden, moduł-level singleton klienta SDK zainicjalizowany raz z `SPREE_API_URL`/`SPREE_PUBLISHABLE_KEY`. Nowy sklep założony w panelu = nowy, osobny deployment Vercel tego samego repo z własnym zestawem zmiennych środowiskowych wskazujących na ten sam backend (dokładnie tak, jak dziś działa `sklepikkk.vercel.app`).
+
+**Co trzeba zrobić (dopiero w Fazie 2, gdy właściciel zdecyduje):** rozpoznawanie sklepu dynamicznie po `Host` requestu zamiast ze stałych env-var — `src/proxy.ts` już ma dostęp do nagłówka `Host` (dziś nieużywanego), więc jest to naturalne miejsce na rozszerzenie; wymagałoby też przebudowy `src/lib/spree/config.ts` z pojedynczego singletona na klienta per-request/per-host oraz pobierania nazwy/opisu/brandingu ze Store API zamiast z env.
+
+**Warunek zamknięcia:** decyzja właściciela o starcie Fazy 2 (dynamiczny routing po domenie) + implementacja opisana wyżej. Do tego czasu to nie jest dług do spłaty, tylko świadomy, udokumentowany zakres Fazy 1.
+
 ### 2026-07-07 — `@spree/sdk` nie ma jeszcze opublikowanej metody `store.get()`
 
 **Status:** otwarte
