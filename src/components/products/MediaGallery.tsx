@@ -139,7 +139,9 @@ function MediaGalleryInner({
       {/* Main Image */}
       <button
         type="button"
-        className="relative aspect-square bg-gray-100 rounded-xl overflow-hidden cursor-zoom-in w-full touch-pan-y"
+        className={`relative bg-gray-100 rounded-xl overflow-hidden cursor-zoom-in w-full touch-pan-y ${
+          showMainImage ? "" : "aspect-square"
+        }`}
         onClick={() => {
           if (suppressClickRef.current) {
             suppressClickRef.current = false;
@@ -156,8 +158,9 @@ function MediaGalleryInner({
           key={safeIndex}
           src={mainImageUrl}
           alt={selectedImage?.alt || productName}
-          fill
-          className="object-contain"
+          width={1200}
+          height={1200}
+          className="w-full h-auto object-contain"
           fetchPriority="high"
           loading="eager"
           priority
