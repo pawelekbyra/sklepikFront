@@ -111,3 +111,8 @@ Rebranding "Kakałowy Sklepik" wdrożony (nazwa, layout, locale-only URLs, usuni
 **Status:** zamknięte (2026-07-06) — **kierunek odrzucony**
 
 Brak ROI: `@spree/sdk` + obecny storefront realizują ten sam zakres, a adaptacja `vercel/commerce` (utrzymywanego pod Shopify) wymagałaby napisania i utrzymywania całego adaptera provider→Spree. Żaden dokument w repo nie traktuje już migracji na Vercel Commerce jako aktywnego planu.
+### 2026-07-14 — Storefront composition MVP
+
+**Status:** otwarte, bezpieczny zakres pierwszej wersji
+
+Strona główna renderuje obecnie dwa bezpieczne typy sekcji z dokumentu publikowanego przez backend: `hero` i `product_grid`. To świadomie mały kontrakt MVP. Nie ma jeszcze motywów, edycji kolorów/typografii, breakpointowych ustawień layoutu, preview URL ani migracji dokumentów między wersjami renderera. Rozszerzać kontrakt sekcja po sekcji; nie dodawać dowolnego HTML/JavaScript. Brak opublikowanego dokumentu celowo zachowuje istniejący storefront kakao.

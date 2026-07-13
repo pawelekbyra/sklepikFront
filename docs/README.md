@@ -1,6 +1,6 @@
 # Dokumentacja — sklepikFront
 
-Dokumenty wspólne dla całego systemu (wizja, hierarchia decyzji, architektura, stan, roadmapa) żyją w repo **`sklepik`** w `docs/` — tam jest kanon. Tutaj trzymamy wyłącznie tematy frontowe.
+Dokumenty wspólne dla całej platformy Sklepik (wizja, hierarchia decyzji, architektura, stan, roadmapa i badania rynku) żyją w repo **`sklepik`** w `docs/` — tam jest kanon. Tutaj trzymamy wyłącznie tematy wspólnego renderera storefrontów. Sklep kakao jest pierwszym wdrożeniem referencyjnym i fallbackiem przed publikacją layoutu przez właściciela.
 
 | Dokument | Rola |
 |---|---|

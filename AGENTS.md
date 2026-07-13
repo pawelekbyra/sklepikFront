@@ -1,6 +1,6 @@
 # sklepikFront — instrukcja dla agentów kodowania
 
-To repozytorium to **storefront projektu Kakałowy Sklepik**: Next.js 16 + React 19, doświadczenie klienta, branding, UX, SEO, deploy na Vercel. Rozmawia ze Store API backendu przez `@spree/sdk`.
+To repozytorium to **wspólny, wersjonowany storefront platformy Sklepik**: Next.js 16 + React 19, renderer opublikowanego layoutu, doświadczenie klienta, branding, UX, SEO i deploy na Vercel. Sklep kakao jest pierwszym tenantem referencyjnym. Storefront rozmawia ze Store API backendu przez `@spree/sdk`.
 
 Backend, admin i API żyją w osobnym repo **`pawelekbyra/sklepik`** — tam też jest **kanon całego systemu**. Nie duplikujemy go tutaj:
 

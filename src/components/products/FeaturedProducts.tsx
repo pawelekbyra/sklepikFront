@@ -27,6 +27,8 @@ interface FeaturedProductsProps {
   locale: string;
   country: string;
   currencyPromise: Promise<string | undefined>;
+  limit?: number;
+  categoryId?: string;
 }
 
 export async function FeaturedProducts({
@@ -34,6 +36,8 @@ export async function FeaturedProducts({
   locale,
   country,
   currencyPromise,
+  limit = 8,
+  categoryId,
 }: FeaturedProductsProps) {
   let products: Product[] = [];
 
@@ -41,7 +45,11 @@ export async function FeaturedProducts({
     try {
       const userToken = await getAccessToken();
       const productsResponse = await cachedListProducts(
-        { limit: 8, fields: PRODUCT_CARD_FIELDS },
+        {
+          limit,
+          fields: PRODUCT_CARD_FIELDS,
+          category_id: categoryId,
+        },
         { locale, country },
         userToken,
       );
