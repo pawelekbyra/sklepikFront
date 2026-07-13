@@ -2,11 +2,11 @@ import type { Category } from "@spree/sdk";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { POLICY_LINKS } from "@/lib/constants/policies";
-import { getStoreDescription, getStoreName } from "@/lib/store";
+import { getStoreName } from "@/lib/store";
 import { CurrentYear } from "./CurrentYear";
 
 const storeName = getStoreName();
-const storeDescription = getStoreDescription();
+const brandName = "Serowy Michał";
 
 interface FooterProps {
   rootCategories: Category[];
@@ -23,14 +23,17 @@ export async function Footer({
   const tp = await getTranslations({ locale, namespace: "policies" });
 
   return (
-    <footer className="bg-primary text-gray-300">
+    <footer className="bg-[#26180f] text-[#f7e8c7]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-5">
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
-            <span className="text-xl font-bold text-white">{storeName}</span>
+            <span className="text-xl font-black tracking-[-0.04em] text-[#ffd166]">
+              {brandName}
+            </span>
             <p className="mt-4 text-sm text-neutral-400">
-              {t("description") || storeDescription}
+              Serowy Michał to domowa opowieść o rzemiośle, charakterze i
+              HEJKARTACH. Sklep jest opcją, marka jest centrum doświadczenia.
             </p>
           </div>
 

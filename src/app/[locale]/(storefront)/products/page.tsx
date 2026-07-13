@@ -46,35 +46,76 @@ export default async function ProductsPage({
   const listName = query ? "Search Results" : "All Products";
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8">
-        {query ? (
-          <h1 className="text-3xl font-bold text-gray-900">
-            {t("searchResultsFor", { query })}
-          </h1>
-        ) : (
-          <>
-            <h1 className="text-3xl font-bold text-gray-900">
-              {t("allProducts")}
-            </h1>
-            <p className="mt-2 text-gray-500">{t("browseCollection")}</p>
-          </>
-        )}
-      </div>
+    <div className="bg-[#fff7df]">
+      <section className="border-b border-[#3b2415]/10 bg-[radial-gradient(circle_at_10%_10%,#ffd166_0,transparent_26%),linear-gradient(135deg,#fff7df,#ffdca8)] px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="max-w-3xl">
+            <p className="text-sm font-black uppercase tracking-[0.35em] text-[#d95d00]">
+              sklep Serowego Michała
+            </p>
+            {query ? (
+              <h1 className="mt-4 text-4xl font-black tracking-[-0.05em] text-[#26180f] sm:text-6xl">
+                {t("searchResultsFor", { query })}
+              </h1>
+            ) : (
+              <>
+                <h1 className="mt-4 text-4xl font-black tracking-[-0.05em] text-[#26180f] sm:text-6xl">
+                  HEJKARTY i rzeczy z talii
+                </h1>
+                <p className="mt-4 max-w-2xl text-lg leading-8 text-[#6b4428]">
+                  To nadal sklep z produktami ze Store API, ale potraktowany
+                  jako część świata HEJKART Serowego Michała: szybki zakup,
+                  mocna narracja i zero generycznego katalogu.
+                </p>
+              </>
+            )}
+          </div>
+        </div>
+      </section>
 
-      <ProductListing
-        state={listingState}
-        basePath={basePath}
-        currencyPromise={currencyPromise}
-        locale={locale as Locale}
-        listId={listId}
-        listName={listName}
-        fetchProducts={getProducts}
-        fetchFilters={getProductFilters}
-        emptyMessage={
-          query ? t("noMatchingProducts", { query }) : t("tryAdjustingFilters")
-        }
-      />
+      <div className="container mx-auto px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mb-8 grid gap-4 rounded-[2rem] border border-[#3b2415]/10 bg-[#26180f] p-6 text-white shadow-2xl shadow-[#3b2415]/15 md:grid-cols-3">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffd166]">
+              01 / HEJKARTY
+            </p>
+            <p className="mt-2 text-sm text-white/70">
+              Produkt-bohater prowadzi do zakupu bez utraty klimatu strony.
+            </p>
+          </div>
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffd166]">
+              02 / Store API
+            </p>
+            <p className="mt-2 text-sm text-white/70">
+              Ceny, warianty i dostępność zostają źródłowo w backendzie.
+            </p>
+          </div>
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffd166]">
+              03 / Styl HEJKART
+            </p>
+            <p className="mt-2 text-sm text-white/70">
+              Karty, filtry i listing mają ten sam język wizualny co landing.
+            </p>
+          </div>
+        </div>
+        <ProductListing
+          state={listingState}
+          basePath={basePath}
+          currencyPromise={currencyPromise}
+          locale={locale as Locale}
+          listId={listId}
+          listName={listName}
+          fetchProducts={getProducts}
+          fetchFilters={getProductFilters}
+          emptyMessage={
+            query
+              ? t("noMatchingProducts", { query })
+              : t("tryAdjustingFilters")
+          }
+        />
+      </div>
     </div>
   );
 }

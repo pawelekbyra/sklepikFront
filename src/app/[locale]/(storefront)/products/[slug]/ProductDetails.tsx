@@ -111,8 +111,8 @@ export function ProductDetails({ product, basePath }: ProductDetailsProps) {
   };
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8  py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+    <div className="bg-[#fff7df] px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 rounded-[2.5rem] border border-[#3b2415]/10 bg-white/60 p-4 shadow-2xl shadow-[#9c4f00]/10 backdrop-blur lg:grid-cols-2 lg:p-8">
         {/* Media Gallery */}
         <div>
           <MediaGallery
@@ -123,22 +123,27 @@ export function ProductDetails({ product, basePath }: ProductDetailsProps) {
         </div>
 
         {/* Product Info */}
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
+        <div className="rounded-[2rem] bg-[#fffaf0] p-6 lg:p-8">
+          <p className="text-sm font-black uppercase tracking-[0.35em] text-[#d95d00]">
+            HEJKARTA Serowego Michała
+          </p>
+          <h1 className="mt-3 text-4xl font-black tracking-[-0.05em] text-[#26180f] sm:text-5xl">
+            {product.name}
+          </h1>
 
           {/* Price */}
           <div className="mt-4 flex items-center gap-4">
             {displayPrice && (
-              <span className="text-3xl font-bold text-gray-900">
+              <span className="text-4xl font-black tracking-[-0.05em] text-[#26180f]">
                 {displayPrice}
               </span>
             )}
             {onSale && strikethroughPrice && (
               <>
-                <span className="text-xl text-gray-500 line-through">
+                <span className="text-xl font-semibold text-[#8c6b56] line-through">
                   {strikethroughPrice}
                 </span>
-                <span className="bg-red-100 text-red-800 text-sm font-medium px-2.5 py-0.5 rounded">
+                <span className="rounded-full bg-[#d95d00] px-3 py-1 text-sm font-black text-white">
                   {t("sale")}
                 </span>
               </>
@@ -148,12 +153,12 @@ export function ProductDetails({ product, basePath }: ProductDetailsProps) {
           {/* Stock Status */}
           <div className="mt-4">
             {inStock ? (
-              <span className="inline-flex items-center gap-1.5 text-green-600">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#ecf8df] px-3 py-1 font-semibold text-[#3f6d20]">
                 <CircleCheckBig className="w-5 h-5" />
                 {t("inStock")}
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1.5 text-red-600">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#ffe2d7] px-3 py-1 font-semibold text-[#a63b14]">
                 <CircleX className="w-5 h-5" />
                 {t("outOfStock")}
               </span>
@@ -173,8 +178,8 @@ export function ProductDetails({ product, basePath }: ProductDetailsProps) {
           )}
 
           {/* Quantity & Add to Cart */}
-          <div className="mt-8">
-            <div className="flex gap-4">
+          <div className="mt-8 rounded-[1.5rem] border border-[#3b2415]/10 bg-white/70 p-4">
+            <div className="flex flex-col gap-4 sm:flex-row">
               <QuantityPicker
                 quantity={quantity}
                 onDecrement={() => setQuantity(Math.max(1, quantity - 1))}
@@ -187,6 +192,7 @@ export function ProductDetails({ product, basePath }: ProductDetailsProps) {
                 size="lg"
                 onClick={handleAddToCart}
                 disabled={loading || !isPurchasable}
+                className="rounded-full bg-[#26180f] px-7 text-white hover:bg-[#d95d00]"
               >
                 {loading ? (
                   <>
@@ -207,13 +213,13 @@ export function ProductDetails({ product, basePath }: ProductDetailsProps) {
 
           {/* Description */}
           {product.description && (
-            <div className="mt-10 border-t pt-8">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">
+            <div className="mt-10 border-[#3b2415]/10 border-t pt-8">
+              <h2 className="mb-4 text-lg font-black text-[#26180f]">
                 {t("description")}
               </h2>
               {/* Description is admin-authored HTML from the Spree CMS backend (trusted source) */}
               <div
-                className="text-gray-600 prose prose-sm max-w-none"
+                className="prose prose-sm max-w-none text-[#6b4428]"
                 dangerouslySetInnerHTML={{ __html: product.description }}
               />
             </div>
@@ -223,23 +229,27 @@ export function ProductDetails({ product, basePath }: ProductDetailsProps) {
           <ProductCustomFields customFields={product.custom_fields} />
 
           {/* Product Details */}
-          <div className="mt-8 border-t pt-8">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">
+          <div className="mt-8 border-[#3b2415]/10 border-t pt-8">
+            <h2 className="mb-4 text-lg font-black text-[#26180f]">
               {t("details")}
             </h2>
             <dl className="space-y-3">
               {selectedVariant?.sku && (
                 <div className="flex">
-                  <dt className="w-32 text-gray-500 text-sm">{t("sku")}</dt>
-                  <dd className="text-gray-900 text-sm">
+                  <dt className="w-32 text-sm font-semibold text-[#8c6b56]">
+                    {t("sku")}
+                  </dt>
+                  <dd className="text-sm font-semibold text-[#26180f]">
                     {selectedVariant.sku}
                   </dd>
                 </div>
               )}
               {selectedVariant?.options_text && (
                 <div className="flex">
-                  <dt className="w-32 text-gray-500 text-sm">{t("options")}</dt>
-                  <dd className="text-gray-900 text-sm">
+                  <dt className="w-32 text-sm font-semibold text-[#8c6b56]">
+                    {t("options")}
+                  </dt>
+                  <dd className="text-sm font-semibold text-[#26180f]">
                     {selectedVariant.options_text}
                   </dd>
                 </div>

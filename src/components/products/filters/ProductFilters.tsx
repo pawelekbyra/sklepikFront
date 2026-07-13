@@ -150,8 +150,8 @@ export const FilterBar = memo(function FilterBar({
     priceBuckets.length > 0;
 
   return (
-    <div className="mb-6">
-      <div className="hidden md:flex items-center justify-between pb-4 border-b border-gray-100">
+    <div className="mb-8 rounded-[2rem] border border-[#3b2415]/10 bg-white/65 p-3 shadow-sm backdrop-blur">
+      <div className="hidden items-center justify-between border-[#3b2415]/10 border-b pb-4 md:flex">
         <div className="flex items-center gap-3">
           {optionFilters.map((filter) => (
             <FilterDropdown
@@ -204,7 +204,7 @@ export const FilterBar = memo(function FilterBar({
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-sm text-gray-500">
+          <span className="text-sm font-semibold text-[#6b4428]">
             {t("productCount", { count: totalCount })}
           </span>
           <FilterDropdown
@@ -223,20 +223,20 @@ export const FilterBar = memo(function FilterBar({
         </div>
       </div>
 
-      <div className="flex items-center gap-3 md:hidden pb-4 border-b border-gray-100">
+      <div className="flex items-center gap-3 border-[#3b2415]/10 border-b pb-4 md:hidden">
         <button
           type="button"
           onClick={() => setShowMobileDrawer(true)}
           className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border transition-colors ${
             hasActiveFilters
-              ? "border-gray-500 bg-gray-50 text-primary"
-              : "border-gray-300 text-gray-700"
+              ? "border-[#d95d00] bg-[#fff1bf] text-[#26180f]"
+              : "border-[#3b2415]/20 bg-white/70 text-[#26180f]"
           }`}
         >
           <SlidersHorizontal className="w-4 h-4" />
           <span>{t("filters")}</span>
           {hasActiveFilters && (
-            <span className="flex items-center justify-center w-5 h-5 text-xs bg-primary text-white rounded-lg">
+            <span className="flex items-center justify-center w-5 h-5 text-xs rounded-lg bg-[#d95d00] text-white">
               {totalActiveFilters}
             </span>
           )}

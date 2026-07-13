@@ -8,7 +8,6 @@ import { CartButton } from "@/components/layout/CartButton";
 import { SearchToggle } from "@/components/layout/SearchToggle";
 import { Button } from "@/components/ui/button";
 import type { StoreInfo } from "@/lib/data/store";
-import { getStoreName } from "@/lib/store";
 
 const LazyMobileMenu = dynamic(
   () =>
@@ -36,7 +35,7 @@ const LazyLanguageSwitcher = dynamic(
   },
 );
 
-const storeName = getStoreName();
+const brandName = "Serowy Michał";
 
 interface HeaderProps {
   rootCategories: Category[];
@@ -61,19 +60,22 @@ export async function Header({
         <LazyMobileMenu rootCategories={rootCategories} basePath={basePath} />
       }
       center={
-        <Link href={basePath || "/"} className="flex items-center min-w-0">
+        <Link
+          href={basePath || "/"}
+          className="flex min-w-0 items-center rounded-full bg-[#fff7df] px-3 py-1 ring-1 ring-[#3b2415]/10"
+        >
           {logoUrl ? (
             <Image
               src={logoUrl}
-              alt={storeName}
+              alt={brandName}
               width={200}
               height={80}
               priority
               className="max-h-10 w-auto max-w-[140px] object-contain sm:max-w-[200px]"
             />
           ) : (
-            <span className="truncate text-lg font-bold text-gray-900">
-              {storeName}
+            <span className="truncate text-lg font-black tracking-[-0.03em] text-[#26180f]">
+              {brandName}
             </span>
           )}
         </Link>

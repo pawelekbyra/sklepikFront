@@ -2,7 +2,6 @@ import { GoogleTagManager } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
 import { getStoreDescription, getStoreName } from "@/lib/store";
@@ -17,12 +16,6 @@ const spreeApiOrigin = (() => {
     return undefined;
   }
 })();
-
-const geist = Geist({
-  variable: "--font-geist",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const rootStoreName = getStoreName();
 
@@ -50,9 +43,7 @@ export default function RootLayout({
         )}
       </head>
       {gtmId && <GoogleTagManager gtmId={gtmId} />}
-      <body
-        className={`${geist.variable} antialiased min-h-screen flex flex-col`}
-      >
+      <body className="min-h-screen flex flex-col antialiased">
         <Suspense fallback={null}>{children}</Suspense>
         <Analytics />
         <SpeedInsights />

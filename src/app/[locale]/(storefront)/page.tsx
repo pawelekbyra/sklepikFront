@@ -1,15 +1,11 @@
 export const dynamic = "force-dynamic";
 
 import type { Metadata } from "next";
-import { FeaturedProductsSection } from "@/components/home/FeaturedProductsSection";
-import { HeroSection } from "@/components/home/HeroSection";
+import { HejkartyProductsSection } from "@/components/home/HejkartyProductsSection";
+import { SerowyMichalShowcase } from "@/components/home/SerowyMichalShowcase";
 import { resolveCurrency } from "@/lib/data/markets";
 import { generateHomeMetadata } from "@/lib/metadata/home";
-import {
-  getDefaultCountry,
-  getDefaultLocale,
-  getPrefixedLocales,
-} from "@/lib/store";
+import { getDefaultCountry } from "@/lib/store";
 import { buildBasePath } from "@/lib/utils/path";
 
 interface HomePageProps {
@@ -24,7 +20,7 @@ export async function generateMetadata({
   const { locale } = await params;
   try {
     return generateHomeMetadata({ locale });
-  } catch (error) {
+  } catch (_error) {
     return { title: "Shop" };
   }
 }
@@ -39,8 +35,8 @@ export default async function HomePage({ params }: HomePageProps) {
 
   return (
     <div>
-      <HeroSection basePath={basePath} locale={locale} />
-      <FeaturedProductsSection
+      <SerowyMichalShowcase basePath={basePath} />
+      <HejkartyProductsSection
         basePath={basePath}
         locale={locale}
         country={getDefaultCountry()}
