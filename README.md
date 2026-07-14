@@ -1,10 +1,12 @@
-# Kakałowy Sklepik — storefront
+# Sklepik Front — wersjonowany storefront
 
-Sklep internetowy dla klientów projektu **Kakałowy Sklepik** (produkty kakao). To repozytorium jest **frontendem** systemu: Next.js 16 + React 19 + Tailwind, rozmawia ze Store API backendu przez `@spree/sdk`. Silnik commerce (backend, API, panel admina) żyje w drugim repozytorium — [`pawelekbyra/sklepik`](https://github.com/pawelekbyra/sklepik).
+Wspólny rdzeń storefrontów tworzonych przez platformę **Sklepik**. Next.js 16 + React 19 + Tailwind renderuje produkty, checkout, branding i opublikowany dokument layoutu pobierany ze Store API. Sklep kakao jest pierwszym wdrożeniem referencyjnym i pozostaje domyślnym wyglądem, dopóki właściciel nie opublikuje własnej strony.
+
+Silnik commerce, tenanty, edytor i panel właściciela żyją w drugim repozytorium — [`pawelekbyra/sklepik`](https://github.com/pawelekbyra/sklepik).
 
 ```text
-pawelekbyra/sklepik       ← silnik: backend Rails, Admin API + Store API, panel admina
-pawelekbyra/sklepikFront  ← TO REPO: storefront Next.js — branding, UX, SEO, Vercel
+pawelekbyra/sklepik       ← platforma: commerce, tenanty, panel, edytor, provisioning
+pawelekbyra/sklepikFront  ← TO REPO: wspólny renderer storefrontu, UX, SEO, Vercel
 ```
 
 Zasada podziału: cała logika commerce (produkty, ceny, koszyk, zamówienia, płatności) należy do backendu. Ten frontend renderuje doświadczenie klienta i niczego nie udaje hardcodem.
@@ -18,7 +20,7 @@ Zasada podziału: cała logika commerce (produkty, ceny, koszyk, zamówienia, p�
 
 ## Deployment
 
-Vercel, projekt `sklepik_front` → `sklepikkk.vercel.app` (deploy automatyczny z `main`). Backend produkcyjny: `kakaowy-sklepik.onrender.com` (Render).
+Vercel, projekt `sklepik_front` → `sklepikkk.vercel.app` (deploy automatyczny z `main`). Backend produkcyjny działa na Oracle Cloud — aktualne adresy i topologia są w kanonicznym `sklepik/docs/architektura.md`.
 
 ## Stack i struktura
 

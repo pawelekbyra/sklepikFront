@@ -1,8 +1,8 @@
-# Kakałowy Sklepik — storefront: zasady dla agentów
+# Sklepik Front — storefront: zasady dla agentów
 
 ## Kontekst projektu (przeczytaj najpierw)
 
-To repozytorium to **storefront projektu Kakałowy Sklepik** (sklep z produktami kakao) — headless frontend Next.js 16 + React 19, konsumujący Store API v3 backendu przez `@spree/sdk`. Backend, API i panel admina żyją w osobnym repo `pawelekbyra/sklepik` — tam jest też **kanon całego systemu**:
+To repozytorium to wspólny, wersjonowany storefront sklepów tworzonych przez platformę **Sklepik**. Jest headless frontendem Next.js 16 + React 19 konsumującym Store API v3 przez `@spree/sdk`; renderuje opublikowany dokument layoutu, a sklep kakao zachowuje jako wdrożenie referencyjne i bezpieczny fallback. Backend, API, edytor i panel właściciela żyją w `pawelekbyra/sklepik` — tam jest też **kanon całego systemu**:
 
 - `sklepik/docs/kierunek-projektu.md` — cel, podział repo, hierarchia decyzji.
 - `sklepik/docs/stan-projektu.md` — bieżący stan i znane problemy.

@@ -20,6 +20,9 @@ interface FeaturedProductsSectionProps {
   locale: string;
   country: string;
   currencyPromise: Promise<string | undefined>;
+  heading?: string;
+  limit?: number;
+  categoryId?: string;
 }
 
 export async function FeaturedProductsSection({
@@ -27,6 +30,9 @@ export async function FeaturedProductsSection({
   locale,
   country,
   currencyPromise,
+  heading,
+  limit = 8,
+  categoryId,
 }: FeaturedProductsSectionProps) {
   const t = await getTranslations({
     locale: locale as Locale,
@@ -37,7 +43,7 @@ export async function FeaturedProductsSection({
     <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 featured-products">
       <div className="flex items-center justify-between mb-8">
         <h2 className="text-2xl font-bold text-gray-900">
-          {t("featuredProducts")}
+          {heading || t("featuredProducts")}
         </h2>
         <Button variant="link" asChild>
           <Link href={`${basePath}/products`}>{t("viewAll")} &rarr;</Link>
@@ -49,6 +55,8 @@ export async function FeaturedProductsSection({
           locale={locale}
           country={country}
           currencyPromise={currencyPromise}
+          limit={limit}
+          categoryId={categoryId}
         />
       </Suspense>
     </section>
