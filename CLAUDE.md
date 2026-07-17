@@ -2,11 +2,12 @@
 
 ## Kontekst projektu (przeczytaj najpierw)
 
-To repozytorium to wspólny, wersjonowany storefront sklepów tworzonych przez platformę **Sklepik**. Jest headless frontendem Next.js 16 + React 19 konsumującym Store API v3 przez `@spree/sdk`; renderuje opublikowany dokument layoutu, a sklep kakao zachowuje jako wdrożenie referencyjne i bezpieczny fallback. Backend, API, edytor i panel właściciela żyją w `pawelekbyra/sklepik` — tam jest też **kanon całego systemu**:
+To repozytorium jest headless frontendem Next.js 16 + React 19 konsumującym Store API v3 przez `@spree/sdk`. **Docelowo (decyzja właściciela 2026-07-17): to repo ewoluuje w jedną, współdzieloną aplikację wielosklepową** — jeden deployment rozpoznający sklep po domenie/`store_id` (nie osobny fork/deployment per sklep), renderujący layout jako dane (drzewo sekcji + design tokens) przez rejestr komponentów dostarczany przez `edytor-sklepu`, z chronioną trasą `/admin` osadzającą tamten silnik edytora. Sklep kakao jest dziś jedynym wdrożeniem i pozostaje referencyjnym tenantem. Backend, API i panel właściciela żyją w `pawelekbyra/sklepik` — tam jest też **kanon całego systemu**:
 
 - `sklepik/docs/kierunek-projektu.md` — cel, podział repo, hierarchia decyzji.
 - `sklepik/docs/stan-projektu.md` — bieżący stan i znane problemy.
 - `sklepik/docs/roadmap.md` — backlog i priorytety.
+- `sklepik/docs/plans/storefront-composition-system.md` — **model docelowy tego repo**: jeden storefront, layout jako dane, `/admin` jako trasa. `sklepik/docs/plans/store-factory.md` (repo per sklep) jest odrzucone/legacy — `StorefrontPageRenderer.tsx`/`storefront-page.ts` w tym repo i edytor w `sklepik/packages/dashboard/.../editor.tsx` są częścią tamtego porzuconego kierunku, nie rozwijać dalej; docelowy edytor to silnik z `edytor-sklepu`.
 - Lokalna dokumentacja frontu: [`docs/README.md`](docs/README.md) (kierunek marki, deploy Vercel, dług techniczny).
 
 Zasada nadrzędna: frontend nie zawiera logiki commerce. Produkty, ceny, koszyk, zamówienia — zawsze przez Store API. Brakuje pola/endpointu → wymaganie względem repo `sklepik`, nie hardcode.

@@ -1,8 +1,10 @@
-# Kierunek frontu: Kakałowy Sklepik
+# Kierunek frontu: wspólny storefront Fabryki Sklepów (Kakałowy Sklepik jako pierwszy tenant)
 
 ## Cel repozytorium
 
-`sklepikFront` jest frontendową warstwą projektu Kakałowy Sklepik: premium doświadczenie zakupowe dla produktów kakao, oparte o Next.js, Store API backendu i deployment na Vercel. Repo bazuje na forku oficjalnego Spree Storefront, ale jest rozwijane jako storefront własnej marki, nie jako demo.
+`sklepikFront` ewoluuje z frontendu jednej marki (Kakałowy Sklepik) w **jedną, współdzieloną aplikację obsługującą wiele sklepów** — model docelowy opisany w `sklepik/docs/plans/storefront-composition-system.md` (decyzja właściciela 2026-07-17, po odrzuceniu wcześniejszego kierunku "repo per sklep"). Jeden deployment Next.js rozpoznaje sklep po domenie/`store_id`, renderuje layout jako dane (drzewo sekcji + design tokens), i wystawia chronioną trasę `/admin` osadzającą silnik edytora z osobnego repo `edytor-sklepu`. Repo bazuje na forku oficjalnego Spree Storefront.
+
+Do czasu ukończenia tej migracji Kakałowy Sklepik pozostaje jedynym, referencyjnym wdrożeniem — priorytety niżej (premium branding kakao) są nadal aktualne dla tego tenanta, ale nowa praca architektoniczna powinna być projektowana pod wielosklepowość, nie pod jedną markę na stałe.
 
 Kanon całego systemu (cel, podział repo, hierarchia decyzji): `sklepik/docs/kierunek-projektu.md`.
 
